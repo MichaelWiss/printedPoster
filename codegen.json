@@ -1,0 +1,19 @@
+{
+  "schema": {
+    "https://${NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN}/api/2024-01/graphql.json": {
+      "headers": {
+        "X-Shopify-Storefront-Access-Token": "${NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN}"
+      }
+    }
+  },
+  "documents": ["./lib/graphql/**/*.graphql"],
+  "generates": {
+    "./lib/graphql/generated/": {
+      "preset": "client",
+      "plugins": [],
+      "presetConfig": {
+        "gqlTagName": "gql"
+      }
+    }
+  }
+}
