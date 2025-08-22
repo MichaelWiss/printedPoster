@@ -1,12 +1,21 @@
+/**
+ * Store Page Component
+ * 
+ * Main store page that displays a grid of products fetched from Shopify.
+ * Uses Server Components for direct data fetching and initial render.
+ */
+
 import Image from 'next/image'
 import { getProducts } from '@/lib/shopify/services'
 
 export default async function StorePage() {
   try {
-    console.log('Fetching products...');
+    // Fetch 12 products for the initial page load
+    // Using a reasonable number for the first page view
     const products = await getProducts(12)
-    console.log('Products fetched:', products);
     
+    // Validate the response structure
+    // This helps catch API changes or errors early
     if (!products?.edges) {
       throw new Error('No products found in the response');
     }

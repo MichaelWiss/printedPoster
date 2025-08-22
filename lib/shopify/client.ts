@@ -38,9 +38,32 @@ const GET_PRODUCTS_QUERY = `
         node {
           id            # Unique identifier for the product
           title         # Product title
-          handle       # URL-friendly version of the product title
+          handle        # URL-friendly version of the product title
           description   # Product description
-          # Add more fields as needed (e.g., images, price)
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          images(first: 1) {
+            edges {
+              node {
+                url
+                altText
+                width
+                height
+              }
+            }
+          }
+          variants(first: 1) {
+            edges {
+              node {
+                id
+                availableForSale
+              }
+            }
+          }
         }
       }
     }
@@ -61,7 +84,7 @@ export async function getProducts(first: number = 10): Promise<ShopifyProduct[]>
     
     // Transform the response to a simpler format
     // Convert from { edges: [{ node: { ... } }] } to [{ ... }]
-    return data.products.edges.map(edge => edge.node)
+    return data.products.edges.map((edge: { node: ShopifyProduct }) => edge.node)
   } catch (error) {
     // Log any errors that occur during the request
     console.error('Error fetching products:', error)

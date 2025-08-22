@@ -1,20 +1,46 @@
+export interface MoneyV2 {
+  amount: string
+  currencyCode: string
+}
+
+export interface PriceRange {
+  minVariantPrice: MoneyV2
+}
+
+export interface ShopifyImage {
+  url: string
+  altText: string | null
+  width?: number
+  height?: number
+}
+
+export interface ProductVariant {
+  id: string
+  availableForSale: boolean
+}
+
 export interface ShopifyProduct {
   id: string
   title: string
   handle: string
   description: string
-  priceRange: {
-    minVariantPrice: {
-      amount: string
-      currencyCode: string
-    }
-  }
+  priceRange: PriceRange
   images: {
     edges: Array<{
-      node: {
-        url: string
-        altText: string | null
-      }
+      node: ShopifyImage
+    }>
+  }
+  variants: {
+    edges: Array<{
+      node: ProductVariant
+    }>
+  }
+}
+
+export interface ProductsResponse {
+  products: {
+    edges: Array<{
+      node: ShopifyProduct
     }>
   }
 }
