@@ -5,6 +5,8 @@
  * Handles the layout and spacing of multiple ProductCard components.
  */
 
+"use client"
+
 import type { ShopifyProduct } from '@/types/shopify'
 import { ProductCard } from './ProductCard'
 
