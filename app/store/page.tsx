@@ -6,7 +6,7 @@
  */
 
 import Image from 'next/image'
-import { getProducts } from '@/lib/shopify/services'
+import { getProducts } from '@/lib/shopify/client'
 
 export default async function StorePage() {
   try {
@@ -16,7 +16,7 @@ export default async function StorePage() {
     
     // Validate the response structure
     // This helps catch API changes or errors early
-    if (!products?.edges) {
+    if (!products || products.length === 0) {
       throw new Error('No products found in the response');
     }
     
@@ -24,7 +24,7 @@ export default async function StorePage() {
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">Our Products</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.edges.map(({ node: product }) => (
+          {products.map((product) => (
             <div key={product.id} className="border rounded-lg overflow-hidden shadow-sm">
               {product.images?.edges?.[0] && (
                 <div className="relative h-64">

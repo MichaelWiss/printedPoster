@@ -1,4 +1,4 @@
-export async function shopifyFetch({ query, variables }: { query: string; variables?: any }) {
+export async function shopifyFetch({ query, variables }: { query: string; variables?: Record<string, unknown> }) {
   const endpoint = `https://${process.env.SHOPIFY_STORE_DOMAIN}/api/2025-07/graphql.json`;
   const response = await fetch(endpoint, {
     method: 'POST',

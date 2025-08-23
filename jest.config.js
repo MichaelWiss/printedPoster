@@ -4,7 +4,7 @@
 // features (like module aliasing and Next's runtime transforms). Below each
 // option includes a short comment describing why it's important for this repo.
 
-/* eslint-disable @typescript-eslint/no-var-requires, @typescript-eslint/consistent-type-imports */
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const nextJest = require('next/jest')
 
 const createJestConfig = nextJest({
