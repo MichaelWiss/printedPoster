@@ -26,12 +26,12 @@ export default function StoreError({
         <h2 className="text-2xl font-bold mb-4">Something went wrong!</h2>
         
         {/* Error message display */}
-        <p className="text-gray-600 mb-4">{error.message}</p>
+        <p className="text-warm-gray mb-4">{error.message}</p>
         
         {/* Reset button to retry the operation */}
         <button
           onClick={() => reset()}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+          className="bg-sage-green text-cream-base px-4 py-2 rounded hover:bg-sage-green/80 transition-colors"
           aria-label="Try loading the store again"
         >
           Try again

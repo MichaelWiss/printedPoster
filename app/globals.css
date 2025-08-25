@@ -3,353 +3,175 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Perfumer H inspired color palette and design tokens */
+/* Design System Variables */
 :root {
-  /* Perfumer H inspired color palette - sophisticated, muted earth tones */
-  --background: #faf9f7; /* warm off-white like perfumerh */
-  --foreground: #2a2724; /* deep charcoal for text */
-  --accent: #8b7355; /* warm taupe/beige from perfumerh */
-  --muted: #6b6358; /* sophisticated gray-brown */
-  --card-bg: #ffffff;
-  --border: #e8e5e0; /* subtle warm border */
+  /* Base Colors */
+  --cream-base: #faf7f2;
+  --deep-charcoal: #2a2724;
+  --pure-white: #ffffff;
   
-  /* Font families */
-  --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-playfair: 'Playfair Display', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+  /* Accent Colors */
+  --sage-green: #9fb8a8;
+  --warm-taupe: #8b7355;
+  --terracotta: #d4a574;
+  --highlight-orange: #e83904;
+  
+  /* Neutral Grays */
+  --warm-gray: #8b8680;
+  --light-gray: #f0ebe3;
+  --border-gray: #e8e5e0;
+  
+  /* Semantic Colors */
+  --success: var(--sage-green);
+  --warning: #d4b655;
+  --error: #e8a598;
+  --info: #7a9cc6;
+  --highlight: var(--highlight-orange);
+  
+  /* Legacy compatibility */
+  --background: var(--cream-base);
+  --foreground: var(--deep-charcoal);
+  --accent: var(--sage-green);
+  --muted: var(--warm-gray);
+  --card-bg: var(--pure-white);
+  --border: var(--border-gray);
 }
 
-/* Enhanced Typography Scale */
-.font-inter { font-family: var(--font-inter); }
-.font-playfair { font-family: var(--font-playfair); }
+/* Typography Setup with Font Loading Optimization */
+@layer base {
+  html {
+    font-family: var(--font-inter);
+    color: var(--deep-charcoal);
+    background-color: var(--cream-base);
+  }
+  
+  /* Design System Typography Hierarchy */
+  h1 { 
+    font-family: var(--font-playfair);
+    @apply text-4xl md:text-5xl font-semibold text-deep-charcoal leading-tight;
+  }
 
-/* Sophisticated heading styles */
-h1 { 
-  font-family: var(--font-playfair);
-  font-size: 3.5rem; 
-  line-height: 1.1; 
-  font-weight: 400;
-  letter-spacing: -0.02em; 
-  color: var(--foreground);
-}
+  h2 { 
+    font-family: var(--font-playfair);
+    @apply text-3xl md:text-4xl font-medium text-deep-charcoal leading-tight;
+  }
 
-h2 { 
-  font-family: var(--font-playfair);
-  font-size: 2.25rem; 
-  line-height: 1.2; 
-  font-weight: 400;
-  letter-spacing: -0.01em; 
-  color: var(--foreground);
-}
+  h3 { 
+    font-family: var(--font-playfair);
+    @apply text-2xl md:text-3xl font-medium text-deep-charcoal leading-snug;
+  }
 
-h3 { 
-  font-family: var(--font-inter);
-  font-size: 1.5rem; 
-  line-height: 1.3; 
-  font-weight: 500;
-  letter-spacing: -0.01em; 
-  color: var(--foreground);
-}
+  h4, h5, h6 { 
+    font-family: var(--font-inter);
+    @apply text-xl font-medium text-deep-charcoal leading-snug;
+  }
 
-h4 { 
-  font-family: var(--font-inter);
-  font-size: 1.25rem; 
-  line-height: 1.4; 
-  font-weight: 500;
-  color: var(--foreground);
-}
+  p {
+    font-family: var(--font-inter);
+    @apply text-base text-deep-charcoal leading-relaxed;
+  }
 
-/* Text utilities with new scale */
-.text-display { 
-  font-family: var(--font-playfair);
-  font-size: 4rem; 
-  line-height: 1.05; 
-  font-weight: 400; 
-  letter-spacing: -0.025em; 
-}
+  /* Utility font classes */
+  .font-display {
+    font-family: var(--font-playfair);
+  }
 
-.text-hero { 
-  font-family: var(--font-playfair);
-  font-size: 3rem; 
-  line-height: 1.1; 
-  font-weight: 400; 
-  letter-spacing: -0.02em; 
-}
-
-.text-subtitle { 
-  font-family: var(--font-inter);
-  font-size: 1.125rem; 
-  line-height: 1.6; 
-  font-weight: 400; 
-  color: var(--muted);
-}
-
-.text-body { 
-  font-family: var(--font-inter);
-  font-size: 1rem; 
-  line-height: 1.6; 
-  font-weight: 400; 
-}
-
-.text-caption { 
-  font-family: var(--font-inter);
-  font-size: 0.875rem; 
-  line-height: 1.4; 
-  font-weight: 400; 
-  color: var(--muted);
-}
-
-/* Essential Tailwind utilities since PostCSS isn't processing them */
-.grid { display: grid; }
-.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-.gap-6 { gap: 1.5rem; }
-.gap-8 { gap: 2rem; }
-.gap-12 { gap: 3rem; }
-.h-72 { height: 18rem; }
-.h-96 { height: 24rem; }
-.w-full { width: 100%; }
-.relative { position: relative; }
-.absolute { position: absolute; }
-.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
-.flex { display: flex; }
-.inline-flex { display: inline-flex; }
-.inline-block { display: inline-block; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.justify-center { justify-content: center; }
-.bg-gray-50 { background-color: #f9fafb; }
-.bg-gray-100 { background-color: #f3f4f6; }
-.bg-white { background-color: #ffffff; }
-.px-4 { padding-left: 1rem; padding-right: 1rem; }
-.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
-.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
-.py-16 { padding-top: 4rem; padding-bottom: 4rem; }
-.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-.px-8 { padding-left: 2rem; padding-right: 2rem; }
-.container { 
-  width: 100%; 
-  margin-left: auto; 
-  margin-right: auto; 
-  max-width: 1200px; 
-  padding-left: 1.5rem; 
-  padding-right: 1.5rem; 
-}
-.hidden { display: none; }
-.gap-4 { gap: 1rem; }
-.gap-2 { gap: 0.5rem; }
-.gap-3 { gap: 0.75rem; }
-.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
-.text-xs { font-size: 0.75rem; line-height: 1rem; }
-.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
-.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
-.text-2xl { font-size: 1.5rem; line-height: 2rem; }
-.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
-.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
-.font-medium { font-weight: 500; }
-.font-normal { font-weight: 400; }
-.text-center { text-align: center; }
-.text-white { color: #ffffff; }
-.mx-auto { margin-left: auto; margin-right: auto; }
-.mb-4 { margin-bottom: 1rem; }
-.mb-6 { margin-bottom: 1.5rem; }
-.mb-8 { margin-bottom: 2rem; }
-.mb-12 { margin-bottom: 3rem; }
-.mt-4 { margin-top: 1rem; }
-.mt-12 { margin-top: 3rem; }
-.mr-2 { margin-right: 0.5rem; }
-.mt-0\.5 { margin-top: 0.125rem; }
-.max-w-2xl { max-width: 42rem; }
-.max-w-4xl { max-width: 56rem; }
-.max-w-6xl { max-width: 72rem; }
-.object-cover { object-fit: cover; }
-.overflow-hidden { overflow: hidden; }
-.rounded-lg { border-radius: 0.5rem; }
-.rounded-full { border-radius: 9999px; }
-.border { border-width: 1px; }
-.border-2 { border-width: 2px; }
-.border-gray-300 { border-color: #d1d5db; }
-.border-transparent { border-color: transparent; }
-.hover\\:border-accent:hover { border-color: var(--accent); }
-.w-3 { width: 0.75rem; }
-.h-3 { height: 0.75rem; }
-.w-6 { width: 1.5rem; }
-.h-6 { height: 1.5rem; }
-.w-8 { width: 2rem; }
-.h-8 { height: 2rem; }
-.w-10 { width: 2.5rem; }
-.h-10 { height: 2.5rem; }
-.w-16 { width: 4rem; }
-.h-16 { height: 4rem; }
-.w-20 { width: 5rem; }
-.h-20 { height: 5rem; }
-.p-2 { padding: 0.5rem; }
-.p-3 { padding: 0.75rem; }
-.space-y-2 > * + * { margin-top: 0.5rem; }
-.space-y-4 > * + * { margin-top: 1rem; }
-.space-y-6 > * + * { margin-top: 1.5rem; }
-.leading-relaxed { line-height: 1.625; }
-.aspect-square { aspect-ratio: 1 / 1; }
-.transform { transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
-.-translate-x-1\/2 { --tw-translate-x: -50%; }
-.-translate-y-1\/2 { --tw-translate-y: -50%; }
-.left-1\/2 { left: 50%; }
-.top-1\/2 { top: 50%; }
-.left-4 { left: 1rem; }
-.right-4 { right: 1rem; }
-.bottom-6 { bottom: 1.5rem; }
-.fill { width: 100%; height: 100%; }
-.flex-shrink-0 { flex-shrink: 0; }
-.items-start { align-items: flex-start; }
-.transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-.transition-opacity { transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-.duration-200 { transition-duration: 200ms; }
-.duration-1000 { transition-duration: 1000ms; }
-.hover\\:bg-gray-100:hover { background-color: #f3f4f6; }
-.hover\\:bg-white\/30:hover { background-color: rgb(255 255 255 / 0.3); }
-.bg-white\/20 { background-color: rgb(255 255 255 / 0.2); }
-.bg-white\/50 { background-color: rgb(255 255 255 / 0.5); }
-.text-white\/90 { color: rgb(255 255 255 / 0.9); }
-.bg-black\/30 { background-color: rgb(0 0 0 / 0.3); }
-.bg-accent\/10 { background-color: rgb(139 115 85 / 0.1); }
-.hover\\:bg-accent\/90:hover { background-color: rgb(139 115 85 / 0.9); }
-.opacity-75 { opacity: 0.75; }
-.min-h-screen { min-height: 100vh; }
-
-/* Animation utilities */
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.8s ease-out;
-}
-
-/* Responsive utilities */
-@media (min-width: 768px) {
-  .md\\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .md\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .md\\:flex { display: flex; }
-  .md\\:block { display: block; }
-  .md\\:h-\\[500px\\] { height: 500px; }
-}
-
-@media (min-width: 1024px) {
-  .lg\\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .lg\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .lg\\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .lg\\:h-\\[600px\\] { height: 600px; }
-  .lg\\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
-}
-
-/* Provide safe defaults for Tailwind's theme CSS variables so preflight can reference them */
-:root {
-  --default-font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-  --default-font-feature-settings: normal;
-  --default-font-variation-settings: normal;
-  --default-mono-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  --default-mono-font-feature-settings: normal;
-  --default-mono-font-variation-settings: normal;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  .font-body {
+    font-family: var(--font-inter);
   }
 }
 
-/* Global base styles - keep these simple and let Tailwind control layout */
-html, body, #__next {
-  height: 100%;
+/* Typography Utility Classes */
+@layer components {
+  /* Display Typography */
+  .text-display {
+    font-family: var(--font-playfair);
+    @apply text-5xl md:text-6xl font-semibold text-deep-charcoal leading-none tracking-tight;
+  }
+
+  .text-hero {
+    font-family: var(--font-playfair);
+    @apply text-4xl md:text-5xl font-semibold text-deep-charcoal leading-tight tracking-tight;
+  }
+
+  /* Body Typography */
+  .text-body-large {
+    font-family: var(--font-inter);
+    @apply text-lg text-deep-charcoal leading-relaxed;
+  }
+
+  .text-body {
+    font-family: var(--font-inter);
+    @apply text-base text-deep-charcoal leading-relaxed;
+  }
+
+  .text-body-small {
+    font-family: var(--font-inter);
+    @apply text-sm text-warm-gray leading-relaxed;
+  }
+
+  .text-caption {
+    font-family: var(--font-inter);
+    @apply text-xs text-warm-gray leading-normal tracking-wide;
+  }
+
+  /* Special Typography */
+  .text-price {
+    font-family: var(--font-inter);
+    @apply text-lg font-semibold text-deep-charcoal;
+  }
+
+  .text-label {
+    font-family: var(--font-inter);
+    @apply text-sm font-medium text-deep-charcoal uppercase tracking-wider;
+  }
 }
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  font-weight: 400;
-  line-height: 1.6;
-  letter-spacing: -0.01em;
+/* Semantic Color Classes */
+@layer components {
+  /* Text Colors */
+  .text-success { color: var(--success); }
+  .text-warning { color: var(--warning); }
+  .text-error { color: var(--error); }
+  .text-info { color: var(--info); }
+  .text-highlight { color: var(--highlight); }
+  .text-muted { color: var(--warm-gray); }
+
+  /* Background Colors */
+  .bg-success { background-color: var(--success); }
+  .bg-warning { background-color: var(--warning); }
+  .bg-error { background-color: var(--error); }
+  .bg-info { background-color: var(--info); }
+  .bg-highlight { background-color: var(--highlight); }
+
+  /* Border Colors */
+  .border-success { border-color: var(--success); }
+  .border-warning { border-color: var(--warning); }
+  .border-error { border-color: var(--error); }
+  .border-info { border-color: var(--info); }
+  .border-highlight { border-color: var(--highlight); }
+
+  /* Hover States */
+  .hover\:text-success:hover { color: var(--success); }
+  .hover\:text-warning:hover { color: var(--warning); }
+  .hover\:text-error:hover { color: var(--error); }
+  .hover\:text-info:hover { color: var(--info); }
+  .hover\:text-highlight:hover { color: var(--highlight); }
+
+  .hover\:bg-success:hover { background-color: var(--success); }
+  .hover\:bg-warning:hover { background-color: var(--warning); }
+  .hover\:bg-error:hover { background-color: var(--error); }
+  .hover\:bg-info:hover { background-color: var(--info); }
+  .hover\:bg-highlight:hover { background-color: var(--highlight); }
 }
 
-/* Perfumer H inspired typography */
-h1, h2, h3 { 
-  font-weight: 400; 
-  letter-spacing: -0.02em; 
-  color: var(--foreground);
-}
-
-h1 { font-size: 2.5rem; line-height: 1.2; }
-h2 { font-size: 1.75rem; line-height: 1.3; }
-h3 { font-size: 1.25rem; line-height: 1.4; }
-
-/* Perfumer H inspired layout and spacing */
-.container {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-/* Refined design tokens matching perfumerh aesthetic */
-.text-foreground { color: var(--foreground); }
-.text-muted { color: var(--muted); font-size: 0.95rem; }
-.bg-accent { background-color: var(--accent); }
-.text-accent { color: var(--accent); }
-.border-subtle { border-color: var(--border); }
-
-/* Sophisticated card styles inspired by perfumerh product cards */
-.card { 
-  background: var(--card-bg); 
-  border: 1px solid var(--border);
-  border-radius: 0.25rem; 
-  overflow: hidden;
-  transition: all 0.2s ease;
-}
-
-.card:hover {
-  border-color: var(--accent);
-  transform: translateY(-1px);
-}
-
-/* Refined button styles matching perfumerh */
-.btn { 
-  display: inline-flex; 
-  align-items: center; 
-  justify-content: center; 
-  gap: 0.5rem; 
-  padding: 0.75rem 1.5rem; 
-  border: 1px solid var(--border);
-  font-weight: 400; 
-  font-size: 0.95rem;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  transition: all 0.2s ease;
-}
-
-.btn-primary { 
-  background: var(--foreground); 
-  color: var(--background); 
-  border-color: var(--foreground);
-}
-
-.btn-primary:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
-.btn-ghost { 
-  background: transparent; 
-  color: var(--foreground); 
-}
-
-.btn-ghost:hover {
-  background: var(--accent);
-  color: var(--background);
-  border-color: var(--accent);
+/* Dark Mode Support (Future-ready) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cream-base: #1a1816;
+    --deep-charcoal: #f5f2ed;
+    --light-gray: #2d2a27;
+    --border-gray: #3a3631;
+    --warm-gray: #9b918a;
+  }
 }

@@ -22,12 +22,21 @@ export function ProductDetails({ product }: Props) {
 			)}
 			<div>
 				<h1 className="text-2xl font-bold mb-2">{product.title}</h1>
-				<p className="text-gray-700 mb-4">{product.description}</p>
+				<p className="text-warm-gray mb-4">{product.description}</p>
 				<div className="mb-4">
 					<label className="block text-sm">Quantity</label>
-					<input type="number" value={qty} min={1} onChange={e => setQty(Number(e.target.value))} className="mt-1 border rounded px-2 py-1 w-24" />
+					<input 
+						type="number" 
+						value={qty} 
+						min={1} 
+						onChange={e => setQty(Number(e.target.value))} 
+						className="mt-1 border rounded px-2 py-1 w-24"
+						autoComplete="off"
+						name="quantity"
+						suppressHydrationWarning
+					/>
 				</div>
-				<button onClick={() => actions.addItem(product, qty)} className="bg-blue-600 text-white px-4 py-2 rounded">Add to cart</button>
+				<button onClick={() => actions.addItem(product, qty)} className="bg-sage-green text-cream-base px-4 py-2 rounded">Add to cart</button>
 			</div>
 		</div>
 	)

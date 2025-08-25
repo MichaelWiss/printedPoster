@@ -31,15 +31,15 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
       onClick={onClick}
     >
       {/* Card container with refined styles */}
-      <div className="card overflow-hidden transition-transform hover:scale-[1.01]">
+      <div className="bg-white border border-border-gray rounded-sm overflow-hidden transition-all duration-300 hover:shadow-soft hover:-translate-y-0.5 hover:border-sage-green group">
         {/* Product image section */}
         {firstImage && (
-          <div className="relative h-72 w-full bg-gray-50">
+          <div className="relative bg-light-gray aspect-square overflow-hidden">
             <Image
               src={firstImage.url}
               alt={firstImage.altText || product.title}
               fill
-              className="object-cover"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
@@ -47,7 +47,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
         {/* Product information section */}
         <div className="p-4">
           <h2 className="text-lg font-medium mb-2">{product.title}</h2>
-          <p className="text-muted text-sm mb-3 line-clamp-2">{product.description}</p>
+          <p className="text-warm-gray text-sm mb-3 line-clamp-2">{product.description}</p>
           <div className="flex items-center justify-between">
             <p className="text-base font-semibold">
               {price ? (
@@ -59,7 +59,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
                 '—'
               )}
             </p>
-            <span className="text-sm text-muted">Free shipping</span>
+            <span className="text-sm text-warm-gray">Free shipping</span>
           </div>
         </div>
       </div>

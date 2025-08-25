@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import Image from 'next/image'
 
-type Props = {
-	params: { handle: string };
-};
+// For Next.js 15, we'll need to handle async params differently
+// This component won't use the params prop directly since it's client-side
+// In a real app, you'd fetch the product data based on the URL
 
 // Mock product data - in real app this would come from Shopify
 const mockProduct = {
@@ -41,8 +41,7 @@ const mockProduct = {
   ]
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function ProductPage({ params }: Props) {
+export default function ProductPage() {
   const [selectedImage, setSelectedImage] = useState(0)
   const [selectedSize, setSelectedSize] = useState('medium')
   const [selectedFrame, setSelectedFrame] = useState('none')
@@ -51,7 +50,7 @@ export default function ProductPage({ params }: Props) {
   const selectedSizeData = mockProduct.variants.sizes.find(s => s.id === selectedSize)
 
 	return (
-		<div className="min-h-screen bg-background">
+		<div className="min-h-screen bg-cream-base">
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Product Images */}
@@ -91,13 +90,13 @@ export default function ProductPage({ params }: Props) {
           {/* Product Details */}
           <div className="space-y-6">
             <div>
-              <h1 className="font-playfair text-3xl lg:text-4xl font-normal text-foreground mb-4">
+              <h1 className="font-playfair text-3xl lg:text-4xl font-normal text-deep-charcoal mb-4">
                 {mockProduct.title}
               </h1>
-              <p className="text-2xl font-medium text-accent mb-6">
+              <p className="text-2xl font-medium text-sage-green mb-6">
                 {selectedSizeData?.price}
               </p>
-              <p className="text-body text-muted leading-relaxed">
+              <p className="text-body text-warm-gray leading-relaxed">
                 {mockProduct.description}
               </p>
             </div>
@@ -112,8 +111,8 @@ export default function ProductPage({ params }: Props) {
                     onClick={() => setSelectedSize(size.id)}
                     className={`p-3 border rounded-lg text-sm font-medium transition-colors ${
                       selectedSize === size.id
-                        ? 'border-accent bg-accent text-white'
-                        : 'border-gray-300 hover:border-accent'
+                        ? 'border-sage-green bg-sage-green text-white'
+                        : 'border-gray-300 hover:border-sage-green'
                     }`}
                   >
                     <div>{size.name}</div>
@@ -133,8 +132,8 @@ export default function ProductPage({ params }: Props) {
                     onClick={() => setSelectedFrame(frame.id)}
                     className={`p-3 border rounded-lg text-sm font-medium transition-colors ${
                       selectedFrame === frame.id
-                        ? 'border-accent bg-accent text-white'
-                        : 'border-gray-300 hover:border-accent'
+                        ? 'border-sage-green bg-sage-green text-white'
+                        : 'border-gray-300 hover:border-sage-green'
                     }`}
                   >
                     <div>{frame.name}</div>
@@ -150,14 +149,14 @@ export default function ProductPage({ params }: Props) {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center hover:border-accent"
+                  className="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center hover:border-sage-green"
                 >
                   -
                 </button>
                 <span className="w-16 text-center font-medium">{quantity}</span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  className="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center hover:border-accent"
+                  className="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center hover:border-sage-green"
                 >
                   +
                 </button>
@@ -165,7 +164,7 @@ export default function ProductPage({ params }: Props) {
             </div>
 
             {/* Add to Cart */}
-            <button className="w-full bg-accent text-white py-4 px-6 font-medium hover:bg-accent/90 transition-colors duration-200">
+            <button className="w-full bg-sage-green text-white py-4 px-6 font-medium hover:bg-sage-green/90 transition-colors duration-200">
               Add to Cart
             </button>
 

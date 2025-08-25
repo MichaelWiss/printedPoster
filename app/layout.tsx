@@ -8,13 +8,18 @@ import { Footer } from '@/components/layout/Footer'
 const inter = Inter({ 
   subsets: ['latin'],
   variable: '--font-inter',
+  weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
+  preload: true,
 })
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'],
   variable: '--font-playfair',
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
+  preload: true,
+  style: ['normal', 'italic'],
 })
 
 export const metadata: Metadata = {
@@ -29,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-  <body className="antialiased font-inter">
+      <body className={`${inter.className} antialiased bg-cream-base text-deep-charcoal`}>
         <CartProvider>
           <Header />
           <main>{children}</main>
