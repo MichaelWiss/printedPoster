@@ -11,7 +11,7 @@ interface FeaturedProductsProps {
 export async function FeaturedProducts({ 
   title = "Featured Products", 
   subtitle = "Discover our most popular prints and posters",
-  limit = 6 
+  limit = 8 
 }: FeaturedProductsProps) {
   const products = await getProducts(limit)
 
@@ -27,11 +27,12 @@ export async function FeaturedProducts({
           </p>
         </div>
         
+        {/* Enhanced responsive grid: 2→3→4 columns */}
         <ProductGrid 
           products={products} 
-          columns={3}
+          columns={4}
           spacing="normal"
-          className="max-w-6xl mx-auto"
+          className="max-w-7xl mx-auto"
         />
         
         <div className="text-center mt-12">

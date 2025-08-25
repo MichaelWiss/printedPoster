@@ -16,7 +16,7 @@ export default function Home() {
           <h2 className="font-display text-3xl lg:text-4xl font-normal text-deep-charcoal mb-4">
             Why Choose Our Prints?
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
             <div className="text-center">
               <div className="w-16 h-16 bg-sage-green/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-sage-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
