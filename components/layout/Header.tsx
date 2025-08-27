@@ -34,6 +34,7 @@
 
 import Link from 'next/link'
 import { MobileMenu } from './MobileMenu'
+import { CartCounter } from '@/components/cart/CartCounter'
 
 export function Header() {
   return (
@@ -108,14 +109,13 @@ export function Header() {
             {/* Uses btn-primary from design system with accent styling */}
             <Link 
               href="/cart" 
-              className="btn btn-primary text-body-sm font-medium px-4 py-2 relative"
+              className="text-body-sm font-medium px-3 py-2 relative flex items-center"
               aria-label="Shopping cart"
             >
-              Cart
-              {/* Cart item count badge - static for now to prevent hydration issues */}
-              <span className="absolute -top-2 -right-2 bg-terracotta text-pure-white text-caption font-bold rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                2
-              </span>
+              {/* Shopping cart emoji */}
+              <span className="text-lg">🛒</span>
+              {/* Dynamic cart item count badge using Zustand */}
+              <CartCounter />
             </Link>
 
             {/* Mobile menu - Firefox-compatible client component */}

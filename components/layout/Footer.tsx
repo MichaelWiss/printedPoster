@@ -44,247 +44,70 @@ export function Footer() {
   const currentYear = 2025
 
   return (
-    // Main footer with design system background and top border
-    // Uses cream-base background with sage-green accent border
-    // mt-16 provides generous spacing from main content
-    <footer className="bg-cream-base border-t border-sage-green/20 mt-16">
+    // Main footer with dark charcoal background and cream text
+    // Using Tailwind classes to prevent hydration issues
+    <footer className="mt-16 bg-deep-charcoal text-cream-base py-16">
       
-      {/* Main footer content container */}
-      {/* Responsive padding: px-4 (mobile), lg:px-6 (desktop) */}
-      {/* py-12 provides generous vertical spacing */}
-      <div className="container mx-auto px-4 lg:px-6 py-12">
+      {/* Main footer content container matching collection page layout */}
+      <div className="container mx-auto px-4 lg:px-6">
         
-        {/* Responsive grid layout: 1 column mobile, 4 columns desktop */}
-        {/* gap-8 provides consistent spacing between sections */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Footer content grid using Tailwind classes */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           
-          {/* Brand section - company information and description */}
-          <div className="lg:col-span-2 space-y-4">
-            
-            {/* Brand logo/title using display font */}
-            {/* Uses font-display (Playfair Display) for brand consistency */}
-            <h3 className="text-display-sm font-display font-semibold text-deep-charcoal">
-              Printed Poster
+          {/* Collections section - matching collection page exactly */}
+          <div>
+            <h3 className="font-display text-xl font-medium mb-4 text-pure-white">
+              Collections
             </h3>
-            
-            {/* Company description with design system typography */}
-            {/* Uses text-body-sm for readable body text */}
-            <p className="text-body-sm text-deep-charcoal/80 max-w-md leading-relaxed">
-              Discover unique art prints and posters that transform your space. 
-              From vintage designs to contemporary artwork, find the perfect piece 
-              to express your style.
-            </p>
-            
-            {/* Contact information section */}
-            <div className="space-y-2">
-              <p className="text-body-sm text-deep-charcoal/70">
-                <span className="font-medium">Email:</span> hello@printedposter.com
-              </p>
-              <p className="text-body-sm text-deep-charcoal/70">
-                <span className="font-medium">Phone:</span> 1-800-POSTERS
-              </p>
-            </div>
-            
-            {/* Social media links section */}
-            {/* Ready for social media integration */}
-            <div className="flex items-center gap-4 pt-2">
-              <span className="text-body-sm font-medium text-deep-charcoal/70">Follow us:</span>
-              
-              {/* Social media icons - would use actual icons/logos */}
-              <div className="flex items-center gap-3">
-                <a 
-                  href="https://instagram.com" 
-                  className="text-deep-charcoal/60 hover:text-sage-green transition-colors duration-200"
-                  aria-label="Follow us on Instagram"
-                >
-                  📷
-                </a>
-                <a 
-                  href="https://pinterest.com" 
-                  className="text-deep-charcoal/60 hover:text-sage-green transition-colors duration-200"
-                  aria-label="Follow us on Pinterest"
-                >
-                  📌
-                </a>
-                <a 
-                  href="https://facebook.com" 
-                  className="text-deep-charcoal/60 hover:text-sage-green transition-colors duration-200"
-                  aria-label="Follow us on Facebook"
-                >
-                  📘
-                </a>
-              </div>
-            </div>
-            
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Vintage Travel</a>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Art Deco</a>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Mid-Century Modern</a>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Abstract Art</a>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Photography</a>
           </div>
           
-          {/* Quick Links section - main navigation */}
-          <div className="space-y-4">
-            
-            {/* Section heading with consistent typography */}
-            <h4 className="text-body-base font-semibold text-deep-charcoal">
-              Quick Links
-            </h4>
-            
-            {/* Navigation links with proper spacing and hover states */}
-            {/* space-y-3 provides consistent vertical rhythm */}
-            <nav className="space-y-3" aria-label="Footer navigation">
-              
-              <Link 
-                href="/products" 
-                className="block text-body-sm text-deep-charcoal/70 hover:text-sage-green transition-colors duration-200"
-              >
-                All Products
-              </Link>
-              
-              <Link 
-                href="/collections" 
-                className="block text-body-sm text-deep-charcoal/70 hover:text-sage-green transition-colors duration-200"
-              >
-                Collections
-              </Link>
-              
-              <Link 
-                href="/about" 
-                className="block text-body-sm text-deep-charcoal/70 hover:text-sage-green transition-colors duration-200"
-              >
-                About Us
-              </Link>
-              
-              <Link 
-                href="/contact" 
-                className="block text-body-sm text-deep-charcoal/70 hover:text-sage-green transition-colors duration-200"
-              >
-                Contact
-              </Link>
-              
-              <Link 
-                href="/blog" 
-                className="block text-body-sm text-deep-charcoal/70 hover:text-sage-green transition-colors duration-200"
-              >
-                Blog
-              </Link>
-              
-            </nav>
-          </div>
-          
-          {/* Customer Service section - support and help */}
-          <div className="space-y-4">
-            
-            {/* Section heading */}
-            <h4 className="text-body-base font-semibold text-deep-charcoal">
+          {/* Customer Service section - matching collection page */}
+          <div>
+            <h3 className="font-display text-xl font-medium mb-4 text-pure-white">
               Customer Service
-            </h4>
-            
-            {/* Customer service links */}
-            <nav className="space-y-3" aria-label="Customer service">
-              
-              <Link 
-                href="/shipping" 
-                className="block text-body-sm text-deep-charcoal/70 hover:text-sage-green transition-colors duration-200"
-              >
-                Shipping Info
-              </Link>
-              
-              <Link 
-                href="/returns" 
-                className="block text-body-sm text-deep-charcoal/70 hover:text-sage-green transition-colors duration-200"
-              >
-                Returns & Exchanges
-              </Link>
-              
-              <Link 
-                href="/sizing" 
-                className="block text-body-sm text-deep-charcoal/70 hover:text-sage-green transition-colors duration-200"
-              >
-                Size Guide
-              </Link>
-              
-              <Link 
-                href="/faq" 
-                className="block text-body-sm text-deep-charcoal/70 hover:text-sage-green transition-colors duration-200"
-              >
-                FAQ
-              </Link>
-              
-              <Link 
-                href="/support" 
-                className="block text-body-sm text-deep-charcoal/70 hover:text-sage-green transition-colors duration-200"
-              >
-                Support Center
-              </Link>
-              
-            </nav>
+            </h3>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Contact Us</a>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Shipping Info</a>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Returns</a>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Size Guide</a>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Care Instructions</a>
+          </div>
+          
+          {/* About section - matching collection page */}
+          <div>
+            <h3 className="font-display text-xl font-medium mb-4 text-pure-white">
+              About
+            </h3>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Our Story</a>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Artists</a>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Quality Promise</a>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Sustainability</a>
+            <a href="#" className="block mb-2 text-cream-base hover:text-sage-green transition-colors duration-300">Press</a>
+          </div>
+          
+          {/* Newsletter section - matching collection page */}
+          <div>
+            <h3 className="font-display text-xl font-medium mb-4 text-pure-white">
+              Newsletter
+            </h3>
+            <p className="mb-4 text-cream-base/80">Get updates on new arrivals and exclusive offers.</p>
+            <input 
+              type="email" 
+              placeholder="Your email" 
+              className="w-full p-2 mb-4 border border-warm-gray rounded bg-pure-white text-deep-charcoal"
+            />
+            <button className="bg-sage-green text-white border-none py-2 px-4 rounded cursor-pointer hover:bg-sage-green/90 transition-colors">
+              Subscribe
+            </button>
           </div>
           
         </div>
         
-        {/* Newsletter signup section */}
-        {/* Full width section for email capture */}
-        <div className="mt-12 pt-8 border-t border-sage-green/20">
-          <div className="max-w-md">
-            
-            {/* Newsletter heading and description */}
-            <h4 className="text-body-base font-semibold text-deep-charcoal mb-2">
-              Stay Updated
-            </h4>
-            <p className="text-body-sm text-deep-charcoal/70 mb-4">
-              Get the latest designs and exclusive offers delivered to your inbox.
-            </p>
-            
-            {/* Newsletter signup form */}
-            {/* Ready for email capture integration */}
-                        {/* Newsletter signup form */}
-            {/* Client-side component to prevent hydration issues */}
-            <NewsletterSignup />
-            
-          </div>
-        </div>
-        
-      </div>
-      
-      {/* Bottom footer bar - copyright and legal links */}
-      {/* Separate section with darker background for legal information */}
-      <div className="bg-deep-charcoal/5 border-t border-sage-green/10">
-        <div className="container mx-auto px-4 lg:px-6 py-4">
-          
-          {/* Responsive layout: stacked mobile, side-by-side desktop */}
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            
-            {/* Copyright notice */}
-            <div className="text-body-sm text-deep-charcoal/60">
-              © {currentYear} Printed Poster. All rights reserved.
-            </div>
-            
-            {/* Legal links */}
-            {/* Horizontal list with proper spacing */}
-            <nav className="flex items-center gap-6" aria-label="Legal links">
-              
-              <Link 
-                href="/privacy" 
-                className="text-body-sm text-deep-charcoal/60 hover:text-sage-green transition-colors duration-200"
-              >
-                Privacy Policy
-              </Link>
-              
-              <Link 
-                href="/terms" 
-                className="text-body-sm text-deep-charcoal/60 hover:text-sage-green transition-colors duration-200"
-              >
-                Terms of Service
-              </Link>
-              
-              <Link 
-                href="/cookies" 
-                className="text-body-sm text-deep-charcoal/60 hover:text-sage-green transition-colors duration-200"
-              >
-                Cookie Policy
-              </Link>
-              
-            </nav>
-            
-          </div>
-        </div>
       </div>
       
     </footer>

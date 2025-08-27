@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import type { ShopifyProduct } from '@/types/shopify'
-import { useCart } from '@/context/CartContext'
+import { useCartActions } from '@/stores/cart-store'
 
 interface Props {
 	product: ShopifyProduct
@@ -9,7 +9,7 @@ interface Props {
 
 export function ProductDetails({ product }: Props) {
 	const [qty, setQty] = useState(1)
-	const { actions } = useCart()
+	const { addItem } = useCartActions()
 
 	const firstImage = product.images?.edges[0]?.node
 
@@ -36,7 +36,7 @@ export function ProductDetails({ product }: Props) {
 						suppressHydrationWarning
 					/>
 				</div>
-				<button onClick={() => actions.addItem(product, qty)} className="bg-sage-green text-cream-base px-4 py-2 rounded">Add to cart</button>
+				<button onClick={() => addItem(product, qty)} className="bg-sage-green text-cream-base px-4 py-2 rounded">Add to cart</button>
 			</div>
 		</div>
 	)
