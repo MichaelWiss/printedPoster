@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ProductGrid } from '@/components/product/ProductGrid'
+import { StoreProductsGrid } from '@/components/store/StoreProductsGrid'
 import { getProducts } from '@/lib/shopify/client'
 
 interface FeaturedProductsProps {
@@ -27,12 +27,9 @@ export async function FeaturedProducts({
           </p>
         </div>
         
-        {/* Enhanced responsive grid: 2→3→4 columns */}
-        <ProductGrid 
-          products={products} 
-          columns={4}
-          spacing="normal"
-          className="max-w-7xl mx-auto"
+        {/* Enhanced responsive grid with add to cart functionality */}
+        <StoreProductsGrid
+          products={products}
         />
         
         <div className="text-center mt-12">

@@ -70,6 +70,48 @@ const GET_PRODUCTS_QUERY = `
   }
 `
 
+// This query fetches a single product by handle
+const GET_PRODUCT_BY_HANDLE_QUERY = `
+  query GetProductByHandle($handle: String!) {
+    # Fetch a single product by its handle
+    productByHandle(handle: $handle) {
+      id            # Unique identifier for the product
+      title         # Product title
+      handle        # URL-friendly version of the product title
+      description   # Product description
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      images(first: 5) {
+        edges {
+          node {
+            url
+            altText
+            width
+            height
+          }
+        }
+      }
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            title
+            availableForSale
+            price {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
 // Import our Shopify types
 import type { ProductsResponse, ShopifyProduct } from '@/types/shopify'
 
@@ -81,13 +123,33 @@ export async function getProducts(first: number = 10): Promise<ShopifyProduct[]>
   try {
     // Make the API request to Shopify
     const data = await storefrontClient.request<ProductsResponse>(GET_PRODUCTS_QUERY, { first })
-    
+
     // Transform the response to a simpler format
     // Convert from { edges: [{ node: { ... } }] } to [{ ... }]
     return data.products.edges.map((edge: { node: ShopifyProduct }) => edge.node)
   } catch (error) {
     // Log any errors that occur during the request
     console.error('Error fetching products:', error)
+    throw error
+  }
+}
+
+// Function to fetch a single product by handle
+// Parameters:
+// - handle: string - The product handle (URL slug)
+// Returns: Promise<ShopifyProduct | null> - Single product or null if not found
+export async function getProductByHandle(handle: string): Promise<ShopifyProduct | null> {
+  try {
+    // Make the API request to Shopify
+    const data = await storefrontClient.request<{ productByHandle: ShopifyProduct | null }>(
+      GET_PRODUCT_BY_HANDLE_QUERY,
+      { handle }
+    )
+
+    return data.productByHandle
+  } catch (error) {
+    // Log any errors that occur during the request
+    console.error('Error fetching product by handle:', error)
     throw error
   }
 }

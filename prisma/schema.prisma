@@ -10,7 +10,61 @@ datasource db {
   url      = "file:dev.sqlite"
 }
 
+// NextAuth.js models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  carts         Cart[]
+}
+
 model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Legacy Shopify session (keep for backward compatibility)
+model ShopifySession {
   id            String    @id
   shop          String
   state         String
@@ -29,21 +83,36 @@ model Session {
 
 model Cart {
   id        String      @id @default(cuid())
+  userId    String      // Link to authenticated users
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId String?     // For guest cart migration
+  isActive  Boolean     @default(true)
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+
   items     CartItem[]
-  checkoutUrl String?
+
+  @@index([userId])
+  @@index([sessionId])
 }
 
 model CartItem {
   id        String   @id @default(cuid())
   cartId    String
   cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  productId String
-  variantId String
-  quantity  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+
+  // Shopify product data
+  productId   String
+  variantId   String
+  title       String
+  handle      String
+  price       Float
+  imageUrl    String?
+  quantity    Int
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([cartId])
+  @@index([productId])
 }

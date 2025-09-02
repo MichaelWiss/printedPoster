@@ -1,36 +1,57 @@
 /**
  * CartCounter Component
- * 
+ *
  * Client-side cart item counter that displays the total number of items in the cart.
  * Uses Zustand store with selective subscription to prevent unnecessary re-renders.
- * 
+ * Shows different states based on authentication and sync status.
+ *
  * Features:
  * - Selective subscription (only re-renders when item count changes)
- * - Optimistic updates
- * - Handles empty cart state
+ * - Authentication-aware display
+ * - Loading state support
+ * - Sync status indicators
  * - Accessible with proper ARIA labels
- * 
+ *
  * @example
  * <CartCounter />
  */
 
 'use client'
 
-import { useCartItemCount } from '@/stores/cart-store'
+import { useEffect, useState } from 'react'
+import { useCartItemCount, useIsAuthenticated, useCartLoading } from '@/stores/cart-store'
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 
 export function CartCounter() {
+  const [mounted, setMounted] = useState(false)
   const itemCount = useCartItemCount()
+  const isAuthenticated = useIsAuthenticated()
+  const isLoading = useCartLoading()
 
-  if (itemCount === 0) {
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (itemCount === 0 && !isLoading && mounted) {
     return null // Don't show badge when cart is empty
   }
 
+  // Don't render anything until mounted to prevent hydration mismatch
+  if (!mounted) {
+    return null
+  }
+
   return (
-    <span 
+    <span
       className="absolute -top-2 -right-2 bg-terracotta text-pure-white text-caption font-bold rounded-full w-5 h-5 flex items-center justify-center text-xs"
-      aria-label={`${itemCount} items in cart`}
+      aria-label={`${itemCount} items in cart${isAuthenticated ? ' (synced)' : ' (local only)'}`}
+      suppressHydrationWarning
     >
-      {itemCount > 99 ? '99+' : itemCount}
+      {isLoading ? (
+        <LoadingSpinner size="xs" color="white" />
+      ) : (
+        itemCount > 99 ? '99+' : itemCount
+      )}
     </span>
   )
 }
