@@ -47,7 +47,7 @@ export class MigrationService {
   }
 
   // Validate localStorage data integrity
-  validateLocalStorageData(items: any[]): boolean {
+  validateLocalStorageData(items: unknown[]): boolean {
     if (!Array.isArray(items)) return false
 
     return items.every(item =>

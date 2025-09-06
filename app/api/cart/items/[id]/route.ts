@@ -4,28 +4,23 @@ import { authOptions } from '@/lib/auth'
 import { cartService } from '@/lib/services/cart-service'
 import { prisma } from '@/lib/db/prisma'
 
-interface RouteParams {
-  params: {
-    id: string
-  }
-}
-
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const body = await request.json()
     const { quantity } = body
 
-    const cartItem = await cartService.updateCartItem(params.id, parseInt(quantity))
+    const cartItem = await cartService.updateCartItem(id, parseInt(quantity))
 
     // Find the cart and update its activity
     const cart = await prisma.cart.findFirst({
-      where: { items: { some: { id: params.id } } }
+      where: { items: { some: { id } } }
     })
 
     if (cart) {
@@ -39,20 +34,21 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     // Find the cart before deleting the item
     const cart = await prisma.cart.findFirst({
-      where: { items: { some: { id: params.id } } }
+      where: { items: { some: { id } } }
     })
 
-    await cartService.removeCartItem(params.id)
+    await cartService.removeCartItem(id)
 
     // Update cart activity if cart exists
     if (cart) {

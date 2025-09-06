@@ -6,21 +6,21 @@ import { Footer } from '@/components/layout/Footer'
 import { AuthProvider } from '@/components/providers/AuthProvider'
 import { CartSyncProvider } from '@/components/providers/CartSyncProvider'
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600'], // Reduced from 5 weights to 3 for faster loading
   display: 'swap',
   preload: true,
 })
 
-const playfair = Playfair_Display({ 
+const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '600'], // Reduced from 4 weights to 2 for faster loading
   display: 'swap',
-  preload: true,
-  style: ['normal', 'italic'],
+  preload: false, // Disable preload for secondary font to improve initial page load
+  style: ['normal'], // Removed italic for faster loading
 })
 
 export const metadata: Metadata = {

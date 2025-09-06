@@ -18,7 +18,14 @@ module.exports = {
 			},
 		],
 	},
+	// Minimal performance optimizations
 	experimental: {
-		esmExternals: false,
+		optimizePackageImports: ['@shopify/storefront-kit', 'graphql-request', 'zustand'],
 	},
+	// Reduce bundle size in production
+	compiler: {
+		removeConsole: process.env.NODE_ENV === 'production',
+	},
+	// Fix multiple lockfile warning
+	outputFileTracingRoot: require('path').join(process.cwd()),
 }

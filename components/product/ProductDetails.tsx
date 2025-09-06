@@ -57,52 +57,41 @@ export function ProductDetails({ product }: Props) {
 					</div>
 				)}
 
-				{/* Quantity Selector */}
-				<div>
-					<label htmlFor="quantity" className="block text-sm font-medium text-deep-charcoal mb-2">
-						Quantity
-					</label>
-					<div className="flex items-center gap-3">
+
+				{/* Advanced Add to Cart Button */}
+				<div className="pt-4">
+					<div className="relative">
 						<button
-							onClick={() => setQty(Math.max(1, qty - 1))}
-							disabled={qty <= 1}
-							className="w-10 h-10 flex items-center justify-center border border-border-gray rounded hover:bg-light-gray disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-							aria-label="Decrease quantity"
+							className="add-to-cart-btn w-full"
+							onClick={(e) => {
+								e.preventDefault()
+								handleAddToCart()
+							}}
+							disabled={isLoading}
 						>
-							-
-						</button>
-						<input
-							id="quantity"
-							type="number"
-							value={qty}
-							min={1}
-							max={99}
-							onChange={e => setQty(Math.max(1, Math.min(99, Number(e.target.value) || 1)))}
-							className="w-16 text-center border border-border-gray rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-terracotta focus:border-transparent"
-							autoComplete="off"
-							name="quantity"
-							suppressHydrationWarning
-						/>
-						<button
-							onClick={() => setQty(Math.min(99, qty + 1))}
-							disabled={qty >= 99}
-							className="w-10 h-10 flex items-center justify-center border border-border-gray rounded hover:bg-light-gray disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-							aria-label="Increase quantity"
-						>
-							+
+							<div className="quantity-section">
+								<span
+									className="quantity-btn"
+									onClick={(e) => {
+										e.stopPropagation()
+										setQty(Math.max(1, qty - 1))
+									}}
+								>−</span>
+								<span className="quantity-display">{qty}</span>
+								<span
+									className="quantity-btn"
+									onClick={(e) => {
+										e.stopPropagation()
+										setQty(qty + 1)
+									}}
+								>+</span>
+							</div>
+							<div className="divider"></div>
+							<div className="add-to-cart-section">
+								{isLoading ? "Adding..." : "Add to Cart"}
+							</div>
 						</button>
 					</div>
-				</div>
-
-				{/* Add to Cart Button */}
-				<div className="pt-4">
-					<button
-						onClick={handleAddToCart}
-						disabled={isLoading}
-						className="w-full bg-terracotta hover:bg-terracotta/90 text-cream-base py-4 px-6 rounded-lg font-semibold text-lg transition-colors disabled:opacity-50"
-					>
-						{isLoading ? "Adding to cart..." : "Add to Cart"}
-					</button>
 
 					{isAuthenticated && (
 						<p className="text-xs text-sage-green mt-2 text-center">

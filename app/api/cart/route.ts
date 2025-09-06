@@ -7,11 +7,11 @@ export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const cart = await cartService.getUserCart(session.user.id)
+    const cart = await cartService.getUserCart(session.user.email)
 
     return NextResponse.json({ cart })
   } catch (error) {
@@ -24,17 +24,17 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const body = await request.json()
     const { items } = body
 
-    let cart = await cartService.getUserCart(session.user.id)
+    let cart = await cartService.getUserCart(session.user.email)
 
     if (!cart) {
-      cart = await cartService.createUserCart(session.user.id, items)
+      cart = await cartService.createUserCart(session.user.email, items)
     }
 
     return NextResponse.json({ cart })

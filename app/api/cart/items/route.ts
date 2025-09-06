@@ -7,14 +7,14 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const body = await request.json()
     const { productId, variantId, title, handle, price, imageUrl, quantity } = body
 
-    const cart = await cartService.getUserCart(session.user.id)
+    const cart = await cartService.getUserCart(session.user.email)
 
     if (!cart) {
       return NextResponse.json({ error: 'Cart not found' }, { status: 404 })

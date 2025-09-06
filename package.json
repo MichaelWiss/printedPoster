@@ -1,15 +1,16 @@
 {
-  "name": "your-app-name",
+  "name": "printed-poster",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",

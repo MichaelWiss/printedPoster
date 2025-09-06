@@ -7,11 +7,11 @@ export function useCartMigration() {
   const cartStore = useCartStore()
 
   useEffect(() => {
-    if (session?.user?.id && !cartStore.isAuthenticated) {
+    if (session?.user?.email && !cartStore.isAuthenticated) {
       // User just logged in, trigger migration
-      cartStore.validateAndMigrate(session.user.id)
+      cartStore.validateAndMigrate(session.user.email)
     }
-  }, [session?.user?.id, cartStore.isAuthenticated])
+  }, [session?.user?.email, cartStore.isAuthenticated])
 
   return {
     isMigrating: cartStore.isLoading,

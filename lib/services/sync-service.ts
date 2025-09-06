@@ -100,7 +100,7 @@ export class SyncService {
   }
 
   // Handle sync conflicts (server vs local)
-  async resolveSyncConflict(localItems: any[], serverItems: any[]) {
+  async resolveSyncConflict(localItems: unknown[], serverItems: unknown[]) {
     // Strategy: Server wins, but preserve local additions
     const serverItemMap = new Map(serverItems.map(item => [item.productId, item]))
 

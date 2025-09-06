@@ -188,3 +188,104 @@
     --warm-gray: #9b918a;
   }
 }
+
+/* Advanced Add to Cart Button Styles */
+.add-to-cart-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #000000;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  background-color: #8b7355;
+  color: #000000;
+  padding: 0;
+  width: auto;
+  min-width: 110px;
+  height: 30px;
+  transition: box-shadow 0.15s ease;
+}
+
+.add-to-cart-btn:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.add-to-cart-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 60%;
+  background-color: #d4a574;
+  transform: translateX(100%);
+  transition: transform 0.2s ease;
+  z-index: 0;
+}
+
+.add-to-cart-btn:hover::after {
+  transform: translateX(0);
+}
+
+.quantity-section {
+  display: flex;
+  align-items: center;
+  padding: 4px 6px;
+  gap: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.divider {
+  width: 1px;
+  background-color: #000000;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  margin: 0 2px;
+}
+
+.quantity-btn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #000000;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  line-height: 1;
+  padding: 0;
+}
+
+.quantity-display {
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 10px;
+  text-align: center;
+  color: #000000;
+  position: relative;
+  z-index: 1;
+}
+
+.add-to-cart-section {
+  padding: 4px 10px;
+  color: #000000;
+  transition: color 0.2s ease;
+  position: relative;
+  z-index: 1;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.add-to-cart-btn:hover .add-to-cart-section {
+  color: #ffffff;
+}

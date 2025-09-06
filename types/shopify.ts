@@ -75,3 +75,28 @@ export interface ShopifyCart {
     }>
   }
 }
+
+export interface ShopifyCollection {
+  id: string
+  title: string
+  handle: string
+  description: string
+  image?: ShopifyImage | null
+  products: {
+    edges: Array<{
+      node: ShopifyProduct
+    }>
+  }
+}
+
+export interface CollectionsResponse {
+  collections: {
+    edges: Array<{
+      node: ShopifyCollection
+    }>
+  }
+}
+
+export interface CollectionResponse {
+  collectionByHandle: ShopifyCollection | null
+}

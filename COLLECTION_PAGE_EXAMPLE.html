@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection Page Example - Printed Poster</title>
+    <style>
+        /* Original design system - Perfumer H inspired */
+        :root {
+            --background: #faf9f7; /* warm off-white like perfumerh */
+            --foreground: #2a2724; /* deep charcoal for text */
+            --accent: #8b7355; /* warm taupe/beige from perfumerh */
+            --muted: #6b6358; /* sophisticated gray-brown */
+            --card-bg: #ffffff;
+            --border: #e8e5e0; /* subtle warm border */
+            --sage-green: #9fb8a8; /* primary accent */
+            --warm-taupe: #8b7355; /* secondary accent */
+            --terracotta: #d4a574; /* tertiary accent */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--foreground);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            letter-spacing: -0.01em;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            color: var(--foreground);
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            line-height: 1.3;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            color: var(--foreground);
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            line-height: 1.4;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.75rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        /* Header */
+        .header {
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 0;
+            background: var(--background);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            text-transform: lowercase;
+            color: var(--foreground);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+        }
+
+        .nav a:hover, .nav a.active {
+            color: var(--accent);
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            padding: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .breadcrumbs a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+
+        /* Collection Header */
+        .collection-header {
+            padding: 3rem 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .collection-description {
+            color: var(--muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .filter-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-size: 0.9rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--foreground);
+            font-size: 0.9rem;
+            border-radius: 0.25rem;
+        }
+
+        .sort-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--foreground);
+            font-size: 0.9rem;
+            border-radius: 0.25rem;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 3rem 0;
+        }
+
+        /* Sophisticated card styles */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #f0ede8 0%, #e8e5e0 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: var(--foreground);
+        }
+
+        .card-description {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Align price and button vertically */
+            margin-top: var(--space-4);
+            position: relative;
+        }
+
+        .price {
+            font-weight: 500;
+            color: var(--foreground);
+        }
+
+        /* Compact Add to Cart button with sliding overlay - Updated colors */
+        .add-to-cart-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid #000000; /* Primary black from design.md */
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            background-color: #8b7355; /* Warm taupe from design.md */
+            color: #000000; /* Primary black from design.md */
+            padding: 0;
+            width: auto; /* Content-based with proportional padding */
+            min-width: 110px; /* Minimum width for better proportions */
+            height: 30px; /* Shorter height */
+            transition: box-shadow 0.15s ease;
+        }
+
+        /* Shadow effect on hover */
+        .add-to-cart-btn:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Terracotta sliding overlay (exact midpoint between quantity and Add to Cart) */
+        .add-to-cart-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 60%; /* Balanced overlay covering substantial portion of button */
+            background-color: #d4a574; /* Terracotta from design.md */
+            transform: translateX(100%);
+            transition: transform 0.2s ease;
+            z-index: 0;
+        }
+
+        .add-to-cart-btn:hover::after {
+            transform: translateX(0);
+        }
+
+        /* Quantity section - minimal */
+        .quantity-section {
+            display: flex;
+            align-items: center;
+            padding: 4px 6px;
+            gap: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Divider - thin */
+        .divider {
+            width: 1px;
+            background-color: #000000;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            margin: 0 2px;
+        }
+
+        /* Quantity buttons - minimal */
+        .quantity-btn {
+            background: none;
+            border: none;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #000000;
+            width: 14px;
+            height: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            line-height: 1;
+            padding: 0;
+        }
+
+        /* Quantity display - minimal */
+        .quantity-display {
+            font-size: 11px;
+            font-weight: 600;
+            min-width: 10px;
+            text-align: center;
+            color: #000000;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Add to Cart section - proportional padding */
+        .add-to-cart-section {
+            padding: 4px 12px;
+            color: #000000;
+            transition: color 0.2s ease;
+            position: relative;
+            z-index: 1;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        /* Text turns white when terracotta overlay reaches it */
+        .add-to-cart-btn:hover .add-to-cart-section {
+            color: #ffffff;
+        }
+
+        /* Collection Navigation */
+        .collection-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .collection-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: var(--foreground);
+        }
+
+        .collection-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .collection-card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--foreground);
+        }
+
+        .collection-card p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* Button styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border);
+            font-weight: 400;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--background);
+            border-color: var(--accent);
+        }
+
+        .btn-primary:hover {
+            background: var(--foreground);
+            border-color: var(--foreground);
+        }
+
+        .section {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--foreground);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .collection-nav {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header - Universal Navigation -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">printed poster</div>
+                <nav>
+                    <ul class="nav">
+                        <li><a href="#">shop</a></li>
+                        <li><a href="#" class="active">collections</a></li>
+                        <li><a href="#">about</a></li>
+                        <li><a href="#">cart</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumbs">
+            <a href="#">Home</a> / <a href="#">Collections</a> / Botanical Studies
+        </nav>
+
+        <!-- Collection Header -->
+        <section class="collection-header">
+            <h1>Botanical Studies</h1>
+            <p class="collection-description">
+                Discover our curated collection of botanical illustrations, from classical herbarium studies
+                to contemporary interpretations of nature's intricate beauty.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <button class="btn btn-primary">Browse All Botanical</button>
+                <button class="btn">Filter by Style</button>
+            </div>
+        </section>
+
+        <!-- Filter Bar -->
+        <section class="filter-bar">
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <span class="filter-label">Filter by:</span>
+                    <select class="filter-select">
+                        <option>All Styles</option>
+                        <option>Classical</option>
+                        <option>Contemporary</option>
+                        <option>Minimalist</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Sizes</option>
+                        <option>Small (18x24)</option>
+                        <option>Medium (24x36)</option>
+                        <option>Large (36x48)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Sort by:</span>
+                    <select class="sort-select">
+                        <option>Featured</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                        <option>Newest</option>
+                        <option>Popular</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Grid -->
+        <section class="section">
+            <div class="product-grid">
+                <div class="card">
+                    <div class="card-image">
+                        Botanical Study I
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Botanical Study I</h3>
+                        <p class="card-description">Classical herbarium illustration with intricate botanical details.</p>
+                        <div class="card-footer">
+                            <span class="price">$85.00</span>
+                            <button class="add-to-cart-btn">
+                                <div class="quantity-section">
+                                    <span class="quantity-btn">−</span>
+                                    <span class="quantity-display">1</span>
+                                    <span class="quantity-btn">+</span>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="add-to-cart-section">
+                                    Add to Cart
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">
+                        Fern Collection
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Fern Collection</h3>
+                        <p class="card-description">Contemporary fern illustrations with minimalist design approach.</p>
+                        <div class="card-footer">
+                            <span class="price">$95.00</span>
+                            <button class="add-to-cart-btn">
+                                <div class="quantity-section">
+                                    <span class="quantity-btn">−</span>
+                                    <span class="quantity-display">1</span>
+                                    <span class="quantity-btn">+</span>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="add-to-cart-section">
+                                    Add to Cart
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">
+                        Wildflowers Series
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Wildflowers Series</h3>
+                        <p class="card-description">Vibrant wildflower illustrations celebrating nature's diversity.</p>
+                        <div class="card-footer">
+                            <span class="price">$105.00</span>
+                            <button class="add-to-cart-btn">
+                                <div class="quantity-section">
+                                    <span class="quantity-btn">−</span>
+                                    <span class="quantity-display">1</span>
+                                    <span class="quantity-btn">+</span>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="add-to-cart-section">
+                                    Add to Cart
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">
+                        Medicinal Herbs
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Medicinal Herbs</h3>
+                        <p class="card-description">Traditional botanical drawings of medicinal plants and herbs.</p>
+                        <div class="card-footer">
+                            <span class="price">$90.00</span>
+                            <button class="add-to-cart-btn">
+                                <div class="quantity-section">
+                                    <span class="quantity-btn">−</span>
+                                    <span class="quantity-display">1</span>
+                                    <span class="quantity-btn">+</span>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="add-to-cart-section">
+                                    Add to Cart
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">
+                        Succulent Study
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Succulent Study</h3>
+                        <p class="card-description">Geometric succulent illustrations with architectural precision.</p>
+                        <div class="card-footer">
+                            <span class="price">$80.00</span>
+                            <button class="add-to-cart-btn">
+                                <div class="quantity-section">
+                                    <span class="quantity-btn">−</span>
+                                    <span class="quantity-display">1</span>
+                                    <span class="quantity-btn">+</span>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="add-to-cart-section">
+                                    Add to Cart
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">
+                        Tropical Leaves
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Tropical Leaves</h3>
+                        <p class="card-description">Bold tropical leaf illustrations with dramatic scale and form.</p>
+                        <div class="card-footer">
+                            <span class="price">$110.00</span>
+                            <button class="add-to-cart-btn">
+                                <div class="quantity-section">
+                                    <span class="quantity-btn">−</span>
+                                    <span class="quantity-display">1</span>
+                                    <span class="quantity-btn">+</span>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="add-to-cart-section">
+                                    Add to Cart
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Collections -->
+        <section class="section">
+            <h2 class="section-title">Explore More Collections</h2>
+            <div class="collection-nav">
+                <a href="#" class="collection-card">
+                    <h3>Abstract Art</h3>
+                    <p>Contemporary abstract compositions</p>
+                </a>
+
+                <a href="#" class="collection-card">
+                    <h3>Typography</h3>
+                    <p>Letterforms and typographic art</p>
+                </a>
+
+                <a href="#" class="collection-card">
+                    <h3>Architecture</h3>
+                    <p>Architectural studies and blueprints</p>
+                </a>
+
+                <a href="#" class="collection-card">
+                    <h3>Minimalist</h3>
+                    <p>Clean, simple geometric designs</p>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Simple hover effects
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.boxShadow = '0 8px 25px rgba(42, 39, 36, 0.08)';
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.boxShadow = 'none';
+            });
+        });
+
+        // Advanced Add to Cart button functionality with quantity controls
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            const minusBtn = button.querySelector('.quantity-btn:first-child');
+            const plusBtn = button.querySelector('.quantity-btn:last-child');
+            const quantityDisplay = button.querySelector('.quantity-display');
+            const addToCartSection = button.querySelector('.add-to-cart-section');
+
+            let quantity = 1;
+
+            // Quantity controls
+            minusBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (quantity > 1) {
+                    quantity--;
+                    quantityDisplay.textContent = quantity;
+                }
+            });
+
+            plusBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                quantity++;
+                quantityDisplay.textContent = quantity;
+            });
+
+            // Add to cart functionality
+            button.addEventListener('click', function(e) {
+                // Only trigger if clicking the "Add to Cart" section, not quantity controls
+                if (!e.target.closest('.quantity-btn')) {
+                    const productTitle = this.closest('.card').querySelector('.card-title').textContent;
+
+                    // Visual feedback - text changes and stays terracotta
+                    addToCartSection.textContent = 'Added!';
+                    addToCartSection.style.color = '#ffffff';
+                    button.style.backgroundColor = '#d4a574'; // Full terracotta background
+
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        addToCartSection.textContent = 'Add to Cart';
+                        addToCartSection.style.color = '#000000';
+                        button.style.backgroundColor = '#8b7355'; // Back to warm taupe
+                    }, 2000);
+
+                    console.log(`Added ${quantity} x "${productTitle}" to cart`);
+                    // In a real implementation, this would add the item to cart
+                }
+            });
+        });
+
+        // Filter functionality demo
+        document.querySelectorAll('.filter-select, .sort-select').forEach(select => {
+            select.addEventListener('change', () => {
+                console.log('Filter changed:', select.value);
+                // In a real implementation, this would trigger filtering/sorting
+            });
+        });
+    </script>
+</body>
+</html>
