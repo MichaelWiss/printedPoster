@@ -49,7 +49,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
               alt={firstImage.altText || product.title}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           </div>
         )}

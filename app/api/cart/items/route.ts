@@ -20,18 +20,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Cart not found' }, { status: 404 })
     }
 
-    const cartItem = await cartService.addItemToCart(cart.id, {
-      productId,
-      variantId,
-      title,
-      handle,
-      price: parseFloat(price),
-      imageUrl,
-      quantity: parseInt(quantity)
-    })
-
-    // Update cart activity
-    await cartService.updateCartActivity(cart.id)
+    // Add item and update activity in parallel
+    const [cartItem] = await Promise.all([
+      cartService.addItemToCart(cart.id, {
+        productId,
+        variantId,
+        title,
+        handle,
+        price: parseFloat(price),
+        imageUrl,
+        quantity: parseInt(quantity)
+      }),
+      cartService.updateCartActivity(cart.id)
+    ])
 
     return NextResponse.json({ cartItem })
   } catch (error) {

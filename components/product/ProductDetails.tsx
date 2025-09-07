@@ -34,7 +34,7 @@ export function ProductDetails({ product }: Props) {
 						alt={firstImage.altText || product.title}
 						fill
 						className="object-cover rounded-lg"
-						sizes="(max-width: 768px) 100vw, 50vw"
+						sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
 					/>
 				</div>
 			)}

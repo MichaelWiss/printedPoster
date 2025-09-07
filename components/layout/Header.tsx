@@ -33,7 +33,7 @@
  */
 
 import Link from 'next/link'
-import { MobileMenu } from './MobileMenu'
+import { ClientMobileMenu } from './ClientMobileMenu'
 import { CartCounter } from '@/components/cart/CartCounter'
 
 export function Header() {
@@ -118,8 +118,8 @@ export function Header() {
               <CartCounter />
             </Link>
 
-            {/* Mobile menu - Firefox-compatible client component */}
-            <MobileMenu />
+            {/* Mobile menu - loaded client-side to reduce initial bundle */}
+            <ClientMobileMenu />
             
           </div>
         </nav>
@@ -128,3 +128,4 @@ export function Header() {
     </header>
   )
 }
+

@@ -1,3 +1,5 @@
+// Incremental Static Regeneration for store page
+export const revalidate = 60;
 /**
  * Store Page Component
  *
@@ -5,7 +7,6 @@
  * Uses Server Components for direct data fetching and initial render.
  */
 
-import Image from 'next/image'
 import { getProducts } from '@/lib/shopify/client'
 import { StoreProductsGrid } from '@/components/store/StoreProductsGrid'
 

@@ -12,15 +12,19 @@ const inter = Inter({
   weight: ['400', '500', '600'], // Reduced from 5 weights to 3 for faster loading
   display: 'swap',
   preload: true,
+  fallback: ['system-ui', 'Arial'],
+  adjustFontFallback: true,
 })
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
   weight: ['400', '600'], // Reduced from 4 weights to 2 for faster loading
-  display: 'swap',
+  display: 'optional',
   preload: false, // Disable preload for secondary font to improve initial page load
   style: ['normal'], // Removed italic for faster loading
+  fallback: ['Georgia', 'serif'],
+  adjustFontFallback: true,
 })
 
 export const metadata: Metadata = {

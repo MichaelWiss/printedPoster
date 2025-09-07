@@ -1,14 +1,16 @@
-import { ClientHeroSlider } from '@/components/hero/ClientHeroSlider'
-import { FeaturedProducts } from '@/components/sections/FeaturedProducts'
+// Incremental Static Regeneration for home page
+export const revalidate = 60;
+import { HeroAboveFold } from '@/components/hero/HeroAboveFold'
+import { FeaturedProductsLite } from '@/components/sections/FeaturedProductsLite'
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-cream-base text-deep-charcoal">
-      {/* Hero Section */}
-      <ClientHeroSlider />
+  {/* Hero Section: server-rendered for fast LCP */}
+  <HeroAboveFold />
       
-      {/* Featured Products */}
-      <FeaturedProducts />
+  {/* Featured Products (server-only lightweight cards) */}
+  <FeaturedProductsLite />
       
       {/* Additional content sections can be added here */}
       <section className="py-16 bg-pure-white">

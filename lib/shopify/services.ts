@@ -1,17 +1,19 @@
 import { prisma } from '../db/prisma'
 import { storefrontClient } from './client'
 
-export async function createCart() {
+// You must provide a userId to create a cart
+export async function createCart(userId: string) {
   // Create cart in Shopify via GraphQL mutation
   // Store cart reference in Prisma
   const cart = await prisma.cart.create({
     data: {
-      checkoutUrl: null,
+      userId
     }
   })
   return cart
 }
 
+// Limit cart lines to 20 and only fetch needed fields
 const GetCartQuery = `
   query GetCart($cartId: ID!) {
     cart(id: $cartId) {
@@ -23,7 +25,7 @@ const GetCartQuery = `
           currencyCode
         }
       }
-      lines(first: 100) {
+      lines(first: 20) {
         edges {
           node {
             id
@@ -32,14 +34,8 @@ const GetCartQuery = `
               ... on ProductVariant {
                 id
                 title
-                price {
-                  amount
-                  currencyCode
-                }
-                product {
-                  title
-                  handle
-                }
+                price { amount currencyCode }
+                product { title handle }
               }
             }
           }

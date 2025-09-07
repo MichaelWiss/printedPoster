@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    // In this case, only one async call, so no Promise.all needed
     const cart = await cartService.getUserCart(session.user.email)
 
     return NextResponse.json({ cart })
@@ -28,11 +29,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const body = await request.json()
+    // Parse body and get cart in parallel
+    const [body, existingCart] = await Promise.all([
+      request.json(),
+      cartService.getUserCart(session.user.email)
+    ])
     const { items } = body
 
-    let cart = await cartService.getUserCart(session.user.email)
-
+    let cart = existingCart
     if (!cart) {
       cart = await cartService.createUserCart(session.user.email, items)
     }

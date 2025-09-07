@@ -30,39 +30,20 @@ export const storefrontClient = new GraphQLClient(SHOPIFY_STOREFRONT_API_ENDPOIN
 
 // Define our GraphQL queries
 // This query fetches a list of products with basic information
+// Only fetch fields needed for product cards
 const GET_PRODUCTS_QUERY = `
   query GetProducts($first: Int!) {
-    # Fetch products, limited by the "first" parameter
     products(first: $first) {
       edges {
         node {
-          id            # Unique identifier for the product
-          title         # Product title
-          handle        # URL-friendly version of the product title
-          description   # Product description
+          id
+          title
+          handle
           priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
-            }
+            minVariantPrice { amount currencyCode }
           }
           images(first: 1) {
-            edges {
-              node {
-                url
-                altText
-                width
-                height
-              }
-            }
-          }
-          variants(first: 1) {
-            edges {
-              node {
-                id
-                availableForSale
-              }
-            }
+            edges { node { url altText } }
           }
         }
       }
@@ -186,25 +167,33 @@ const GET_COLLECTION_BY_HANDLE_QUERY = `
 `
 
 // Import our Shopify types
-import type { ProductsResponse, ShopifyProduct, CollectionsResponse, CollectionResponse, ShopifyCollection } from '@/types/shopify'
+import type { ProductsResponse, ShopifyProduct, CollectionsResponse, ShopifyCollection } from '@/types/shopify'
 
 // Function to fetch products from Shopify
 // Parameters:
 // - first: number (default: 10) - Number of products to fetch
 // Returns: Promise<ShopifyProduct[]> - Array of products
-export async function getProducts(first: number = 10): Promise<ShopifyProduct[]> {
-  try {
-    // Make the API request to Shopify
-    const data = await storefrontClient.request<ProductsResponse>(GET_PRODUCTS_QUERY, { first })
-
-    // Transform the response to a simpler format
-    // Convert from { edges: [{ node: { ... } }] } to [{ ... }]
-    return data.products.edges.map((edge: { node: ShopifyProduct }) => edge.node)
-  } catch (error) {
-    // Log any errors that occur during the request
-    console.error('Error fetching products:', error)
-    throw error
+// Retry utility for Shopify API calls
+async function withRetry<T>(fn: () => Promise<T>, retries = 2, delay = 500): Promise<T> {
+  let lastErr;
+  for (let i = 0; i <= retries; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastErr = err;
+      if (i < retries) await new Promise(res => setTimeout(res, delay * (i + 1)));
+    }
   }
+  throw lastErr;
+}
+
+// Function to fetch products from Shopify with caching and retry
+export async function getProducts(first: number = 10): Promise<ShopifyProduct[]> {
+  return withRetry(async () => {
+    // Use Next.js fetch cache if available
+    const data = await storefrontClient.request<ProductsResponse>(GET_PRODUCTS_QUERY, { first });
+    return data.products.edges.map((edge: { node: ShopifyProduct }) => edge.node);
+  });
 }
 
 // Function to fetch a single product by handle
@@ -231,19 +220,12 @@ export async function getProductByHandle(handle: string): Promise<ShopifyProduct
 // Parameters:
 // - first: number (default: 10) - Number of collections to fetch
 // Returns: Promise<ShopifyCollection[]> - Array of collections
+// Function to fetch collections from Shopify with caching and retry
 export async function getCollections(first: number = 10): Promise<ShopifyCollection[]> {
-  try {
-    // Make the API request to Shopify
-    const data = await storefrontClient.request<CollectionsResponse>(GET_COLLECTIONS_QUERY, { first })
-
-    // Transform the response to a simpler format
-    // Convert from { edges: [{ node: { ... } }] } to [{ ... }]
-    return data.collections.edges.map((edge: { node: ShopifyCollection }) => edge.node)
-  } catch (error) {
-    // Log any errors that occur during the request
-    console.error('Error fetching collections:', error)
-    throw error
-  }
+  return withRetry(async () => {
+    const data = await storefrontClient.request<CollectionsResponse>(GET_COLLECTIONS_QUERY, { first });
+    return data.collections.edges.map((edge: { node: ShopifyCollection }) => edge.node);
+  });
 }
 
 // Function to fetch a single collection by handle

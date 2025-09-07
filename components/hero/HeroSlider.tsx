@@ -68,6 +68,8 @@ export function HeroSlider() {
           fill
           className="object-cover transition-opacity duration-1000"
           priority
+          fetchPriority="high"
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-black/30" />
       </div>

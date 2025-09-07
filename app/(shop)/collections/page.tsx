@@ -1,3 +1,5 @@
+// Enable ISR: revalidate every 60 seconds
+export const revalidate = 60;
 import Link from 'next/link'
 import Image from 'next/image'
 import { getCollections } from '@/lib/shopify/client'
@@ -40,7 +42,7 @@ export default async function CollectionsPage() {
                     alt={collection.image.altText || collection.title}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
               )}

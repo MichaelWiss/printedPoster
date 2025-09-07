@@ -1,0 +1,14 @@
+# Exclude documentation, mockups, and test files from npm package and production deployments
+*.md
+add-to-cart-demo*.html
+add-to-cart-sizes.html
+Headless/printedPoster/VISUAL_MOCKUP.html
+Headless/printedPoster/COLLECTION_PAGE_EXAMPLE.html
+Headless/printedPoster/lib/shopify/__tests__/
+Headless/printedPoster/tsconfig.tsbuildinfo
+.DS_Store
+Headless/printedPoster/public/file.svg
+Headless/printedPoster/public/globe.svg
+Headless/printedPoster/public/next.svg
+Headless/printedPoster/public/vercel.svg
+Headless/printedPoster/public/window.svg

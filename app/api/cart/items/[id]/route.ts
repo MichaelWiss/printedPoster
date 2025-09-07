@@ -16,13 +16,13 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     const body = await request.json()
     const { quantity } = body
 
-    const cartItem = await cartService.updateCartItem(id, parseInt(quantity))
+    // Update cart item and fetch cart in parallel
+    const [cartItem, cart] = await Promise.all([
+      cartService.updateCartItem(id, parseInt(quantity)),
+      prisma.cart.findFirst({ where: { items: { some: { id } } } })
+    ])
 
-    // Find the cart and update its activity
-    const cart = await prisma.cart.findFirst({
-      where: { items: { some: { id } } }
-    })
-
+    // Update cart activity if cart found
     if (cart) {
       await cartService.updateCartActivity(cart.id)
     }
