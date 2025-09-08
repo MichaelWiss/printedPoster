@@ -51,6 +51,23 @@ const GET_PRODUCTS_QUERY = `
   }
 `
 
+// Search products by a free-text query (Shopify search syntax supported)
+const SEARCH_PRODUCTS_QUERY = `
+  query SearchProducts($query: String!, $first: Int!) {
+    products(first: $first, query: $query) {
+      edges {
+        node {
+          id
+          title
+          handle
+          priceRange { minVariantPrice { amount currencyCode } }
+          images(first: 1) { edges { node { url altText } } }
+        }
+      }
+    }
+  }
+`
+
 // This query fetches a single product by handle
 const GET_PRODUCT_BY_HANDLE_QUERY = `
   query GetProductByHandle($handle: String!) {
@@ -194,6 +211,16 @@ export async function getProducts(first: number = 10): Promise<ShopifyProduct[]>
     const data = await storefrontClient.request<ProductsResponse>(GET_PRODUCTS_QUERY, { first });
     return data.products.edges.map((edge: { node: ShopifyProduct }) => edge.node);
   });
+}
+
+// Search products by text query. Minimum trimming and length handling should be done by caller.
+export async function searchProducts(query: string, first: number = 20): Promise<ShopifyProduct[]> {
+  const q = (query || '').trim()
+  if (!q) return []
+  return withRetry(async () => {
+    const data = await storefrontClient.request<ProductsResponse>(SEARCH_PRODUCTS_QUERY, { query: q, first });
+    return data.products.edges.map((edge: { node: ShopifyProduct }) => edge.node);
+  })
 }
 
 // Function to fetch a single product by handle

@@ -111,12 +111,12 @@
 - [x] **Cart UI Components** ✅ **COMPLETED**
   - [x] Redesign `CartDrawer.tsx` with new design system ✅ **COMPLETED**
   - [x] Improve `CartItem.tsx` component layout ✅ **COMPLETED**
-  - [ ] Add loading states for cart operations
+  - [x] Add loading states for cart operations ✅ **COMPLETED**
   - [x] Implement optimistic UI updates ✅ **COMPLETED**
 
 ### 🏪 Product Catalog Features
 - [ ] **Product Search & Filtering**
-  - [ ] Implement search functionality with Shopify API
+  - [x] Implement search functionality with Shopify API ✅ **COMPLETED**
   - [ ] Add product filtering by categories/tags
   - [ ] Create price range filtering
   - [ ] Add sorting options (price, popularity, newest)

@@ -50,17 +50,22 @@ export class MigrationService {
   validateLocalStorageData(items: unknown[]): boolean {
     if (!Array.isArray(items)) return false
 
-    return items.every(item =>
-      item &&
-      typeof item === 'object' &&
-      item.id &&
-      item.product &&
-      typeof item.product === 'object' &&
-      item.product.id &&
-      item.product.title &&
-      typeof item.quantity === 'number' &&
-      item.quantity > 0
-    )
+    type UnknownItem = {
+      id?: unknown
+      product?: { id?: unknown; title?: unknown } | unknown
+      quantity?: unknown
+    }
+
+    return items.every((item) => {
+      if (!item || typeof item !== 'object') return false
+      const obj = item as UnknownItem
+      if (obj.id == null) return false
+      if (!obj.product || typeof obj.product !== 'object') return false
+      const prod = obj.product as { id?: unknown; title?: unknown }
+      if (prod.id == null || prod.title == null) return false
+      if (typeof obj.quantity !== 'number' || obj.quantity <= 0) return false
+      return true
+    })
   }
 
   // Backup localStorage before migration

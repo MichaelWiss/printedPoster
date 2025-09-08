@@ -35,6 +35,7 @@
 import Link from 'next/link'
 import { ClientMobileMenu } from './ClientMobileMenu'
 import { CartCounter } from '@/components/cart/CartCounter'
+import { SearchBar } from '@/components/layout/SearchBar'
 
 export function Header() {
   return (
@@ -93,17 +94,8 @@ export function Header() {
           {/* Right section: Actions and mobile menu */}
           <div className="flex items-center gap-4">
             
-            {/* Search functionality - always visible */}
-            {/* Uses icon + text pattern for clarity */}
-            <Link 
-              href="/search" 
-              className="text-body-sm text-deep-charcoal/70 hover:text-sage-green transition-colors duration-200 flex items-center gap-2"
-              aria-label="Search products"
-            >
-              <span className="sr-only lg:not-sr-only">Search</span>
-              {/* Search icon placeholder - would use actual icon */}
-              <span className="text-lg">🔍</span>
-            </Link>
+            {/* Search functionality using existing icon in header */}
+            <SearchBar />
             
             {/* Cart with item count - primary conversion action */}
             {/* Uses btn-primary from design system with accent styling */}

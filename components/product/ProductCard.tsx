@@ -5,12 +5,12 @@
  * Links to the product detail page and includes hover effects.
  */
 
-'use client'
+"use client"
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
 import type { ShopifyProduct } from '@/types/shopify'
+import AdvancedAddToCartButton from '@/components/product/AdvancedAddToCartButton'
 
 // Define the props interface for type safety
 interface ProductCardProps {
@@ -21,16 +21,10 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onClick }: ProductCardProps) {
-  const [quantity, setQuantity] = useState(1)
-
   // Extract the first image from the product's images array
   const firstImage = product.images?.edges[0]?.node
   // Get the price information
   const price = product.priceRange?.minVariantPrice
-
-  const handleQuantityChange = (change: number) => {
-    setQuantity(prev => Math.max(1, prev + change))
-  }
 
   return (
     // Link wrapper makes the entire card clickable
@@ -71,32 +65,8 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
             <span className="text-sm text-warm-gray">Free shipping</span>
           </div>
 
-          {/* Advanced Add to Cart Button */}
-          <div className="relative">
-            <button className="add-to-cart-btn w-full" onClick={(e) => e.preventDefault()}>
-              <div className="quantity-section">
-                <span
-                  className="quantity-btn"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleQuantityChange(-1)
-                  }}
-                >−</span>
-                <span className="quantity-display">{quantity}</span>
-                <span
-                  className="quantity-btn"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleQuantityChange(1)
-                  }}
-                >+</span>
-              </div>
-              <div className="divider"></div>
-              <div className="add-to-cart-section">
-                Add to Cart
-              </div>
-            </button>
-          </div>
+          {/* Advanced Add to Cart Button (inside Link-wrapped card) */}
+          <AdvancedAddToCartButton product={product} />
         </div>
       </div>
     </Link>

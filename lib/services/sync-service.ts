@@ -100,28 +100,35 @@ export class SyncService {
   }
 
   // Handle sync conflicts (server vs local)
-  async resolveSyncConflict(localItems: unknown[], serverItems: unknown[]) {
+  async resolveSyncConflict(
+    localItems: Array<{
+      id: string
+      product: { id: string; title: string; handle: string } & Record<string, unknown>
+      quantity: number
+    }>,
+    serverItems: Array<import('./cart-service').CartItemData & { id?: string }>
+  ) {
     // Strategy: Server wins, but preserve local additions
-    const serverItemMap = new Map(serverItems.map(item => [item.productId, item]))
+    const serverItemMap = new Map(serverItems.map((item) => [item.productId, item]))
 
-    const resolvedItems = localItems.map(localItem => {
+    const resolvedItems = localItems.map((localItem) => {
       const serverItem = serverItemMap.get(localItem.product.id)
       if (serverItem) {
         // Merge quantities if both exist
         return {
           ...localItem,
-          quantity: Math.max(localItem.quantity, serverItem.quantity)
+          quantity: Math.max(localItem.quantity, serverItem.quantity),
         }
       }
       return localItem
     })
 
     // Add server-only items
-    serverItems.forEach(serverItem => {
-      const existsLocally = localItems.some(item => item.product.id === serverItem.productId)
+    serverItems.forEach((serverItem) => {
+      const existsLocally = localItems.some((item) => item.product.id === serverItem.productId)
       if (!existsLocally) {
         resolvedItems.push({
-          id: `server-${serverItem.id}`,
+          id: `server-${serverItem.id ?? serverItem.productId}`,
           product: {
             id: serverItem.productId,
             title: serverItem.title,
@@ -129,27 +136,33 @@ export class SyncService {
             priceRange: {
               minVariantPrice: {
                 amount: serverItem.price.toString(),
-                currencyCode: 'USD'
-              }
+                currencyCode: 'USD',
+              },
             },
-            images: serverItem.imageUrl ? {
-              edges: [{
-                node: {
-                  url: serverItem.imageUrl,
-                  altText: serverItem.title
+            images: serverItem.imageUrl
+              ? {
+                  edges: [
+                    {
+                      node: {
+                        url: serverItem.imageUrl,
+                        altText: serverItem.title,
+                      },
+                    },
+                  ],
                 }
-              }]
-            } : { edges: [] },
+              : { edges: [] },
             variants: {
-              edges: [{
-                node: {
-                  id: serverItem.variantId,
-                  availableForSale: true
-                }
-              }]
-            }
+              edges: [
+                {
+                  node: {
+                    id: serverItem.variantId,
+                    availableForSale: true,
+                  },
+                },
+              ],
+            },
           },
-          quantity: serverItem.quantity
+          quantity: serverItem.quantity,
         })
       }
     })

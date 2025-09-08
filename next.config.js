@@ -1,8 +1,9 @@
-
 /** @type {import('next').NextConfig} */
 module.exports = {
 	reactStrictMode: true,
 	images: {
+		// Enable modern formats for photographic images
+		formats: ['image/avif', 'image/webp'],
 		remotePatterns: [
 			{
 				protocol: 'https',
@@ -27,5 +28,5 @@ module.exports = {
 		removeConsole: process.env.NODE_ENV === 'production',
 	},
 	// Fix multiple lockfile warning
-	outputFileTracingRoot: require('path').join(process.cwd()),
+	outputFileTracingRoot: process.cwd(),
 }

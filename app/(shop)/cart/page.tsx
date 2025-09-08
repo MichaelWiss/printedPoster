@@ -9,10 +9,9 @@ import {
   useCartLoading,
   useCartError,
   useCartTotal,
-  useIsAuthenticated
+  
 } from '@/stores/cart-store'
 import { LoadingButton } from '@/components/ui/LoadingButton'
-import { CartItemSkeleton } from '@/components/ui/CartItemSkeleton'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { SyncStatus } from '@/components/cart/SyncStatus'
 
@@ -22,7 +21,6 @@ export default function CartPage() {
   const isLoading = useCartLoading()
   const error = useCartError()
   const total = useCartTotal()
-  const isAuthenticated = useIsAuthenticated()
 
   const handleUpdateQuantity = async (id: string, newQuantity: number) => {
     if (newQuantity < 0) return

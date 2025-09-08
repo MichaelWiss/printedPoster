@@ -1,35 +1,15 @@
 import React from 'react'
-import { useCartItems, useCartActions, useCartLoading, useCartError, useIsAuthenticated } from '@/stores/cart-store'
+import { useCartItems, useCartActions, useCartLoading, useCartError } from '@/stores/cart-store'
 import { LoadingButton } from '@/components/ui/LoadingButton'
-import { CartItemSkeleton } from '@/components/ui/CartItemSkeleton'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { SyncStatus } from './SyncStatus'
+import { CartItem as CartItemRow } from './CartItem'
 
 export function CartDrawer() {
   const items = useCartItems()
-  const { updateQuantity, removeItem, clear, clearError } = useCartActions()
+  const { clear, clearError } = useCartActions()
   const isLoading = useCartLoading()
   const error = useCartError()
-  const isAuthenticated = useIsAuthenticated()
-
-  const handleUpdateQuantity = async (id: string, newQuantity: number) => {
-    if (newQuantity < 0) return
-    try {
-      await updateQuantity(id, newQuantity)
-    } catch (error) {
-      // Error is handled by the store
-      console.error('Failed to update quantity:', error)
-    }
-  }
-
-  const handleRemoveItem = async (id: string) => {
-    try {
-      await removeItem(id)
-    } catch (error) {
-      // Error is handled by the store
-      console.error('Failed to remove item:', error)
-    }
-  }
 
   const handleClearCart = async () => {
     try {
@@ -42,6 +22,12 @@ export function CartDrawer() {
 
   return (
     <aside className="fixed right-0 top-0 h-full w-80 bg-cream-base shadow-lg p-4 overflow-y-auto">
+      {/* Global loading indicator */}
+      {isLoading && (
+        <div className="absolute left-0 top-0 h-1 w-full">
+          <div className="h-full w-full bg-sage-green animate-pulse" />
+        </div>
+      )}
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-deep-charcoal">Your cart</h3>
         <div className="text-right">
@@ -64,61 +50,7 @@ export function CartDrawer() {
           <p className="text-sm text-warm-gray">Cart is empty</p>
         ) : (
           items.map(item => (
-            <div key={item.id} className="flex items-center justify-between p-3 border border-border-gray rounded-lg">
-              <div className="flex-1 min-w-0">
-                <p className="font-medium text-deep-charcoal text-sm truncate">{item.product.title}</p>
-                <p className="text-xs text-warm-gray mt-1">Qty: {item.quantity}</p>
-                {item.product.priceRange?.minVariantPrice && (
-                  <p className="text-sm font-semibold text-terracotta mt-1">
-                    {new Intl.NumberFormat('en-US', {
-                      style: 'currency',
-                      currency: item.product.priceRange.minVariantPrice.currencyCode || 'USD'
-                    }).format(parseFloat(item.product.priceRange.minVariantPrice.amount) * item.quantity)}
-                  </p>
-                )}
-              </div>
-
-              <div className="flex items-center gap-2 ml-3">
-                {/* Quantity Controls */}
-                <div className="flex items-center gap-1">
-                  <LoadingButton
-                    onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
-                    disabled={item.quantity <= 1 || isLoading}
-                    className="w-8 h-8 flex items-center justify-center border border-border-gray rounded text-sm hover:bg-light-gray transition-colors"
-                    loading={isLoading}
-                    loadingText=""
-                    spinnerSize="xs"
-                  >
-                    -
-                  </LoadingButton>
-
-                  <span className="w-8 text-center text-sm font-medium">{item.quantity}</span>
-
-                  <LoadingButton
-                    onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-                    disabled={isLoading}
-                    className="w-8 h-8 flex items-center justify-center border border-border-gray rounded text-sm hover:bg-light-gray transition-colors"
-                    loading={isLoading}
-                    loadingText=""
-                    spinnerSize="xs"
-                  >
-                    +
-                  </LoadingButton>
-                </div>
-
-                {/* Remove Button */}
-                <LoadingButton
-                  onClick={() => handleRemoveItem(item.id)}
-                  disabled={isLoading}
-                  className="text-xs text-red-600 hover:text-red-800 underline disabled:opacity-50"
-                  loading={isLoading}
-                  loadingText="Removing..."
-                  spinnerSize="xs"
-                >
-                  Remove
-                </LoadingButton>
-              </div>
-            </div>
+            <CartItemRow key={item.id} id={item.id} />
           ))
         )}
       </div>
