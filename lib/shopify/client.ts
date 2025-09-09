@@ -31,6 +31,7 @@ export const storefrontClient = new GraphQLClient(SHOPIFY_STOREFRONT_API_ENDPOIN
 // Define our GraphQL queries
 // This query fetches a list of products with basic information
 // Only fetch fields needed for product cards
+import type { ProductsResponse, ShopifyProduct, CollectionsResponse, ShopifyCollection, ShopifyProductFilter, ProductConnection } from '@/types/shopify'
 const GET_PRODUCTS_QUERY = `
   query GetProducts($first: Int!) {
     products(first: $first) {
@@ -47,6 +48,28 @@ const GET_PRODUCTS_QUERY = `
           }
         }
       }
+    }
+  }
+`
+
+// Filtered products with query/filters/sort/pagination
+const GET_PRODUCTS_FILTERED = `
+  query GetProductsFiltered($first: Int = 24, $after: String, $query: String, $filters: [ProductFilter!], $sortKey: ProductSortKeys, $reverse: Boolean) {
+    products(first: $first, after: $after, query: $query, filters: $filters, sortKey: $sortKey, reverse: $reverse) {
+      edges {
+        cursor
+        node {
+          id
+          title
+          handle
+          description
+          tags
+          priceRange { minVariantPrice { amount currencyCode } }
+          images(first: 1) { edges { node { url altText width height } } }
+          variants(first: 1) { edges { node { id availableForSale } } }
+        }
+      }
+      pageInfo { hasNextPage hasPreviousPage startCursor endCursor }
     }
   }
 `
@@ -183,14 +206,15 @@ const GET_COLLECTION_BY_HANDLE_QUERY = `
         pageInfo {
           hasNextPage
           hasPreviousPage
+          startCursor
+          endCursor
         }
       }
     }
   }
 `
 
-// Import our Shopify types
-import type { ProductsResponse, ShopifyProduct, CollectionsResponse, ShopifyCollection, ShopifyProductFilter } from '@/types/shopify'
+// (types imported at top)
 
 // Function to fetch products from Shopify
 // Parameters:
@@ -226,6 +250,29 @@ export async function searchProducts(query: string, first: number = 20): Promise
   return withRetry(async () => {
     const data = await storefrontClient.request<ProductsResponse>(SEARCH_PRODUCTS_QUERY, { query: q, first });
     return data.products.edges.map((edge: { node: ShopifyProduct }) => edge.node);
+  })
+}
+
+// Public helper: filter products globally (not scoped to a collection)
+export async function fetchProductsFiltered(params: {
+  first?: number
+  after?: string | null
+  query?: string | null
+  filters?: ShopifyProductFilter[]
+  sortKey?: 'PRICE' | 'CREATED_AT' | 'BEST_SELLING' | 'TITLE' | 'ID' | 'RELEVANCE'
+  reverse?: boolean
+}): Promise<ProductConnection> {
+  const variables = {
+    first: params.first ?? 24,
+    after: params.after ?? undefined,
+    query: params.query ?? undefined,
+    filters: params.filters && params.filters.length ? params.filters : undefined,
+    sortKey: params.sortKey,
+    reverse: params.reverse,
+  }
+  return withRetry(async () => {
+    const data = await storefrontClient.request<{ products: ProductConnection }>(GET_PRODUCTS_FILTERED, variables)
+    return data.products
   })
 }
 
@@ -285,6 +332,46 @@ export async function getCollectionByHandle(handle: string, opts?: { first?: num
     // Log any errors that occur during the request
     console.error('Error fetching collection by handle:', error)
     throw error
+  }
+}
+
+// Convenience: map friendly sort values to Shopify sort keys
+export function mapSort(sort?: string): { sortKey?: 'PRICE' | 'CREATED_AT' | 'BEST_SELLING' | 'TITLE' | 'ID' | 'RELEVANCE'; reverse?: boolean } {
+  switch ((sort || '').toLowerCase()) {
+    case 'price-asc':
+      return { sortKey: 'PRICE', reverse: false }
+    case 'price-desc':
+      return { sortKey: 'PRICE', reverse: true }
+    case 'popular':
+      return { sortKey: 'BEST_SELLING', reverse: false }
+    case 'newest':
+      return { sortKey: 'CREATED_AT', reverse: true }
+    case 'title-asc':
+      return { sortKey: 'TITLE', reverse: false }
+    case 'title-desc':
+      return { sortKey: 'TITLE', reverse: true }
+    default:
+      return {}
+  }
+}
+
+// Mapping for collection-scoped product sorting (uses ProductCollectionSortKeys)
+export function mapCollectionSort(sort?: string): { sortKey?: 'PRICE' | 'CREATED' | 'BEST_SELLING' | 'TITLE' | 'COLLECTION_DEFAULT' | 'MANUAL'; reverse?: boolean } {
+  switch ((sort || '').toLowerCase()) {
+    case 'price-asc':
+      return { sortKey: 'PRICE', reverse: false }
+    case 'price-desc':
+      return { sortKey: 'PRICE', reverse: true }
+    case 'popular':
+      return { sortKey: 'BEST_SELLING', reverse: false }
+    case 'newest':
+      return { sortKey: 'CREATED', reverse: true }
+    case 'title-asc':
+      return { sortKey: 'TITLE', reverse: false }
+    case 'title-desc':
+      return { sortKey: 'TITLE', reverse: true }
+    default:
+      return { sortKey: 'COLLECTION_DEFAULT', reverse: false }
   }
 }
 

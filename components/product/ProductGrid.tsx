@@ -10,6 +10,7 @@
 
 import type { ShopifyProduct } from '@/types/shopify'
 import { ProductCard } from './ProductCard'
+import ViewportFadeIn from '@/components/ui/ViewportFadeIn'
 
 /**
  * Props interface for the ProductGrid component
@@ -85,12 +86,13 @@ export function ProductGrid({
       w-full
       ${className}
     `.trim()}>
-      {products.map(product => (
-        <ProductCard 
-          key={product.id}
-          product={product}
-          onClick={() => onProductClick?.(product)}
-        />
+      {products.map((product, idx) => (
+        <ViewportFadeIn key={product.id} delayMs={(idx % 12) * 40}>
+          <ProductCard 
+            product={product}
+            onClick={() => onProductClick?.(product)}
+          />
+        </ViewportFadeIn>
       ))}
     </div>
   )

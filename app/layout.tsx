@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import { Header } from '@/components/layout/Header'
@@ -39,10 +40,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className={`${inter.className} antialiased bg-cream-base text-deep-charcoal`}>
+  <body className={`${inter.className} antialiased bg-cream-base text-deep-charcoal`}>
         <AuthProvider>
           <CartSyncProvider>
-            <Header />
+            <Suspense fallback={<div className="h-16" aria-hidden />}> 
+              <Header />
+            </Suspense>
             <main>{children}</main>
             <Footer />
           </CartSyncProvider>

@@ -1,6 +1,6 @@
-'use client'
+"use client"
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
@@ -47,7 +47,8 @@ export default function CartPage() {
     }
   }
 
-	return (
+  return (
+    <Suspense fallback={<main className="container mx-auto px-4 py-8 max-w-6xl"><div className="text-warm-gray">Loading cart…</div></main>}>
     <main className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="mb-8">
         <div className="flex items-center justify-between">
@@ -283,6 +284,7 @@ export default function CartPage() {
           </div>
         </div>
       )}
-		</main>
+    </main>
+    </Suspense>
   )
 }

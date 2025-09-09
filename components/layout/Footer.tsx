@@ -35,18 +35,18 @@
  * }
  */
 
-import Link from 'next/link'
-import { NewsletterSignup } from './NewsletterSignup'
+// import Link from 'next/link'
+// import { NewsletterSignup } from './NewsletterSignup'
 
 export function Footer() {
   // Use static year to prevent hydration mismatches between server and client
   // Update annually or make dynamic with proper hydration handling
-  const currentYear = 2025
+  // const currentYear = 2025
 
   return (
     // Main footer with dark charcoal background and cream text
     // Using Tailwind classes to prevent hydration issues
-    <footer className="mt-16 bg-deep-charcoal text-cream-base py-16">
+  <footer className="mt-16 bg-deep-charcoal text-cream-base py-16">
       
       {/* Main footer content container matching collection page layout */}
       <div className="container mx-auto px-4 lg:px-6">

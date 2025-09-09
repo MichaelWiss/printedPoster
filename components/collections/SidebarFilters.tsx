@@ -3,12 +3,12 @@
 import { useMemo } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-export interface CollectionFiltersProps {
+export interface SidebarFiltersProps {
   availableTags: string[]
   selectedTags: string[]
 }
 
-export function CollectionFilters({ availableTags, selectedTags }: CollectionFiltersProps) {
+export function SidebarFilters({ availableTags, selectedTags }: SidebarFiltersProps) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -17,6 +17,16 @@ export function CollectionFilters({ availableTags, selectedTags }: CollectionFil
     const sp = new URLSearchParams(searchParams?.toString())
     if (value && value.length) sp.set(key, value)
     else sp.delete(key)
+    sp.delete('after')
+    router.replace(`${pathname}?${sp.toString()}`)
+  }
+
+  const clearAll = () => {
+    const sp = new URLSearchParams(searchParams?.toString())
+    sp.delete('tags')
+    sp.delete('priceMin')
+    sp.delete('priceMax')
+    sp.delete('after')
     router.replace(`${pathname}?${sp.toString()}`)
   }
 
@@ -27,37 +37,33 @@ export function CollectionFilters({ availableTags, selectedTags }: CollectionFil
     if (next.has(tag)) next.delete(tag)
     else next.add(tag)
     const nextStr = Array.from(next).join(',')
-  // Update tags and reset pagination cursor
-  setParam('tags', nextStr)
-  setParam('after', undefined)
+    setParam('tags', nextStr)
   }
-
-  if (!availableTags?.length) return (
-    <div className="mb-8 border-b border-sage-green/20 pb-6" />
-  )
 
   const onPriceChange = (key: 'priceMin' | 'priceMax', raw: string) => {
     const val = raw.replace(/[^0-9.]/g, '')
-    const sp = new URLSearchParams(searchParams?.toString())
-    if (val) sp.set(key, val)
-    else sp.delete(key)
-    sp.delete('after')
-    router.replace(`${pathname}?${sp.toString()}`)
+    setParam(key, val || undefined)
   }
 
   return (
-    <div className="mb-8 border-b border-sage-green/20 pb-6">
-      {/* Price range */}
-      <fieldset aria-labelledby="price-legend" className="w-full mb-5">
-        <legend id="price-legend" className="text-sm font-medium text-deep-charcoal mb-3">
-          Price range
-        </legend>
+    <aside className="hidden md:block w-64 shrink-0 pr-6 border-r border-sage-green/20">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-base font-medium text-deep-charcoal tracking-wide">Filters</h2>
+        <button onClick={clearAll} className="text-sm text-warm-gray hover:text-deep-charcoal underline underline-offset-4">
+          Clear all
+        </button>
+      </div>
+
+      {/* Price */}
+      <section className="mb-8">
+        <h3 className="text-sm font-medium text-deep-charcoal mb-3">Price</h3>
         <div className="flex items-center gap-3">
           <input
             inputMode="decimal"
             pattern="[0-9]*"
             placeholder="Min"
-            className="w-28 h-9 rounded-md border border-sage-green/30 px-3 text-sm"
+            className="w-24 h-9 rounded-md border border-sage-green/30 px-3 text-sm"
             defaultValue={searchParams?.get('priceMin') || ''}
             onBlur={(e) => onPriceChange('priceMin', e.target.value)}
           />
@@ -66,34 +72,35 @@ export function CollectionFilters({ availableTags, selectedTags }: CollectionFil
             inputMode="decimal"
             pattern="[0-9]*"
             placeholder="Max"
-            className="w-28 h-9 rounded-md border border-sage-green/30 px-3 text-sm"
+            className="w-24 h-9 rounded-md border border-sage-green/30 px-3 text-sm"
             defaultValue={searchParams?.get('priceMax') || ''}
             onBlur={(e) => onPriceChange('priceMax', e.target.value)}
           />
         </div>
-      </fieldset>
+      </section>
 
-      <fieldset aria-labelledby="filters-legend" className="w-full">
-        <legend id="filters-legend" className="text-sm font-medium text-deep-charcoal mb-3">
-          Filter by tags
-        </legend>
-        <div className="flex flex-wrap gap-3">
+      {/* Tags */}
+      <section>
+        <h3 className="text-sm font-medium text-deep-charcoal mb-3">Tags</h3>
+        <div className="flex flex-col gap-2 max-h-[320px] overflow-auto pr-1">
           {availableTags.map(tag => {
             const checked = selectedSet.has(tag)
             return (
-              <label key={tag} className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md border text-sm cursor-pointer transition-colors ${checked ? 'bg-sage-green/10 border-sage-green text-deep-charcoal' : 'border-sage-green/20 text-warm-gray hover:border-sage-green'}`}>
+              <label key={tag} className="flex items-center gap-2 text-sm text-deep-charcoal">
                 <input
                   type="checkbox"
-                  className="sr-only"
+                  className="h-4 w-4 rounded border-sage-green/40 text-sage-green focus:ring-sage-green"
                   checked={checked}
                   onChange={() => onToggleTag(tag)}
                 />
-                <span>#{tag}</span>
+                <span>{tag}</span>
               </label>
             )
           })}
         </div>
-      </fieldset>
-    </div>
+      </section>
+    </aside>
   )
 }
+
+export default SidebarFilters

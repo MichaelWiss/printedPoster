@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import type { ShopifyProduct } from '@/types/shopify'
 import { useCartActions, useCartLoading, useIsAuthenticated } from '@/stores/cart-store'
+import ViewportFadeIn from '@/components/ui/ViewportFadeIn'
 
 interface Props {
 	product: ShopifyProduct
@@ -28,17 +29,20 @@ export function ProductDetails({ product }: Props) {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 			{firstImage && (
-				<div className="relative h-96">
-					<Image
-						src={firstImage.url}
-						alt={firstImage.altText || product.title}
-						fill
-						className="object-cover rounded-lg"
-						sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
-					/>
-				</div>
+				<ViewportFadeIn>
+					<div className="relative h-96">
+						<Image
+							src={firstImage.url}
+							alt={firstImage.altText || product.title}
+							fill
+							className="object-cover rounded-lg"
+							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
+						/>
+					</div>
+				</ViewportFadeIn>
 			)}
-			<div className="space-y-6">
+			<ViewportFadeIn delayMs={80}>
+				<div className="space-y-6">
 				<div>
 					<h1 className="text-3xl font-bold text-deep-charcoal mb-4">{product.title}</h1>
 					<p className="text-warm-gray text-lg leading-relaxed">{product.description}</p>
@@ -124,7 +128,8 @@ export function ProductDetails({ product }: Props) {
 						</li>
 					</ul>
 				</div>
-			</div>
+				</div>
+			</ViewportFadeIn>
 		</div>
 	)
 }

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getProducts } from '@/lib/shopify/client'
 import { ProductCard } from '@/components/product/ProductCard'
+import ViewportFadeIn from '@/components/ui/ViewportFadeIn'
 
 interface FeaturedProductsLiteProps {
   title?: string
@@ -26,8 +27,10 @@ export async function FeaturedProductsLite({
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {products.map((product, idx) => (
+            <ViewportFadeIn key={product.id} delayMs={(idx % 12) * 40}>
+              <ProductCard product={product} />
+            </ViewportFadeIn>
           ))}
         </div>
 

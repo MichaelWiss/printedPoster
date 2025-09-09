@@ -17,6 +17,7 @@
 ✅ **TypeScript Fixes** - Resolved session.user.id type errors across multiple files
 ✅ **Collection Pages Implementation** - Built complete collection system with advanced Add to Cart buttons
 ✅ **Advanced Button Documentation** - Comprehensive documentation and dedicated ADVANCED_BUTTON_SYSTEM.md file
+✅ **Filter Drawer & Sorting Controls** - Desktop top bar (Filter left, Sort right) with mock-aligned drawer, graceful fade-in, and Apply/Cancel behavior
 
 ## Previous Achievements (August 2025)
 ✅ **Zustand State Management Migration** - Complete migration from Context API with persistence and performance improvements
@@ -117,15 +118,18 @@
 ### 🏪 Product Catalog Features
 - [ ] **Product Search & Filtering**
   - [x] Implement search functionality with Shopify API ✅ **COMPLETED**
-  - [ ] Add product filtering by categories/tags
-  - [ ] Create price range filtering
-  - [ ] Add sorting options (price, popularity, newest)
+  - [x] Add product filtering by categories/tags ✅ URL-driven via `tags`
+  - [x] Create price range filtering ✅ URL-driven via `priceMin`/`priceMax`
+  - [x] Add sorting options (price, popularity, newest) ✅ URL-driven via `sort`
+  - [x] Defer filter changes until Apply (Apply/Cancel) ✅ Drawer pending state
+  - [ ] Follow-up: Add focus trap + body scroll lock to filter drawer
 
 - [ ] **Collection Pages**
-  - [ ] Build dynamic collection pages
-  - [ ] Implement collection-specific layouts
-  - [ ] Add collection-based filtering
+  - [x] Build dynamic collection pages ✅ App Router `[handle]`
+  - [x] Implement collection-specific layouts ✅ Top controls + drawer integration
+  - [x] Add collection-based filtering ✅ Tags and price range
   - [ ] Optimize SEO for collection pages
+  - [ ] Follow-up: Add "Previous Page" pagination control (cursor-based)
 
 ### 📱 Responsive Design Implementation
 - [ ] **Mobile Optimization**

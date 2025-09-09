@@ -47,6 +47,23 @@ export interface ProductsResponse {
   }
 }
 
+export interface PageInfo {
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+  startCursor?: string | null
+  endCursor?: string | null
+}
+
+export interface ProductEdge {
+  cursor: string
+  node: ShopifyProduct
+}
+
+export interface ProductConnection {
+  edges: ProductEdge[]
+  pageInfo?: PageInfo
+}
+
 export interface ShopifyCart {
   id: string
   totalQuantity: number
@@ -84,11 +101,7 @@ export interface ShopifyCollection {
   handle: string
   description: string
   image?: ShopifyImage | null
-  products: {
-    edges: Array<{
-      node: ShopifyProduct
-    }>
-  }
+  products: ProductConnection
 }
 
 export interface CollectionsResponse {

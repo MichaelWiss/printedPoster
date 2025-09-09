@@ -1,14 +1,16 @@
 import { searchProducts } from '@/lib/shopify/client'
 import { ProductCard } from '@/components/product/ProductCard'
+import ViewportFadeIn from '@/components/ui/ViewportFadeIn'
 
 export const revalidate = 0 // always fresh for dynamic queries
 
 interface SearchPageProps {
-  searchParams?: { q?: string }
+  searchParams?: Promise<{ q?: string }>
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
-  const q = (searchParams?.q || '').trim()
+  const sp = (await searchParams) || {}
+  const q = (sp.q || '').trim()
 
   if (!q) {
     return (
@@ -28,8 +30,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         <div className="text-warm-gray">No results. Try a different term or visit the products page.</div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {products.map(p => (
-            <ProductCard key={p.id} product={p} />
+          {products.map((p, idx) => (
+            <ViewportFadeIn key={p.id} delayMs={(idx % 12) * 40}>
+              <ProductCard product={p} />
+            </ViewportFadeIn>
           ))}
         </div>
       )}

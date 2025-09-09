@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Visual Mockup – Filters Sidebar (Slide-in)</title>
+    <!-- Tailwind CDN for quick visual mock (colors approximate to project palette) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @media (prefers-reduced-motion: reduce) {
+        .motion-safe\:transition-none { transition: none !important; }
+      }
+    </style>
+  </head>
+  <body class="bg-white text-slate-900">
+    <main class="max-w-7xl mx-auto px-4 py-10">
+      <header class="flex items-center justify-between border-b border-slate-200 pb-4 mb-8">
+        <div class="flex items-center gap-4">
+          <h1 class="text-2xl font-semibold tracking-tight">Collection: All Posters</h1>
+          <!-- Filter trigger (visual only) -->
+          <button class="inline-flex items-center gap-2 h-10 px-4 rounded-md border border-slate-300 text-sm hover:bg-slate-50">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M3.75 6.75h8.25m8.25 0h-3M3.75 12h3m8.25 0H20.25M3.75 17.25h12m4.5 0h-1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span>Filters</span>
+          </button>
+        </div>
+        <!-- Sort (visual only) -->
+        <div class="flex items-center gap-2">
+          <label for="sort" class="text-sm text-slate-600">Sort</label>
+          <select id="sort" class="h-10 rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 hover:border-slate-400">
+            <option value="">Featured</option>
+            <option value="newest">Newest</option>
+            <option value="popular">Best selling</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="title-asc">Title: A → Z</option>
+            <option value="title-desc">Title: Z → A</option>
+          </select>
+        </div>
+      </header>
+
+      <!-- CLOSED STATE (drawer off-screen) -->
+      <section class="relative border border-slate-200 rounded-lg overflow-hidden mb-16">
+        <div class="p-4 bg-slate-50 border-b border-slate-200 text-sm text-slate-600">Closed state</div>
+        <div class="relative">
+          <!-- Controls bar inside (visual only) -->
+          <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-white/60 backdrop-blur-sm">
+            <button class="inline-flex items-center gap-2 h-10 px-4 rounded-md border border-slate-300 text-sm hover:bg-slate-50">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M3.75 6.75h8.25m8.25 0h-3M3.75 12h3m8.25 0H20.25M3.75 17.25h12m4.5 0h-1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span>Filters</span>
+            </button>
+            <div class="flex items-center gap-2">
+              <label for="sort-inner-closed" class="text-sm text-slate-600">Sort</label>
+              <select id="sort-inner-closed" class="h-10 rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 hover:border-slate-400">
+                <option value="">Featured</option>
+                <option value="newest">Newest</option>
+                <option value="popular">Best selling</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="title-asc">Title: A → Z</option>
+                <option value="title-desc">Title: Z → A</option>
+              </select>
+            </div>
+          </div>
+          <!-- Drawer (closed) -->
+          <aside class="fixed inset-y-0 left-0 w-[340px] bg-white shadow-xl border-r border-slate-200 transform -translate-x-20 md:-translate-x-24 opacity-0 transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none z-[70]"></aside>
+          <!-- Overlay (hidden) -->
+          <div class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none z-[60] transition-opacity duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none"></div>
+          <!-- Grid placeholder -->
+          <div class="p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- OPEN STATE (drawer visible, slides in from left) -->
+      <section class="relative border border-slate-200 rounded-lg overflow-hidden">
+        <div class="p-4 bg-slate-50 border-b border-slate-200 text-sm text-slate-600">Open state (slide-in)</div>
+        <div class="relative min-h-[600px]">
+          <!-- Controls bar inside (visual only) -->
+          <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-white/60 backdrop-blur-sm">
+            <button class="inline-flex items-center gap-2 h-10 px-4 rounded-md border border-slate-300 text-sm hover:bg-slate-50">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M3.75 6.75h8.25m8.25 0h-3M3.75 12h3m8.25 0H20.25M3.75 17.25h12m4.5 0h-1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span>Filters</span>
+            </button>
+            <div class="flex items-center gap-2">
+              <label for="sort-inner-open" class="text-sm text-slate-600">Sort</label>
+              <select id="sort-inner-open" class="h-10 rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 hover:border-slate-400">
+                <option value="">Featured</option>
+                <option value="newest">Newest</option>
+                <option value="popular">Best selling</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="title-asc">Title: A → Z</option>
+                <option value="title-desc">Title: Z → A</option>
+              </select>
+            </div>
+          </div>
+          <!-- Drawer (open) -->
+          <aside class="fixed inset-y-0 left-0 w-[340px] bg-white shadow-2xl border-r border-slate-200 transform translate-x-0 opacity-100 transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none z-[70]">
+            <!-- Drawer header -->
+            <div class="sticky top-0 z-10 bg-white border-b border-slate-200 px-4 py-4 flex items-center justify-between">
+              <h2 class="text-base font-medium">Filters</h2>
+              <div class="flex items-center gap-3">
+                <a href="#" class="text-sm text-slate-600 hover:text-slate-900 underline underline-offset-4">Clear all</a>
+                <button class="h-8 w-8 grid place-items-center rounded hover:bg-slate-100" aria-label="Close">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Selected filters chips (example) -->
+            <div class="px-4 py-3 flex flex-wrap gap-2 border-b border-slate-200">
+              <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs bg-slate-100 text-slate-700">Abstract <button class="hover:text-slate-900">×</button></span>
+              <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs bg-slate-100 text-slate-700">Monochrome <button class="hover:text-slate-900">×</button></span>
+              <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs bg-slate-100 text-slate-700">$20–$60 <button class="hover:text-slate-900">×</button></span>
+            </div>
+
+            <!-- Sections -->
+            <div class="px-4 py-4 space-y-6 overflow-y-auto h-[calc(100vh-8rem)]">
+              <!-- Categories -->
+              <section>
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-sm font-medium">Categories</h3>
+                  <button class="text-xs text-slate-500 hover:text-slate-800">Collapse</button>
+                </div>
+                <div class="space-y-2">
+                  <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="h-4 w-4"/> Abstract</label>
+                  <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="h-4 w-4"/> Nature</label>
+                  <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="h-4 w-4"/> Architecture</label>
+                  <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="h-4 w-4"/> Typography</label>
+                </div>
+              </section>
+
+              <!-- Tags -->
+              <section>
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-sm font-medium">Tags</h3>
+                  <button class="text-xs text-slate-500 hover:text-slate-800">Collapse</button>
+                </div>
+                <div class="grid grid-cols-2 gap-2 max-h-40 overflow-auto pr-1">
+                  <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="h-4 w-4"/> Minimal</label>
+                  <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="h-4 w-4"/> Modern</label>
+                  <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="h-4 w-4"/> Vintage</label>
+                  <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="h-4 w-4"/> Botanical</label>
+                  <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="h-4 w-4"/> Monochrome</label>
+                  <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="h-4 w-4"/> Geometric</label>
+                </div>
+              </section>
+
+              <!-- Price -->
+              <section>
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-sm font-medium">Price</h3>
+                  <button class="text-xs text-slate-500 hover:text-slate-800">Collapse</button>
+                </div>
+                <div class="flex items-center gap-3">
+                  <input type="text" placeholder="Min" class="w-24 h-9 rounded-md border border-slate-300 px-3 text-sm"/>
+                  <span class="text-slate-500">–</span>
+                  <input type="text" placeholder="Max" class="w-24 h-9 rounded-md border border-slate-300 px-3 text-sm"/>
+                </div>
+              </section>
+            </div>
+
+            <!-- Drawer footer (mobile apply/cancel) -->
+            <div class="sticky bottom-0 bg-white border-t border-slate-200 p-4 flex items-center justify-end gap-3">
+              <button class="h-9 px-4 rounded-md border border-slate-300 text-sm hover:bg-slate-50">Cancel</button>
+              <button class="h-9 px-4 rounded-md bg-slate-900 text-white text-sm hover:bg-slate-800">Apply</button>
+            </div>
+          </aside>
+
+          <!-- Overlay (visible) -->
+          <div class="fixed inset-0 bg-black/40 opacity-100 z-[60] transition-opacity duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none"></div>
+
+          <!-- Grid placeholder behind -->
+          <div class="p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+            <div class="h-40 bg-slate-100 rounded" ></div>
+          </div>
+        </div>
+      </section>
+
+      <p class="mt-6 text-xs text-slate-500">Note: This is a static visual mock only. The slide-in is represented by stateful classes (closed vs open). No JavaScript is included.</p>
+    </main>
+  </body>
+  </html>

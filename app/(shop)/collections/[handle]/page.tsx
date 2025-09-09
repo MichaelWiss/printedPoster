@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getCollectionByHandle } from '@/lib/shopify/client'
+import { getCollectionByHandle, mapCollectionSort } from '@/lib/shopify/client'
 import { ProductGrid } from '@/components/product/ProductGrid'
 import type { Metadata } from 'next'
 
@@ -9,6 +9,12 @@ import dynamic from 'next/dynamic'
 const CollectionFiltersDynamic = dynamic(() => import('@/components/collections/CollectionFilters').then(mod => ({ default: mod.CollectionFilters })), {
   loading: () => <div className="h-16 bg-light-gray animate-pulse rounded" />
 })
+import TopControls from '@/components/collections/TopControls'
+const CollectionSortDynamic = dynamic<{
+  selected?: string
+}>(() => import('../../../../components/collections/CollectionSort'), {
+  loading: () => <div className="h-10 w-40 bg-light-gray animate-pulse rounded" />
+})
 
 interface CollectionPageProps {
   params: Promise<{
@@ -16,6 +22,10 @@ interface CollectionPageProps {
   }>
   searchParams?: Promise<{
     tags?: string
+  sort?: string
+  after?: string
+  priceMin?: string
+  priceMax?: string
   }>
 }
 
@@ -39,19 +49,37 @@ export default async function CollectionPage({ params, searchParams }: Collectio
   const { handle } = await params
   const sp = (await searchParams) || {}
   const selectedTags = (sp.tags || '').split(',').map(s => s.trim()).filter(Boolean)
-  const collection = await getCollectionByHandle(handle)
+  const { sortKey, reverse } = mapCollectionSort(sp.sort)
+  const filters = selectedTags.length ? selectedTags.map(tag => ({ tag })) : undefined
+  const first = 24
+  const collection = await getCollectionByHandle(handle, {
+    first,
+    filters,
+    sortKey,
+    reverse,
+    after: sp.after || null,
+  })
 
   if (!collection) {
     notFound()
   }
 
-  const allProducts = collection.products.edges.map(edge => edge.node)
-  const products = selectedTags.length
-    ? allProducts.filter(p => (p.tags || []).some(tag => selectedTags.includes(tag)))
-    : allProducts
+  const productConnection = collection.products
+  let products = productConnection.edges.map(edge => edge.node)
+  const min = sp.priceMin ? parseFloat(sp.priceMin) : undefined
+  const max = sp.priceMax ? parseFloat(sp.priceMax) : undefined
+  if (!Number.isNaN(min) || !Number.isNaN(max)) {
+    products = products.filter(p => {
+      const price = parseFloat(p.priceRange.minVariantPrice.amount)
+      if (Number.isNaN(price)) return false
+      if (min !== undefined && price < (min as number)) return false
+      if (max !== undefined && price > (max as number)) return false
+      return true
+    })
+  }
 
   // Build available tags from collection products (first 200 distinct)
-  const availableTags = Array.from(new Set(allProducts.flatMap(p => p.tags || []))).slice(0, 200)
+  const availableTags = Array.from(new Set(products.flatMap(p => p.tags || []))).slice(0, 200)
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -90,21 +118,38 @@ export default async function CollectionPage({ params, searchParams }: Collectio
         </div>
       </div>
 
-  {/* Filter Bar */}
-  <CollectionFiltersDynamic availableTags={availableTags} selectedTags={selectedTags} />
+      {/* Top controls: Filter (left) + Sort (right) */}
+      {/* Mobile: keep existing filters UI + sort on right */}
+      <div className="md:hidden flex items-center justify-between gap-4 mb-6">
+        <CollectionFiltersDynamic availableTags={availableTags} selectedTags={selectedTags} />
+        <CollectionSortDynamic selected={sp.sort || ''} />
+      </div>
 
-      {/* Products Grid */}
-      <ProductGrid
-        products={products}
-        columns={4}
-        spacing="normal"
-      />
+  {/* Desktop: show visual TopControls (Filter left + Sort right) per mock */}
+  <TopControls sortSelected={sp.sort || ''} availableTags={availableTags} selectedTags={selectedTags} />
+
+      {/* Grid only (keeping sidebar out for visual pass) */}
+      <div className="flex-1">
+        <ProductGrid products={products} columns={4} spacing="normal" />
+      </div>
 
       {/* Empty State */}
       {products.length === 0 && (
         <div className="text-center py-16">
           <div className="text-warm-gray text-lg mb-2">No products in this collection</div>
           <div className="text-warm-gray text-sm">Please check back later for new arrivals</div>
+        </div>
+      )}
+
+      {/* Pagination */}
+      {productConnection.pageInfo?.hasNextPage && (
+        <div className="mt-8 flex justify-center">
+          <Link
+            href={{ pathname: `/collections/${handle}`, query: { ...(sp.tags ? { tags: sp.tags } : {}), ...(sp.sort ? { sort: sp.sort } : {}), after: productConnection.pageInfo?.endCursor || '' } }}
+            className="px-4 py-2 border border-sage-green/30 rounded hover:bg-sage-green/5"
+          >
+            Next Page
+          </Link>
         </div>
       )}
 
@@ -154,3 +199,5 @@ export default async function CollectionPage({ params, searchParams }: Collectio
     </div>
   )
 }
+
+//
