@@ -35,6 +35,8 @@ export interface ShopifyProduct {
       node: ProductVariant
     }>
   }
+  // Optional array of product tags for filtering
+  tags?: string[]
 }
 
 export interface ProductsResponse {
@@ -99,4 +101,11 @@ export interface CollectionsResponse {
 
 export interface CollectionResponse {
   collectionByHandle: ShopifyCollection | null
+}
+
+// Minimal subset of Shopify ProductFilter input for our tag/productType filtering use cases
+export type ShopifyProductFilter = {
+  tag?: string
+  productType?: string
+  vendor?: string
 }

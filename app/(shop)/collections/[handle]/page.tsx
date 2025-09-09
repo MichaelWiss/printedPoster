@@ -14,6 +14,9 @@ interface CollectionPageProps {
   params: Promise<{
     handle: string
   }>
+  searchParams?: Promise<{
+    tags?: string
+  }>
 }
 
 export async function generateMetadata({ params }: CollectionPageProps): Promise<Metadata> {
@@ -32,15 +35,23 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
   }
 }
 
-export default async function CollectionPage({ params }: CollectionPageProps) {
+export default async function CollectionPage({ params, searchParams }: CollectionPageProps) {
   const { handle } = await params
+  const sp = (await searchParams) || {}
+  const selectedTags = (sp.tags || '').split(',').map(s => s.trim()).filter(Boolean)
   const collection = await getCollectionByHandle(handle)
 
   if (!collection) {
     notFound()
   }
 
-  const products = collection.products.edges.map(edge => edge.node)
+  const allProducts = collection.products.edges.map(edge => edge.node)
+  const products = selectedTags.length
+    ? allProducts.filter(p => (p.tags || []).some(tag => selectedTags.includes(tag)))
+    : allProducts
+
+  // Build available tags from collection products (first 200 distinct)
+  const availableTags = Array.from(new Set(allProducts.flatMap(p => p.tags || []))).slice(0, 200)
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -79,8 +90,8 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
         </div>
       </div>
 
-      {/* Filter Bar */}
-      <CollectionFiltersDynamic />
+  {/* Filter Bar */}
+  <CollectionFiltersDynamic availableTags={availableTags} selectedTags={selectedTags} />
 
       {/* Products Grid */}
       <ProductGrid

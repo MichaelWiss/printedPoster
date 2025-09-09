@@ -133,7 +133,7 @@ const GET_COLLECTIONS_QUERY = `
 `
 
 const GET_COLLECTION_BY_HANDLE_QUERY = `
-  query GetCollectionByHandle($handle: String!) {
+  query GetCollectionByHandle($handle: String!, $first: Int = 50, $filters: [ProductFilter!], $sortKey: ProductCollectionSortKeys, $reverse: Boolean, $after: String) {
     collectionByHandle(handle: $handle) {
       id
       title
@@ -145,13 +145,15 @@ const GET_COLLECTION_BY_HANDLE_QUERY = `
         width
         height
       }
-      products(first: 50) {
+      products(first: $first, filters: $filters, sortKey: $sortKey, reverse: $reverse, after: $after) {
         edges {
+          cursor
           node {
             id
             title
             handle
             description
+            tags
             priceRange {
               minVariantPrice {
                 amount
@@ -178,13 +180,17 @@ const GET_COLLECTION_BY_HANDLE_QUERY = `
             }
           }
         }
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+        }
       }
     }
   }
 `
 
 // Import our Shopify types
-import type { ProductsResponse, ShopifyProduct, CollectionsResponse, ShopifyCollection } from '@/types/shopify'
+import type { ProductsResponse, ShopifyProduct, CollectionsResponse, ShopifyCollection, ShopifyProductFilter } from '@/types/shopify'
 
 // Function to fetch products from Shopify
 // Parameters:
@@ -259,12 +265,19 @@ export async function getCollections(first: number = 10): Promise<ShopifyCollect
 // Parameters:
 // - handle: string - The collection handle (URL slug)
 // Returns: Promise<ShopifyCollection | null> - Single collection or null if not found
-export async function getCollectionByHandle(handle: string): Promise<ShopifyCollection | null> {
+export async function getCollectionByHandle(handle: string, opts?: { first?: number; filters?: ShopifyProductFilter[]; sortKey?: string; reverse?: boolean; after?: string | null }): Promise<ShopifyCollection | null> {
   try {
     // Make the API request to Shopify
+  const variables: { handle: string; first?: number; filters?: ShopifyProductFilter[]; sortKey?: string; reverse?: boolean; after?: string | null } = { handle }
+    if (opts?.first !== undefined) variables.first = opts.first
+    if (opts?.filters) variables.filters = opts.filters
+    if (opts?.sortKey) variables.sortKey = opts.sortKey
+    if (typeof opts?.reverse === 'boolean') variables.reverse = opts.reverse
+    if (opts?.after) variables.after = opts.after
+
     const data = await storefrontClient.request<{ collectionByHandle: ShopifyCollection | null }>(
       GET_COLLECTION_BY_HANDLE_QUERY,
-      { handle }
+      variables
     )
 
     return data.collectionByHandle

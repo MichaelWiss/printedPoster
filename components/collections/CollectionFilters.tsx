@@ -1,69 +1,60 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-interface CollectionFiltersProps {
-  onFiltersChange?: (filters: {
-    style: string
-    size: string
-    sort: string
-  }) => void
+export interface CollectionFiltersProps {
+  availableTags: string[]
+  selectedTags: string[]
 }
 
-export function CollectionFilters({ onFiltersChange }: CollectionFiltersProps) {
-  const [filters, setFilters] = useState({
-    style: 'All Styles',
-    size: 'All Sizes',
-    sort: 'Featured'
-  })
+export function CollectionFilters({ availableTags, selectedTags }: CollectionFiltersProps) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
-  const handleFilterChange = (key: keyof typeof filters, value: string) => {
-    const newFilters = { ...filters, [key]: value }
-    setFilters(newFilters)
-    onFiltersChange?.(newFilters)
+  const setParam = (key: string, value?: string) => {
+    const sp = new URLSearchParams(searchParams?.toString())
+    if (value && value.length) sp.set(key, value)
+    else sp.delete(key)
+    router.replace(`${pathname}?${sp.toString()}`)
   }
+
+  const selectedSet = useMemo(() => new Set(selectedTags), [selectedTags])
+
+  const onToggleTag = (tag: string) => {
+    const next = new Set(selectedSet)
+    if (next.has(tag)) next.delete(tag)
+    else next.add(tag)
+    const nextStr = Array.from(next).join(',')
+    setParam('tags', nextStr)
+  }
+
+  if (!availableTags?.length) return null
 
   return (
     <div className="mb-8 border-b border-sage-green/20 pb-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div className="flex flex-wrap gap-4 items-center">
-          <span className="text-sm font-medium text-deep-charcoal">Filter by:</span>
-          <select
-            value={filters.style}
-            onChange={(e) => handleFilterChange('style', e.target.value)}
-            className="px-3 py-2 border border-sage-green/20 rounded-md text-sm bg-white hover:border-sage-green transition-colors"
-          >
-            <option>All Styles</option>
-            <option>Classical</option>
-            <option>Contemporary</option>
-            <option>Minimalist</option>
-          </select>
-          <select
-            value={filters.size}
-            onChange={(e) => handleFilterChange('size', e.target.value)}
-            className="px-3 py-2 border border-sage-green/20 rounded-md text-sm bg-white hover:border-sage-green transition-colors"
-          >
-            <option>All Sizes</option>
-            <option>Small (18x24)</option>
-            <option>Medium (24x36)</option>
-            <option>Large (36x48)</option>
-          </select>
+      <fieldset aria-labelledby="filters-legend" className="w-full">
+        <legend id="filters-legend" className="text-sm font-medium text-deep-charcoal mb-3">
+          Filter by tags
+        </legend>
+        <div className="flex flex-wrap gap-3">
+          {availableTags.map(tag => {
+            const checked = selectedSet.has(tag)
+            return (
+              <label key={tag} className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md border text-sm cursor-pointer transition-colors ${checked ? 'bg-sage-green/10 border-sage-green text-deep-charcoal' : 'border-sage-green/20 text-warm-gray hover:border-sage-green'}`}>
+                <input
+                  type="checkbox"
+                  className="sr-only"
+                  checked={checked}
+                  onChange={() => onToggleTag(tag)}
+                />
+                <span>#{tag}</span>
+              </label>
+            )
+          })}
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium text-deep-charcoal">Sort by:</span>
-          <select
-            value={filters.sort}
-            onChange={(e) => handleFilterChange('sort', e.target.value)}
-            className="px-3 py-2 border border-sage-green/20 rounded-md text-sm bg-white hover:border-sage-green transition-colors"
-          >
-            <option>Featured</option>
-            <option>Price: Low to High</option>
-            <option>Price: High to Low</option>
-            <option>Newest</option>
-            <option>Popular</option>
-          </select>
-        </div>
-      </div>
+      </fieldset>
     </div>
   )
 }
