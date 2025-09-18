@@ -1,48 +1,55 @@
-'use client'
+'use client';
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react';
 
 interface ViewportFadeInProps {
-  children: React.ReactNode
-  className?: string
+  children: React.ReactNode;
+  className?: string;
   /** Optional delay in ms for staggered animations */
-  delayMs?: number
+  delayMs?: number;
   /** If true, stops observing after first reveal */
-  once?: boolean
+  once?: boolean;
 }
 
-export function ViewportFadeIn({ children, className = '', delayMs = 0, once = true }: ViewportFadeInProps) {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const [visible, setVisible] = useState(false)
+export function ViewportFadeIn({
+  children,
+  className = '',
+  delayMs = 0,
+  once = true,
+}: ViewportFadeInProps) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const el = ref.current
-    if (!el) return
+    const el = ref.current;
+    if (!el) return;
 
     // Respect reduced motion: show immediately
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
     if (prefersReducedMotion) {
-      setVisible(true)
-      return
+      setVisible(true);
+      return;
     }
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
+      entries => {
+        entries.forEach(entry => {
           if (entry.isIntersecting) {
-            setVisible(true)
-            if (once) observer.unobserve(entry.target)
+            setVisible(true);
+            if (once) observer.unobserve(entry.target);
           } else if (!once) {
-            setVisible(false)
+            setVisible(false);
           }
-        })
+        });
       },
       { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.12 }
-    )
+    );
 
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [once])
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [once]);
 
   return (
     <div
@@ -58,7 +65,7 @@ export function ViewportFadeIn({ children, className = '', delayMs = 0, once = t
     >
       {children}
     </div>
-  )
+  );
 }
 
-export default ViewportFadeIn
+export default ViewportFadeIn;

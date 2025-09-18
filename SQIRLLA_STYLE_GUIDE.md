@@ -1,4 +1,5 @@
 # Sqirlla-Inspired UX/UI Style Guide
+
 ## E-commerce Design System for Printed Poster Site
 
 Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this style guide creates a warm, community-driven design system perfect for an art-focused e-commerce experience.
@@ -8,31 +9,34 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ## Color Palette
 
 ### Primary Colors
+
 ```css
---cream-base: #faf7f2;          /* Warm cream background */
---deep-black: #1a1a1a;         /* Rich black for text */
---warm-white: #ffffff;          /* Pure white for cards */
---sage-green: #9fb8a8;         /* Muted sage green accent */
---terracotta: #d4a574;         /* Warm terracotta accent */
---dusty-blue: #7a9cc6;         /* Soft blue accent */
+--cream-base: #faf7f2; /* Warm cream background */
+--deep-black: #1a1a1a; /* Rich black for text */
+--warm-white: #ffffff; /* Pure white for cards */
+--sage-green: #9fb8a8; /* Muted sage green accent */
+--terracotta: #d4a574; /* Warm terracotta accent */
+--dusty-blue: #7a9cc6; /* Soft blue accent */
 ```
 
 ### Secondary Colors
+
 ```css
---coral-pink: #e8a598;          /* Soft coral for highlights */
---mustard: #d4b655;            /* Mustard yellow accent */
---lavender: #c8b5d1;           /* Light lavender */
---warm-gray: #8b8680;          /* Warm neutral gray */
---light-sage: #e8f0ea;         /* Very light sage for backgrounds */
---cream-shadow: #f0ebe3;       /* Subtle shadow color */
+--coral-pink: #e8a598; /* Soft coral for highlights */
+--mustard: #d4b655; /* Mustard yellow accent */
+--lavender: #c8b5d1; /* Light lavender */
+--warm-gray: #8b8680; /* Warm neutral gray */
+--light-sage: #e8f0ea; /* Very light sage for backgrounds */
+--cream-shadow: #f0ebe3; /* Subtle shadow color */
 ```
 
 ### Functional Colors
+
 ```css
---success: var(--sage-green);   /* Use sage green for success */
---warning: var(--mustard);      /* Mustard for warnings */
---error: var(--coral-pink);     /* Coral for errors (soft approach) */
---info: var(--dusty-blue);      /* Blue for information */
+--success: var(--sage-green); /* Use sage green for success */
+--warning: var(--mustard); /* Mustard for warnings */
+--error: var(--coral-pink); /* Coral for errors (soft approach) */
+--info: var(--dusty-blue); /* Blue for information */
 ```
 
 ---
@@ -40,6 +44,7 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ## Typography
 
 ### Font Stack
+
 ```css
 --font-primary: 'Georgia', 'Times New Roman', serif;
 --font-secondary: 'Helvetica Neue', 'Arial', sans-serif;
@@ -48,19 +53,20 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ```
 
 ### Font Sizes & Hierarchy
+
 ```css
 /* Display & Headers */
---text-display: 2.5rem;        /* 40px - Hero text */
---text-h1: 2rem;               /* 32px - Page titles */
---text-h2: 1.5rem;             /* 24px - Section headers */
---text-h3: 1.25rem;            /* 20px - Subsections */
---text-h4: 1.125rem;           /* 18px - Card titles */
+--text-display: 2.5rem; /* 40px - Hero text */
+--text-h1: 2rem; /* 32px - Page titles */
+--text-h2: 1.5rem; /* 24px - Section headers */
+--text-h3: 1.25rem; /* 20px - Subsections */
+--text-h4: 1.125rem; /* 18px - Card titles */
 
 /* Body Text */
---text-large: 1.125rem;        /* 18px - Large body */
---text-base: 1rem;             /* 16px - Standard body */
---text-small: 0.875rem;        /* 14px - Small text */
---text-tiny: 0.75rem;          /* 12px - Captions */
+--text-large: 1.125rem; /* 18px - Large body */
+--text-base: 1rem; /* 16px - Standard body */
+--text-small: 0.875rem; /* 14px - Small text */
+--text-tiny: 0.75rem; /* 12px - Captions */
 
 /* Line Heights */
 --leading-tight: 1.2;
@@ -70,6 +76,7 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ```
 
 ### Font Weights
+
 ```css
 --weight-light: 300;
 --weight-normal: 400;
@@ -83,22 +90,24 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ## Spacing & Layout
 
 ### Spacing Scale (4px base unit)
+
 ```css
---space-1: 0.25rem;            /* 4px */
---space-2: 0.5rem;             /* 8px */
---space-3: 0.75rem;            /* 12px */
---space-4: 1rem;               /* 16px */
---space-5: 1.25rem;            /* 20px */
---space-6: 1.5rem;             /* 24px */
---space-8: 2rem;               /* 32px */
---space-10: 2.5rem;            /* 40px */
---space-12: 3rem;              /* 48px */
---space-16: 4rem;              /* 64px */
---space-20: 5rem;              /* 80px */
---space-24: 6rem;              /* 96px */
+--space-1: 0.25rem; /* 4px */
+--space-2: 0.5rem; /* 8px */
+--space-3: 0.75rem; /* 12px */
+--space-4: 1rem; /* 16px */
+--space-5: 1.25rem; /* 20px */
+--space-6: 1.5rem; /* 24px */
+--space-8: 2rem; /* 32px */
+--space-10: 2.5rem; /* 40px */
+--space-12: 3rem; /* 48px */
+--space-16: 4rem; /* 64px */
+--space-20: 5rem; /* 80px */
+--space-24: 6rem; /* 96px */
 ```
 
 ### Container Widths
+
 ```css
 --container-sm: 640px;
 --container-md: 768px;
@@ -112,6 +121,7 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ## Component Styles
 
 ### Buttons
+
 ```css
 .btn {
   display: inline-flex;
@@ -177,6 +187,7 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ```
 
 ### Product Cards
+
 ```css
 .product-card {
   background-color: var(--warm-white);
@@ -264,6 +275,7 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ```
 
 ### Navigation
+
 ```css
 .header {
   background-color: var(--cream-base);
@@ -329,6 +341,7 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ```
 
 ### Forms
+
 ```css
 .form-group {
   margin-bottom: var(--space-6);
@@ -382,6 +395,7 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ## Layout Patterns
 
 ### Product Grid
+
 ```css
 .product-grid {
   display: grid;
@@ -412,6 +426,7 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ```
 
 ### Section Headers
+
 ```css
 .section-header {
   text-align: center;
@@ -450,9 +465,12 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ## Animation & Interactions
 
 ### Hover Effects
+
 ```css
 .hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .hover-lift:hover {
@@ -469,24 +487,33 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 }
 
 .hover-color {
-  transition: color 0.2s ease, background-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
 }
 ```
 
 ### Loading States
+
 ```css
 .skeleton {
-  background: linear-gradient(90deg, 
-    var(--cream-shadow) 25%, 
-    var(--light-sage) 50%, 
-    var(--cream-shadow) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--cream-shadow) 25%,
+    var(--light-sage) 50%,
+    var(--cream-shadow) 75%
+  );
   background-size: 200% 100%;
   animation: skeleton-wave 1.5s infinite;
 }
 
 @keyframes skeleton-wave {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .fade-in {
@@ -494,13 +521,13 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 }
 
 @keyframes fade-in {
-  from { 
-    opacity: 0; 
-    transform: translateY(20px); 
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 ```
@@ -510,6 +537,7 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ## Category Organization
 
 ### Category Headers
+
 ```css
 .category-section {
   margin-bottom: var(--space-20);
@@ -537,6 +565,7 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ```
 
 ### Filter & Sort
+
 ```css
 .filter-bar {
   display: flex;
@@ -590,6 +619,7 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ## Newsletter & Footer
 
 ### Newsletter Signup
+
 ```css
 .newsletter {
   background-color: var(--light-sage);
@@ -638,21 +668,25 @@ Based on the vibrant, playful, and artisanal aesthetic of Sqirlla.com, this styl
 ## UX Principles
 
 ### Artisanal Feel
+
 - **Handcrafted aesthetic** with organic, warm colors
 - **Personal touch** through storytelling and product descriptions
 - **Community focus** with emphasis on collaboration and local sourcing
 
 ### Intuitive Navigation
+
 - **Clear categorization** (Merch, Jams, Collaborations, etc.)
 - **Visual hierarchy** with distinct section headers
 - **Product discovery** through curated collections
 
 ### Emotional Connection
+
 - **Warm, inviting color palette** that feels approachable
 - **Storytelling elements** that connect users to the brand
 - **Social proof** through collaborations and community features
 
 ### Accessibility Features
+
 - **High contrast ratios** for text readability
 - **Clear focus states** for keyboard navigation
 - **Descriptive alt text** for all images

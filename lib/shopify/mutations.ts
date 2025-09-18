@@ -13,7 +13,7 @@ export const CreateCartMutation = `
       }
     }
   }
-`
+`;
 
 export const AddToCartMutation = `
   mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
@@ -30,4 +30,4 @@ export const AddToCartMutation = `
       }
     }
   }
-`
+`;

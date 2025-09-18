@@ -16,42 +16,48 @@
  * <CartCounter />
  */
 
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import { useCartItemCount, useIsAuthenticated, useCartLoading } from '@/stores/cart-store'
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
+import { useEffect, useState } from 'react';
+import {
+  useCartItemCount,
+  useIsAuthenticated,
+  useCartLoading,
+} from '@/stores/cart-store';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 
 export function CartCounter() {
-  const [mounted, setMounted] = useState(false)
-  const itemCount = useCartItemCount()
-  const isAuthenticated = useIsAuthenticated()
-  const isLoading = useCartLoading()
+  const [mounted, setMounted] = useState(false);
+  const itemCount = useCartItemCount();
+  const isAuthenticated = useIsAuthenticated();
+  const isLoading = useCartLoading();
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   if (itemCount === 0 && !isLoading && mounted) {
-    return null // Don't show badge when cart is empty
+    return null; // Don't show badge when cart is empty
   }
 
   // Don't render anything until mounted to prevent hydration mismatch
   if (!mounted) {
-    return null
+    return null;
   }
 
   return (
     <span
-      className="absolute -top-2 -right-2 bg-terracotta text-pure-white text-caption font-bold rounded-full w-5 h-5 flex items-center justify-center text-xs"
+      className='absolute -top-2 -right-2 bg-terracotta text-white text-xs px-2 py-1 rounded-full font-bold animate-pulse'
       aria-label={`${itemCount} items in cart${isAuthenticated ? ' (synced)' : ' (local only)'}`}
       suppressHydrationWarning
     >
       {isLoading ? (
-        <LoadingSpinner size="xs" color="white" />
+        <LoadingSpinner size='xs' color='white' />
+      ) : itemCount > 99 ? (
+        '99+'
       ) : (
-        itemCount > 99 ? '99+' : itemCount
+        itemCount
       )}
     </span>
-  )
+  );
 }

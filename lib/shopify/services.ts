@@ -1,5 +1,5 @@
-import { prisma } from '../db/prisma'
-import { storefrontClient } from './client'
+import { prisma } from '../db/prisma';
+import { storefrontClient } from './client';
 
 // You must provide a userId to create a cart
 export async function createCart(userId: string) {
@@ -7,10 +7,10 @@ export async function createCart(userId: string) {
   // Store cart reference in Prisma
   const cart = await prisma.cart.create({
     data: {
-      userId
-    }
-  })
-  return cart
+      userId,
+    },
+  });
+  return cart;
 }
 
 // Limit cart lines to 20 and only fetch needed fields
@@ -43,39 +43,39 @@ const GetCartQuery = `
       }
     }
   }
-`
+`;
 
 interface CartResponse {
   cart: {
-    id: string
-    totalQuantity: number
+    id: string;
+    totalQuantity: number;
     cost: {
       totalAmount: {
-        amount: string
-        currencyCode: string
-      }
-    }
+        amount: string;
+        currencyCode: string;
+      };
+    };
     lines: {
       edges: Array<{
         node: {
-          id: string
-          quantity: number
+          id: string;
+          quantity: number;
           merchandise: {
-            id: string
-            title: string
+            id: string;
+            title: string;
             price: {
-              amount: string
-              currencyCode: string
-            }
+              amount: string;
+              currencyCode: string;
+            };
             product: {
-              title: string
-              handle: string
-            }
-          }
-        }
-      }>
-    }
-  }
+              title: string;
+              handle: string;
+            };
+          };
+        };
+      }>;
+    };
+  };
 }
 
 export async function getCart(cartId: string) {
@@ -84,12 +84,12 @@ export async function getCart(cartId: string) {
     storefrontClient.request<CartResponse>(GetCartQuery, { cartId }),
     prisma.cart.findUnique({
       where: { id: cartId },
-      include: { items: true }
-    })
-  ])
-  
+      include: { items: true },
+    }),
+  ]);
+
   return {
     ...shopifyCart.cart,
-    localData: localCart
-  }
+    localData: localCart,
+  };
 }

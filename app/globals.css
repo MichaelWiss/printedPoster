@@ -9,25 +9,25 @@
   --cream-base: #faf7f2;
   --deep-charcoal: #2a2724;
   --pure-white: #ffffff;
-  
+
   /* Accent Colors */
   --sage-green: #9fb8a8;
   --warm-taupe: #8b7355;
   --terracotta: #d4a574;
   --highlight-orange: #e83904;
-  
+
   /* Neutral Grays */
   --warm-gray: #8b8680;
   --light-gray: #f0ebe3;
   --border-gray: #e8e5e0;
-  
+
   /* Semantic Colors */
   --success: var(--sage-green);
   --warning: #d4b655;
   --error: #e8a598;
   --info: #7a9cc6;
   --highlight: var(--highlight-orange);
-  
+
   /* Legacy compatibility */
   --background: var(--cream-base);
   --foreground: var(--deep-charcoal);
@@ -44,24 +44,26 @@
     color: var(--deep-charcoal);
     background-color: var(--cream-base);
   }
-  
+
   /* Design System Typography Hierarchy */
-  h1 { 
+  h1 {
     font-family: var(--font-playfair);
     @apply text-4xl md:text-5xl font-semibold text-deep-charcoal leading-tight;
   }
 
-  h2 { 
+  h2 {
     font-family: var(--font-playfair);
     @apply text-3xl md:text-4xl font-medium text-deep-charcoal leading-tight;
   }
 
-  h3 { 
+  h3 {
     font-family: var(--font-playfair);
     @apply text-2xl md:text-3xl font-medium text-deep-charcoal leading-snug;
   }
 
-  h4, h5, h6 { 
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-inter);
     @apply text-xl font-medium text-deep-charcoal leading-snug;
   }
@@ -130,39 +132,91 @@
 /* Semantic Color Classes */
 @layer components {
   /* Text Colors */
-  .text-success { color: var(--success); }
-  .text-warning { color: var(--warning); }
-  .text-error { color: var(--error); }
-  .text-info { color: var(--info); }
-  .text-highlight { color: var(--highlight); }
-  .text-muted { color: var(--warm-gray); }
+  .text-success {
+    color: var(--success);
+  }
+  .text-warning {
+    color: var(--warning);
+  }
+  .text-error {
+    color: var(--error);
+  }
+  .text-info {
+    color: var(--info);
+  }
+  .text-highlight {
+    color: var(--highlight);
+  }
+  .text-muted {
+    color: var(--warm-gray);
+  }
 
   /* Background Colors */
-  .bg-success { background-color: var(--success); }
-  .bg-warning { background-color: var(--warning); }
-  .bg-error { background-color: var(--error); }
-  .bg-info { background-color: var(--info); }
-  .bg-highlight { background-color: var(--highlight); }
+  .bg-success {
+    background-color: var(--success);
+  }
+  .bg-warning {
+    background-color: var(--warning);
+  }
+  .bg-error {
+    background-color: var(--error);
+  }
+  .bg-info {
+    background-color: var(--info);
+  }
+  .bg-highlight {
+    background-color: var(--highlight);
+  }
 
   /* Border Colors */
-  .border-success { border-color: var(--success); }
-  .border-warning { border-color: var(--warning); }
-  .border-error { border-color: var(--error); }
-  .border-info { border-color: var(--info); }
-  .border-highlight { border-color: var(--highlight); }
+  .border-success {
+    border-color: var(--success);
+  }
+  .border-warning {
+    border-color: var(--warning);
+  }
+  .border-error {
+    border-color: var(--error);
+  }
+  .border-info {
+    border-color: var(--info);
+  }
+  .border-highlight {
+    border-color: var(--highlight);
+  }
 
   /* Hover States */
-  .hover\:text-success:hover { color: var(--success); }
-  .hover\:text-warning:hover { color: var(--warning); }
-  .hover\:text-error:hover { color: var(--error); }
-  .hover\:text-info:hover { color: var(--info); }
-  .hover\:text-highlight:hover { color: var(--highlight); }
+  .hover\:text-success:hover {
+    color: var(--success);
+  }
+  .hover\:text-warning:hover {
+    color: var(--warning);
+  }
+  .hover\:text-error:hover {
+    color: var(--error);
+  }
+  .hover\:text-info:hover {
+    color: var(--info);
+  }
+  .hover\:text-highlight:hover {
+    color: var(--highlight);
+  }
 
-  .hover\:bg-success:hover { background-color: var(--success); }
-  .hover\:bg-warning:hover { background-color: var(--warning); }
-  .hover\:bg-error:hover { background-color: var(--error); }
-  .hover\:bg-info:hover { background-color: var(--info); }
-  .hover\:bg-highlight:hover { background-color: var(--highlight); }
+  .hover\:bg-success:hover {
+    background-color: var(--success);
+  }
+  .hover\:bg-warning:hover {
+    background-color: var(--warning);
+  }
+  .hover\:bg-error:hover {
+    background-color: var(--error);
+  }
+  .hover\:bg-info:hover {
+    background-color: var(--info);
+  }
+  .hover\:bg-highlight:hover {
+    background-color: var(--highlight);
+  }
 
   /* Footer link styles with cream text */
   .footer-link {
@@ -189,40 +243,50 @@
   }
 }
 
-/* Advanced Add to Cart Button Styles */
+/* Enhanced Add to Cart Button Styles - Mobile Optimized */
 .add-to-cart-btn {
   position: relative;
   display: flex;
   align-items: center;
-  border: 1px solid #000000;
-  border-radius: 20px;
+  border: 2px solid #000000;
+  border-radius: 25px;
   overflow: hidden;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
-  background-color: #8b7355;
+  background: linear-gradient(135deg, #8b7355 0%, #d4a574 100%);
   color: #000000;
   padding: 0;
-  width: auto;
-  min-width: 110px;
-  height: 30px;
-  transition: box-shadow 0.15s ease;
+  width: 100%;
+  min-width: 140px;
+  min-height: 44px; /* Mobile touch target minimum */
+  height: 44px; /* Default height for mobile */
+  transition: all 0.3s ease;
+}
+
+/* Desktop height adjustment */
+@media (min-width: 768px) {
+  .add-to-cart-btn {
+    height: 40px;
+    min-height: 40px;
+  }
 }
 
 .add-to-cart-btn:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .add-to-cart-btn::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   width: 60%;
-  background-color: #d4a574;
+  background: linear-gradient(135deg, #d4a574 0%, #ff6b6b 100%);
   transform: translateX(100%);
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease;
   z-index: 0;
 }
 
@@ -233,57 +297,60 @@
 .quantity-section {
   display: flex;
   align-items: center;
-  padding: 4px 6px;
-  gap: 2px;
+  padding: 6px 8px;
+  gap: 4px;
   position: relative;
   z-index: 1;
 }
 
 .divider {
-  width: 1px;
+  width: 2px;
   background-color: #000000;
   flex-shrink: 0;
   position: relative;
   z-index: 1;
-  margin: 0 2px;
+  margin: 0 4px;
 }
 
 .quantity-btn {
   background: none;
   border: none;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
   color: #000000;
-  width: 14px;
-  height: 14px;
+  min-width: 32px;
+  min-height: 32px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 1;
-  line-height: 1;
-  padding: 0;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.quantity-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .quantity-display {
-  font-size: 11px;
-  font-weight: 600;
-  min-width: 10px;
-  text-align: center;
   color: #000000;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
   position: relative;
   z-index: 1;
 }
 
 .add-to-cart-section {
-  padding: 4px 10px;
+  flex: 1;
+  text-align: center;
   color: #000000;
-  transition: color 0.2s ease;
+  font-weight: 600;
   position: relative;
   z-index: 1;
-  font-size: 11px;
-  white-space: nowrap;
+  padding: 6px 8px;
 }
 
 .add-to-cart-btn:hover .add-to-cart-section {

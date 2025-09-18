@@ -5,20 +5,24 @@
 ### Primary Color Combinations
 
 **Deep Charcoal (#2a2724) on Cream Base (#faf7f2)**
+
 - Contrast Ratio: ~15.7:1
 - WCAG AA: ✅ Pass (4.5:1 required)
 - WCAG AAA: ✅ Pass (7:1 required)
 
 **Sage Green (#9fb8a8) on Pure White (#ffffff)**
+
 - Contrast Ratio: ~3.2:1
 - WCAG AA Large Text: ✅ Pass (3:1 required)
 - WCAG AA Normal Text: ⚠️ Borderline (4.5:1 required)
 
 **Warm Gray (#8b8680) on Cream Base (#faf7f2)**
+
 - Contrast Ratio: ~4.8:1
 - WCAG AA: ✅ Pass (4.5:1 required)
 
 **Highlight Orange (#e83904) on Pure White (#ffffff)**
+
 - Contrast Ratio: ~4.9:1
 - WCAG AA: ✅ Pass (4.5:1 required)
 

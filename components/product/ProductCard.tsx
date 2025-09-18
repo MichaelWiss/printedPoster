@@ -5,70 +5,88 @@
  * Links to the product detail page and includes hover effects.
  */
 
-"use client"
+'use client';
 
-import Image from 'next/image'
-import Link from 'next/link'
-import type { ShopifyProduct } from '@/types/shopify'
-import AdvancedAddToCartButton from '@/components/product/AdvancedAddToCartButton'
+import { memo } from 'react';
+import Image from 'next/image';
+
+import type { ShopifyProduct } from '@/types/shopify';
 
 // Define the props interface for type safety
 interface ProductCardProps {
   /** The product data to display */
-  product: ShopifyProduct
+  product: ShopifyProduct;
   /** Optional click handler forwarded from the parent */
-  onClick?: () => void
+  onClick?: () => void;
 }
 
-export function ProductCard({ product, onClick }: ProductCardProps) {
+export const ProductCard = memo(function ProductCard({
+  product,
+  onClick,
+}: ProductCardProps) {
   // Extract the first image from the product's images array
-  const firstImage = product.images?.edges[0]?.node
+  const firstImage = product.images?.edges[0]?.node;
   // Get the price information
-  const price = product.priceRange?.minVariantPrice
+  const price = product.priceRange?.minVariantPrice;
+
+  // Generate a gradient class based on product ID for variety
+  const gradientClasses = [
+    'gradient-sage',
+    'gradient-terracotta', 
+    'gradient-dusty',
+    'gradient-coral',
+    'gradient-mustard',
+    'gradient-lavender'
+  ];
+  const gradientClass = gradientClasses[product.id.length % gradientClasses.length];
 
   return (
-    // Link wrapper makes the entire card clickable
-    <Link
-      href={`/products/${product.handle}`}
-      className="group block"
-      onClick={onClick}
-    >
-      {/* Card container with refined styles */}
-      <div className="bg-white border border-border-gray rounded-sm overflow-hidden transition-all duration-300 hover:shadow-soft hover:-translate-y-0.5 hover:border-sage-green group">
-        {/* Product image section */}
-        {firstImage && (
-          <div className="relative bg-light-gray aspect-square overflow-hidden">
+    // Card container - exact structure from combined-mockup.html
+    <div className='card group'>
+      {/* Product image section with gradient background */}
+      <div className='relative overflow-hidden'>
+        <div className={`${gradientClass} w-full h-64 flex items-center justify-center`}>
+          {firstImage ? (
             <Image
               src={firstImage.url}
               alt={firstImage.altText || product.title}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              width={200}
+              height={200}
+              className='object-cover transition-transform duration-300 group-hover:scale-105'
+              sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
+              loading="lazy"
             />
-          </div>
-        )}
-        {/* Product information section */}
-        <div className="p-4">
-          <h2 className="text-lg font-medium mb-2">{product.title}</h2>
-          <p className="text-warm-gray text-sm mb-3 line-clamp-2">{product.description}</p>
-          <div className="flex items-center justify-between mb-3">
-            <p className="text-base font-semibold">
-              {price ? (
-                new Intl.NumberFormat('en-US', {
+          ) : (
+            <span className='text-white font-display text-5xl'>1</span>
+          )}
+        </div>
+        <div className='absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300'></div>
+      </div>
+      {/* Product information section */}
+      <div className='p-4 md:p-6'>
+        <h4 className='text-lg md:text-hierarchy-h3 mb-2 md:mb-3'>{product.title}</h4>
+        <p className='text-sm md:text-body-small mb-3 md:mb-4 line-clamp-2'>{product.description}</p>
+        <div className='flex items-center justify-between mb-3 md:mb-4'>
+          <span className='text-base md:text-price font-semibold'>
+            {price
+              ? new Intl.NumberFormat('en-US', {
                   style: 'currency',
-                  currency: price.currencyCode || 'USD'
+                  currency: price.currencyCode || 'USD',
                 }).format(parseFloat(price.amount))
-              ) : (
-                '—'
-              )}
-            </p>
-            <span className="text-sm text-warm-gray">Free shipping</span>
+              : '—'}
+          </span>
+          <span className='text-xs md:text-caption bg-light-sage px-2 py-1 rounded-full'>Free shipping</span>
+        </div>
+        <div className='add-to-cart-btn min-h-[44px]'>
+          <div className='quantity-section'>
+            <span className='quantity-btn min-h-[32px] min-w-[32px]'>−</span>
+            <span className='quantity-display'>1</span>
+            <span className='quantity-btn min-h-[32px] min-w-[32px]'>+</span>
           </div>
-
-          {/* Advanced Add to Cart Button (inside Link-wrapped card) */}
-          <AdvancedAddToCartButton product={product} />
+          <div className='divider'></div>
+          <div className='add-to-cart-section min-h-[32px] flex items-center justify-center'>Add to Cart</div>
         </div>
       </div>
-    </Link>
-  )
-}
+    </div>
+  );
+});

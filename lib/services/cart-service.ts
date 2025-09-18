@@ -1,14 +1,13 @@
-import { prisma } from '../db/prisma'
-import type { CartItem as PrismaCartItem } from '@prisma/client'
+import { prisma } from '../db/prisma';
 
 export interface CartItemData {
-  productId: string
-  variantId: string
-  title: string
-  handle: string
-  price: number
-  imageUrl?: string
-  quantity: number
+  productId: string;
+  variantId: string;
+  title: string;
+  handle: string;
+  price: number;
+  imageUrl?: string;
+  quantity: number;
 }
 
 export class CartService {
@@ -18,11 +17,11 @@ export class CartService {
       data: {
         userId,
         items: {
-          create: items
-        }
+          create: items,
+        },
       },
-      include: { items: true }
-    })
+      include: { items: true },
+    });
   }
 
   // Get active cart for user
@@ -30,11 +29,11 @@ export class CartService {
     return prisma.cart.findFirst({
       where: {
         userId,
-        isActive: true
+        isActive: true,
       },
       include: { items: true },
-      orderBy: { updatedAt: 'desc' }
-    })
+      orderBy: { updatedAt: 'desc' },
+    });
   }
 
   // Create guest cart with session tracking
@@ -45,24 +44,25 @@ export class CartService {
         sessionId,
         isActive: true,
         items: {
-          create: items
-        }
+          create: items,
+        },
       },
-      include: { items: true }
-    })
+      include: { items: true },
+    });
   }
 
   // Migrate guest cart to authenticated user
   async migrateGuestCart(sessionId: string, userId: string) {
     const guestCart = await prisma.cart.findFirst({
       where: { sessionId, isActive: true },
-      include: { items: true }
-    })
+      include: { items: true },
+    });
 
-    if (!guestCart) return null
+    if (!guestCart) return null;
 
     // Create new cart for authenticated user
-    const userCart = await this.createUserCart(userId,
+    const userCart = await this.createUserCart(
+      userId,
       guestCart.items.map(item => ({
         productId: item.productId,
         variantId: item.variantId,
@@ -70,17 +70,17 @@ export class CartService {
         handle: item.handle,
         price: item.price,
         imageUrl: item.imageUrl || undefined,
-        quantity: item.quantity
+        quantity: item.quantity,
       }))
-    )
+    );
 
     // Deactivate guest cart
     await prisma.cart.update({
       where: { id: guestCart.id },
-      data: { isActive: false }
-    })
+      data: { isActive: false },
+    });
 
-    return userCart
+    return userCart;
   }
 
   // Add item to cart
@@ -89,67 +89,67 @@ export class CartService {
       where: {
         cartId,
         productId: item.productId,
-        variantId: item.variantId
-      }
-    })
+        variantId: item.variantId,
+      },
+    });
 
     if (existingItem) {
       return prisma.cartItem.update({
         where: { id: existingItem.id },
-        data: { quantity: existingItem.quantity + item.quantity }
-      })
+        data: { quantity: existingItem.quantity + item.quantity },
+      });
     }
 
     return prisma.cartItem.create({
       data: {
         cartId,
-        ...item
-      }
-    })
+        ...item,
+      },
+    });
   }
 
   // Update cart item quantity
   async updateCartItem(cartItemId: string, quantity: number) {
     if (quantity <= 0) {
       return prisma.cartItem.delete({
-        where: { id: cartItemId }
-      })
+        where: { id: cartItemId },
+      });
     }
 
     return prisma.cartItem.update({
       where: { id: cartItemId },
-      data: { quantity }
-    })
+      data: { quantity },
+    });
   }
 
   // Remove item from cart
   async removeCartItem(cartItemId: string) {
     return prisma.cartItem.delete({
-      where: { id: cartItemId }
-    })
+      where: { id: cartItemId },
+    });
   }
 
   // Clear cart
   async clearCart(cartId: string) {
     return prisma.cartItem.deleteMany({
-      where: { cartId }
-    })
+      where: { cartId },
+    });
   }
 
   // Sync cart items (for cross-device sync)
   async syncCart(cartId: string, items: CartItemData[]) {
     // Delete existing items
-    await prisma.cartItem.deleteMany({ where: { cartId } })
+    await prisma.cartItem.deleteMany({ where: { cartId } });
 
     // Create new items
     await prisma.cartItem.createMany({
-      data: items.map(item => ({ cartId, ...item }))
-    })
+      data: items.map(item => ({ cartId, ...item })),
+    });
 
     return prisma.cart.findUnique({
       where: { id: cartId },
-      include: { items: true }
-    })
+      include: { items: true },
+    });
   }
 
   // Get cart by session ID (for guest carts)
@@ -157,19 +157,19 @@ export class CartService {
     return prisma.cart.findFirst({
       where: {
         sessionId,
-        isActive: true
+        isActive: true,
       },
-      include: { items: true }
-    })
+      include: { items: true },
+    });
   }
 
   // Update cart's last activity
   async updateCartActivity(cartId: string) {
     return prisma.cart.update({
       where: { id: cartId },
-      data: { updatedAt: new Date() }
-    })
+      data: { updatedAt: new Date() },
+    });
   }
 }
 
-export const cartService = new CartService()
+export const cartService = new CartService();

@@ -1,131 +1,136 @@
-import { cartService } from './cart-service'
-import { useCartStore } from '@/stores/cart-store'
-import type { CartItemData } from './cart-service'
+import { useCartStore } from '@/stores/cart-store';
 
 export class SyncService {
-  private syncInterval: NodeJS.Timeout | null = null
-  private isOnline = true
+  private syncInterval: NodeJS.Timeout | null = null;
+  private isOnline = true;
 
   constructor() {
-    this.setupOnlineOfflineListeners()
+    this.setupOnlineOfflineListeners();
   }
 
   // Setup online/offline event listeners
   private setupOnlineOfflineListeners() {
-    if (typeof window === 'undefined') return
+    if (typeof window === 'undefined') return;
 
     window.addEventListener('online', () => {
-      this.isOnline = true
-      this.startPeriodicSync()
-      this.performImmediateSync()
-    })
+      this.isOnline = true;
+      this.startPeriodicSync();
+      this.performImmediateSync();
+    });
 
     window.addEventListener('offline', () => {
-      this.isOnline = false
-      this.stopPeriodicSync()
-    })
+      this.isOnline = false;
+      this.stopPeriodicSync();
+    });
   }
 
   // Start periodic sync for authenticated users
-  startPeriodicSync(userId?: string) {
-    if (!userId || this.syncInterval) return
+  startPeriodicSync(_userId?: string) {
+    if (!_userId || this.syncInterval) return;
 
     // Sync every 30 seconds when online
     this.syncInterval = setInterval(() => {
       if (this.isOnline) {
-        this.performBackgroundSync(userId)
+        this.performBackgroundSync(_userId);
       }
-    }, 30000)
+    }, 30000);
   }
 
   // Stop periodic sync
   stopPeriodicSync() {
     if (this.syncInterval) {
-      clearInterval(this.syncInterval)
-      this.syncInterval = null
+      clearInterval(this.syncInterval);
+      this.syncInterval = null;
     }
   }
 
   // Immediate sync when coming online
   async performImmediateSync() {
-    const cartStore = useCartStore.getState()
+    const cartStore = useCartStore.getState();
 
     if (cartStore.isAuthenticated && cartStore.userId) {
       try {
-        await cartStore.syncWithServer()
-        console.log('Immediate sync completed')
+        await cartStore.syncWithServer();
+        console.log('Immediate sync completed');
       } catch (error) {
-        console.error('Immediate sync failed:', error)
+        console.error('Immediate sync failed:', error);
       }
     }
   }
 
   // Background sync (doesn't show loading states)
-  async performBackgroundSync(userId: string) {
+  async performBackgroundSync(_userId: string) {
     try {
-      const cartStore = useCartStore.getState()
+      const cartStore = useCartStore.getState();
 
       if (!cartStore.isAuthenticated || cartStore.items.length === 0) {
-        return
+        return;
       }
 
       // Only sync if there are pending changes
-      const hasPendingChanges = cartStore.items.some(item => item.pendingSync)
+      const hasPendingChanges = cartStore.items.some(item => item.pendingSync);
 
       if (hasPendingChanges) {
-        await cartStore.syncWithServer()
-        console.log('Background sync completed')
+        await cartStore.syncWithServer();
+        console.log('Background sync completed');
       }
     } catch (error) {
-      console.error('Background sync failed:', error)
+      console.error('Background sync failed:', error);
       // Don't show error for background sync
     }
   }
 
   // Force sync (for manual sync button)
   async forceSync(): Promise<boolean> {
-    const cartStore = useCartStore.getState()
+    const cartStore = useCartStore.getState();
 
     if (!cartStore.isAuthenticated || !cartStore.userId) {
-      return false
+      return false;
     }
 
     try {
-      await cartStore.syncWithServer()
-      return true
+      await cartStore.syncWithServer();
+      return true;
     } catch (error) {
-      console.error('Force sync failed:', error)
-      return false
+      console.error('Force sync failed:', error);
+      return false;
     }
   }
 
   // Handle sync conflicts (server vs local)
   async resolveSyncConflict(
     localItems: Array<{
-      id: string
-      product: { id: string; title: string; handle: string } & Record<string, unknown>
-      quantity: number
+      id: string;
+      product: { id: string; title: string; handle: string } & Record<
+        string,
+        unknown
+      >;
+      quantity: number;
     }>,
     serverItems: Array<import('./cart-service').CartItemData & { id?: string }>
   ) {
     // Strategy: Server wins, but preserve local additions
-    const serverItemMap = new Map(serverItems.map((item) => [item.productId, item]))
+    const serverItemMap = new Map(
+      serverItems.map(item => [item.productId, item])
+    );
 
-    const resolvedItems = localItems.map((localItem) => {
-      const serverItem = serverItemMap.get(localItem.product.id)
+    const resolvedItems = localItems.map(localItem => {
+      const serverItem = serverItemMap.get(localItem.product.id);
       if (serverItem) {
         // Merge quantities if both exist
         return {
           ...localItem,
           quantity: Math.max(localItem.quantity, serverItem.quantity),
-        }
+        };
       }
-      return localItem
-    })
+      return localItem;
+    });
 
     // Add server-only items
-    serverItems.forEach((serverItem) => {
-      const existsLocally = localItems.some((item) => item.product.id === serverItem.productId)
+    serverItems.forEach(serverItem => {
+      const existsLocally = localItems.some(
+        item => item.product.id === serverItem.productId
+      );
       if (!existsLocally) {
         resolvedItems.push({
           id: `server-${serverItem.id ?? serverItem.productId}`,
@@ -163,25 +168,25 @@ export class SyncService {
             },
           },
           quantity: serverItem.quantity,
-        })
+        });
       }
-    })
+    });
 
-    return resolvedItems
+    return resolvedItems;
   }
 
   // Get sync status
   getSyncStatus() {
-    const cartStore = useCartStore.getState()
+    const cartStore = useCartStore.getState();
 
     return {
       isOnline: this.isOnline,
       isAuthenticated: cartStore.isAuthenticated,
       lastSynced: cartStore.lastSynced,
       hasPendingChanges: cartStore.items.some(item => item.pendingSync),
-      serverCartId: cartStore.serverCartId
-    }
+      serverCartId: cartStore.serverCartId,
+    };
   }
 }
 
-export const syncService = new SyncService()
+export const syncService = new SyncService();

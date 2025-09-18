@@ -1,433 +1,454 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Perfumer H Inspired Design Mockup - Printed Poster</title>
     <style>
-        /* Perfumer H inspired color palette and design tokens */
-        :root {
-            --background: #faf9f7; /* warm off-white like perfumerh */
-            --foreground: #2a2724; /* deep charcoal for text */
-            --accent: #8b7355; /* warm taupe/beige from perfumerh */
-            --muted: #6b6358; /* sophisticated gray-brown */
-            --card-bg: #ffffff;
-            --border: #e8e5e0; /* subtle warm border */
-        }
+      /* Perfumer H inspired color palette and design tokens */
+      :root {
+        --background: #faf9f7; /* warm off-white like perfumerh */
+        --foreground: #2a2724; /* deep charcoal for text */
+        --accent: #8b7355; /* warm taupe/beige from perfumerh */
+        --muted: #6b6358; /* sophisticated gray-brown */
+        --card-bg: #ffffff;
+        --border: #e8e5e0; /* subtle warm border */
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            background-color: var(--background);
-            color: var(--foreground);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            font-weight: 400;
-            line-height: 1.6;
-            letter-spacing: -0.01em;
-        }
+      body {
+        background-color: var(--background);
+        color: var(--foreground);
+        font-family:
+          'Inter',
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          'Roboto',
+          sans-serif;
+        font-weight: 400;
+        line-height: 1.6;
+        letter-spacing: -0.01em;
+      }
 
-        /* Typography inspired by Perfumer H */
-        h1 { 
-            font-size: 2.5rem; 
-            line-height: 1.2; 
-            font-weight: 400; 
-            letter-spacing: -0.02em; 
-            color: var(--foreground);
-            margin-bottom: 1.5rem;
-        }
+      /* Typography inspired by Perfumer H */
+      h1 {
+        font-size: 2.5rem;
+        line-height: 1.2;
+        font-weight: 400;
+        letter-spacing: -0.02em;
+        color: var(--foreground);
+        margin-bottom: 1.5rem;
+      }
 
-        h2 { 
-            font-size: 1.75rem; 
-            line-height: 1.3; 
-            font-weight: 400; 
-            letter-spacing: -0.02em; 
-            color: var(--foreground);
-            margin-bottom: 1rem;
-        }
+      h2 {
+        font-size: 1.75rem;
+        line-height: 1.3;
+        font-weight: 400;
+        letter-spacing: -0.02em;
+        color: var(--foreground);
+        margin-bottom: 1rem;
+      }
 
-        h3 { 
-            font-size: 1.25rem; 
-            line-height: 1.4; 
-            font-weight: 400; 
-            letter-spacing: -0.01em;
-            margin-bottom: 0.75rem;
-        }
+      h3 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+        font-weight: 400;
+        letter-spacing: -0.01em;
+        margin-bottom: 0.75rem;
+      }
 
-        .container {
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
-        }
+      .container {
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
 
-        /* Header */
-        .header {
-            border-bottom: 1px solid var(--border);
-            padding: 1.5rem 0;
-            background: var(--background);
-        }
+      /* Header */
+      .header {
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem 0;
+        background: var(--background);
+      }
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 400;
-            letter-spacing: 0.02em;
-            text-transform: lowercase;
-            color: var(--foreground);
-        }
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        text-transform: lowercase;
+        color: var(--foreground);
+      }
 
-        .nav {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
+      .nav {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
 
-        .nav a {
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-            transition: color 0.2s ease;
-        }
+      .nav a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.95rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        transition: color 0.2s ease;
+      }
 
-        .nav a:hover {
-            color: var(--accent);
-        }
+      .nav a:hover {
+        color: var(--accent);
+      }
 
-        /* Hero Section */
-        .hero {
-            padding: 4rem 0;
-            text-align: center;
-        }
+      /* Hero Section */
+      .hero {
+        padding: 4rem 0;
+        text-align: center;
+      }
 
-        .hero-subtitle {
-            color: var(--muted);
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            font-weight: 400;
-        }
+      .hero-subtitle {
+        color: var(--muted);
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        font-weight: 400;
+      }
 
-        /* Product Grid */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 3rem 0;
-        }
+      /* Product Grid */
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 3rem 0;
+      }
 
-        /* Sophisticated card styles inspired by perfumerh product cards */
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 0.25rem;
-            overflow: hidden;
-            transition: all 0.2s ease;
-        }
+      /* Sophisticated card styles inspired by perfumerh product cards */
+      .card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.25rem;
+        overflow: hidden;
+        transition: all 0.2s ease;
+      }
 
-        .card:hover {
-            border-color: var(--accent);
-            transform: translateY(-1px);
-        }
+      .card:hover {
+        border-color: var(--accent);
+        transform: translateY(-1px);
+      }
 
-        .card-image {
-            width: 100%;
-            height: 300px;
-            background: linear-gradient(135deg, #f0ede8 0%, #e8e5e0 100%);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--muted);
-            font-size: 0.9rem;
-            letter-spacing: 0.02em;
-        }
+      .card-image {
+        width: 100%;
+        height: 300px;
+        background: linear-gradient(135deg, #f0ede8 0%, #e8e5e0 100%);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--muted);
+        font-size: 0.9rem;
+        letter-spacing: 0.02em;
+      }
 
-        .card-content {
-            padding: 1.5rem;
-        }
+      .card-content {
+        padding: 1.5rem;
+      }
 
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 400;
-            margin-bottom: 0.5rem;
-            color: var(--foreground);
-        }
+      .card-title {
+        font-size: 1.1rem;
+        font-weight: 400;
+        margin-bottom: 0.5rem;
+        color: var(--foreground);
+      }
 
-        .card-description {
-            color: var(--muted);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
+      .card-description {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+      }
 
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+      .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-        .price {
-            font-weight: 500;
-            color: var(--foreground);
-        }
+      .price {
+        font-weight: 500;
+        color: var(--foreground);
+      }
 
-        .shipping-note {
-            font-size: 0.85rem;
-            color: var(--muted);
-        }
+      .shipping-note {
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
 
-        /* Refined button styles matching perfumerh */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border: 1px solid var(--border);
-            font-weight: 400;
-            font-size: 0.95rem;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            cursor: pointer;
-            background: transparent;
-        }
+      /* Refined button styles matching perfumerh */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border: 1px solid var(--border);
+        font-weight: 400;
+        font-size: 0.95rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        cursor: pointer;
+        background: transparent;
+      }
 
-        .btn-primary {
-            background: var(--foreground);
-            color: var(--background);
-            border-color: var(--foreground);
-        }
+      .btn-primary {
+        background: var(--foreground);
+        color: var(--background);
+        border-color: var(--foreground);
+      }
 
-        .btn-primary:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
+      .btn-primary:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
 
-        .btn-ghost {
-            background: transparent;
-            color: var(--foreground);
-        }
+      .btn-ghost {
+        background: transparent;
+        color: var(--foreground);
+      }
 
-        .btn-ghost:hover {
-            background: var(--accent);
-            color: var(--background);
-            border-color: var(--accent);
-        }
+      .btn-ghost:hover {
+        background: var(--accent);
+        color: var(--background);
+        border-color: var(--accent);
+      }
 
-        /* Color Palette Display */
-        .color-palette {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 3rem 0;
-            padding: 2rem;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 0.25rem;
-        }
+      /* Color Palette Display */
+      .color-palette {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 3rem 0;
+        padding: 2rem;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.25rem;
+      }
 
-        .color-swatch {
-            text-align: center;
-        }
+      .color-swatch {
+        text-align: center;
+      }
 
-        .color-box {
-            width: 100%;
-            height: 80px;
-            border-radius: 0.25rem;
-            margin-bottom: 0.5rem;
-            border: 1px solid var(--border);
-        }
+      .color-box {
+        width: 100%;
+        height: 80px;
+        border-radius: 0.25rem;
+        margin-bottom: 0.5rem;
+        border: 1px solid var(--border);
+      }
 
-        .color-name {
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
+      .color-name {
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+      }
 
-        .color-value {
-            font-size: 0.8rem;
-            color: var(--muted);
-            font-family: monospace;
-        }
+      .color-value {
+        font-size: 0.8rem;
+        color: var(--muted);
+        font-family: monospace;
+      }
 
-        .section {
-            padding: 3rem 0;
-            border-bottom: 1px solid var(--border);
-        }
+      .section {
+        padding: 3rem 0;
+        border-bottom: 1px solid var(--border);
+      }
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: var(--foreground);
-        }
+      .section-title {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: var(--foreground);
+      }
 
-        .typography-example {
-            padding: 2rem;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 0.25rem;
-            margin: 2rem 0;
-        }
+      .typography-example {
+        padding: 2rem;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.25rem;
+        margin: 2rem 0;
+      }
 
-        .text-muted {
-            color: var(--muted);
-            font-size: 0.95rem;
-        }
+      .text-muted {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Header -->
     <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">printed poster</div>
-                <nav>
-                    <ul class="nav">
-                        <li><a href="#">shop</a></li>
-                        <li><a href="#">collections</a></li>
-                        <li><a href="#">about</a></li>
-                        <li><a href="#">cart</a></li>
-                    </ul>
-                </nav>
-            </div>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">printed poster</div>
+          <nav>
+            <ul class="nav">
+              <li><a href="#">shop</a></li>
+              <li><a href="#">collections</a></li>
+              <li><a href="#">about</a></li>
+              <li><a href="#">cart</a></li>
+            </ul>
+          </nav>
         </div>
+      </div>
     </header>
 
     <div class="container">
-        <!-- Hero Section -->
-        <section class="hero">
-            <h1>Artisanal Printed Posters</h1>
-            <p class="hero-subtitle">Sophisticated designs for discerning spaces</p>
-            <button class="btn btn-primary">Explore Collection</button>
-        </section>
+      <!-- Hero Section -->
+      <section class="hero">
+        <h1>Artisanal Printed Posters</h1>
+        <p class="hero-subtitle">Sophisticated designs for discerning spaces</p>
+        <button class="btn btn-primary">Explore Collection</button>
+      </section>
 
-        <!-- Color Palette Section -->
-        <section class="section">
-            <h2 class="section-title">Perfumer H Inspired Color Palette</h2>
-            <div class="color-palette">
-                <div class="color-swatch">
-                    <div class="color-box" style="background-color: #faf9f7;"></div>
-                    <div class="color-name">Background</div>
-                    <div class="color-value">#faf9f7</div>
-                </div>
-                <div class="color-swatch">
-                    <div class="color-box" style="background-color: #2a2724;"></div>
-                    <div class="color-name">Foreground</div>
-                    <div class="color-value">#2a2724</div>
-                </div>
-                <div class="color-swatch">
-                    <div class="color-box" style="background-color: #8b7355;"></div>
-                    <div class="color-name">Accent</div>
-                    <div class="color-value">#8b7355</div>
-                </div>
-                <div class="color-swatch">
-                    <div class="color-box" style="background-color: #6b6358;"></div>
-                    <div class="color-name">Muted</div>
-                    <div class="color-value">#6b6358</div>
-                </div>
-                <div class="color-swatch">
-                    <div class="color-box" style="background-color: #e8e5e0;"></div>
-                    <div class="color-name">Border</div>
-                    <div class="color-value">#e8e5e0</div>
-                </div>
+      <!-- Color Palette Section -->
+      <section class="section">
+        <h2 class="section-title">Perfumer H Inspired Color Palette</h2>
+        <div class="color-palette">
+          <div class="color-swatch">
+            <div class="color-box" style="background-color: #faf9f7"></div>
+            <div class="color-name">Background</div>
+            <div class="color-value">#faf9f7</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background-color: #2a2724"></div>
+            <div class="color-name">Foreground</div>
+            <div class="color-value">#2a2724</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background-color: #8b7355"></div>
+            <div class="color-name">Accent</div>
+            <div class="color-value">#8b7355</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background-color: #6b6358"></div>
+            <div class="color-name">Muted</div>
+            <div class="color-value">#6b6358</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background-color: #e8e5e0"></div>
+            <div class="color-name">Border</div>
+            <div class="color-value">#e8e5e0</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Typography Section -->
+      <section class="section">
+        <h2 class="section-title">Typography & Text Styles</h2>
+        <div class="typography-example">
+          <h1>Main Heading (H1)</h1>
+          <h2>Section Heading (H2)</h2>
+          <h3>Subsection Heading (H3)</h3>
+          <p>
+            Body text with refined letter spacing and improved readability. This
+            demonstrates the Inter font stack with careful attention to line
+            height and character spacing.
+          </p>
+          <p class="text-muted">
+            Muted text for secondary information and descriptions.
+          </p>
+        </div>
+      </section>
+
+      <!-- Product Grid Section -->
+      <section class="section">
+        <h2 class="section-title">Product Grid Layout</h2>
+        <div class="product-grid">
+          <div class="card">
+            <div class="card-image">Product Image Placeholder</div>
+            <div class="card-content">
+              <h3 class="card-title">Botanical Series I</h3>
+              <p class="card-description">
+                Elegant botanical illustration inspired by classical herbarium
+                studies.
+              </p>
+              <div class="card-footer">
+                <span class="price">$85.00</span>
+                <span class="shipping-note">Free shipping</span>
+              </div>
             </div>
-        </section>
+          </div>
 
-        <!-- Typography Section -->
-        <section class="section">
-            <h2 class="section-title">Typography & Text Styles</h2>
-            <div class="typography-example">
-                <h1>Main Heading (H1)</h1>
-                <h2>Section Heading (H2)</h2>
-                <h3>Subsection Heading (H3)</h3>
-                <p>Body text with refined letter spacing and improved readability. This demonstrates the Inter font stack with careful attention to line height and character spacing.</p>
-                <p class="text-muted">Muted text for secondary information and descriptions.</p>
+          <div class="card">
+            <div class="card-image">Product Image Placeholder</div>
+            <div class="card-content">
+              <h3 class="card-title">Abstract Minimalist</h3>
+              <p class="card-description">
+                Contemporary abstract design with sophisticated color palette.
+              </p>
+              <div class="card-footer">
+                <span class="price">$95.00</span>
+                <span class="shipping-note">Free shipping</span>
+              </div>
             </div>
-        </section>
+          </div>
 
-        <!-- Product Grid Section -->
-        <section class="section">
-            <h2 class="section-title">Product Grid Layout</h2>
-            <div class="product-grid">
-                <div class="card">
-                    <div class="card-image">
-                        Product Image Placeholder
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Botanical Series I</h3>
-                        <p class="card-description">Elegant botanical illustration inspired by classical herbarium studies.</p>
-                        <div class="card-footer">
-                            <span class="price">$85.00</span>
-                            <span class="shipping-note">Free shipping</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-image">
-                        Product Image Placeholder
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Abstract Minimalist</h3>
-                        <p class="card-description">Contemporary abstract design with sophisticated color palette.</p>
-                        <div class="card-footer">
-                            <span class="price">$95.00</span>
-                            <span class="shipping-note">Free shipping</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-image">
-                        Product Image Placeholder
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">Architectural Study</h3>
-                        <p class="card-description">Refined architectural elements in muted tones.</p>
-                        <div class="card-footer">
-                            <span class="price">$105.00</span>
-                            <span class="shipping-note">Free shipping</span>
-                        </div>
-                    </div>
-                </div>
+          <div class="card">
+            <div class="card-image">Product Image Placeholder</div>
+            <div class="card-content">
+              <h3 class="card-title">Architectural Study</h3>
+              <p class="card-description">
+                Refined architectural elements in muted tones.
+              </p>
+              <div class="card-footer">
+                <span class="price">$105.00</span>
+                <span class="shipping-note">Free shipping</span>
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
+      </section>
 
-        <!-- Button Styles Section -->
-        <section class="section">
-            <h2 class="section-title">Button Styles</h2>
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; padding: 2rem;">
-                <button class="btn btn-primary">Primary Button</button>
-                <button class="btn btn-ghost">Ghost Button</button>
-                <button class="btn">Default Button</button>
-            </div>
-        </section>
+      <!-- Button Styles Section -->
+      <section class="section">
+        <h2 class="section-title">Button Styles</h2>
+        <div
+          style="
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 2rem;
+          "
+        >
+          <button class="btn btn-primary">Primary Button</button>
+          <button class="btn btn-ghost">Ghost Button</button>
+          <button class="btn">Default Button</button>
+        </div>
+      </section>
     </div>
 
     <script>
-        // Add some interactive hover effects
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.boxShadow = '0 8px 25px rgba(42, 39, 36, 0.08)';
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.boxShadow = 'none';
-            });
+      // Add some interactive hover effects
+      document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          card.style.boxShadow = '0 8px 25px rgba(42, 39, 36, 0.08)';
         });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.boxShadow = 'none';
+        });
+      });
     </script>
-</body>
+  </body>
 </html>

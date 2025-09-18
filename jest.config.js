@@ -5,13 +5,13 @@
 // option includes a short comment describing why it's important for this repo.
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const nextJest = require('next/jest')
+const nextJest = require('next/jest');
 
 const createJestConfig = nextJest({
   // Path to the Next.js app — this lets next/jest load next.config.js and any
   // environment variables defined for Next so tests run in a similar environment
   dir: './',
-})
+});
 
 // Add any custom config to be passed to Jest
 const customJestConfig = {
@@ -50,17 +50,15 @@ const customJestConfig = {
   // Some packages ship modern JS that needs to be transformed by Jest. We
   // explicitly allowlist `graphql-request` and `cross-fetch` so they are
   // transformed by our toolchain instead of being ignored.
-  transformIgnorePatterns: [
-    '/node_modules/(?!graphql-request|cross-fetch)/'
-  ],
+  transformIgnorePatterns: ['/node_modules/(?!graphql-request|cross-fetch)/'],
 
   // File extensions Jest will look at when resolving modules
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-}
+};
 
 // Export using the createJestConfig wrapper so next/jest can asynchronously
 // read Next.js configuration. This keeps the runtime and test behavior aligned.
-module.exports = createJestConfig(customJestConfig)
+module.exports = createJestConfig(customJestConfig);
 
 /* How Jest runs tests in this project (brief)
 

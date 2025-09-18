@@ -1,23 +1,23 @@
-'use client'
+'use client';
 
-import { ReactNode } from 'react'
-import { useCartSync } from '@/hooks/useCartSync'
-import { useCartMigration } from '@/hooks/useCartMigration'
-import { useClientInitialization } from '@/hooks/useClientInitialization'
+import { ReactNode } from 'react';
+import { useCartSync } from '@/hooks/useCartSync';
+import { useCartMigration } from '@/hooks/useCartMigration';
+import { useClientInitialization } from '@/hooks/useClientInitialization';
 
 interface CartSyncProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function CartSyncProvider({ children }: CartSyncProviderProps) {
   // Initialize client-side data after hydration
-  useClientInitialization()
+  useClientInitialization();
 
   // Initialize cart sync
-  useCartSync()
+  useCartSync();
 
   // Initialize cart migration
-  useCartMigration()
+  useCartMigration();
 
-  return <>{children}</>
+  return <>{children}</>;
 }

@@ -5,24 +5,15 @@
  * Handles cart operations for the store page.
  */
 
-"use client"
+'use client';
 
-import type { ShopifyProduct } from '@/types/shopify'
-import { ProductCard } from '@/components/product/ProductCard'
-import ViewportFadeIn from '@/components/ui/ViewportFadeIn'
+import type { ShopifyProduct } from '@/types/shopify';
+import { ProductGrid } from '@/components/product/ProductGrid';
 
 interface StoreProductsGridProps {
-  products: ShopifyProduct[]
+  products: ShopifyProduct[];
 }
 
 export function StoreProductsGrid({ products }: StoreProductsGridProps) {
-  return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-      {products.map((product, idx) => (
-        <ViewportFadeIn key={product.id} delayMs={(idx % 12) * 40}>
-          <ProductCard product={product} />
-        </ViewportFadeIn>
-      ))}
-    </div>
-  )
+  return <ProductGrid products={products} />;
 }

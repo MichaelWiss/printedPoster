@@ -1,19 +1,24 @@
-import { notFound } from 'next/navigation'
-import { getProductByHandle } from '@/lib/shopify/client'
-import { ProductDetails } from '@/components/product/ProductDetails'
+import { notFound } from 'next/navigation';
+
+import { getCachedProductWithRevalidation } from '@/lib/cache/data-cache';
+import { LazyProductDetails } from '@/components/product/LazyProductDetails';
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }: { params: Promise<{ handle: string }> }) {
-  const { handle } = await params
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ handle: string }>;
+}) {
+  const { handle } = await params;
 
   try {
-    const product = await getProductByHandle(handle)
+    const product = await getCachedProductWithRevalidation(handle);
 
     if (!product) {
       return {
         title: 'Product Not Found',
-        description: 'The requested product could not be found.'
-      }
+        description: 'The requested product could not be found.',
+      };
     }
 
     return {
@@ -22,36 +27,42 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
       openGraph: {
         title: product.title,
         description: product.description,
-        images: product.images?.edges[0]?.node?.url ? [product.images.edges[0].node.url] : []
-      }
-    }
+        images: product.images?.edges[0]?.node?.url
+          ? [product.images.edges[0].node.url]
+          : [],
+      },
+    };
   } catch (error) {
-    console.error('Error generating metadata:', error)
+    console.error('Error generating metadata:', error);
     return {
-      title: 'Product | Printed Poster'
-    }
+      title: 'Product | Printed Poster',
+    };
   }
 }
 
-export default async function ProductPage({ params }: { params: Promise<{ handle: string }> }) {
-  const { handle } = await params
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ handle: string }>;
+}) {
+  const { handle } = await params;
 
   try {
-    const product = await getProductByHandle(handle)
+    const product = await getCachedProductWithRevalidation(handle);
 
     if (!product) {
-      notFound()
+      notFound();
     }
 
     return (
-      <div className="min-h-screen bg-cream-base">
-        <div className="container mx-auto px-4 py-8 max-w-6xl">
-          <ProductDetails product={product} />
+      <div className='min-h-screen bg-cream-base'>
+        <div className='container mx-auto px-4 py-8 max-w-6xl'>
+          <LazyProductDetails product={product} />
         </div>
       </div>
-    )
+    );
   } catch (error) {
-    console.error('Error loading product:', error)
-    notFound()
+    console.error('Error loading product:', error);
+    notFound();
   }
 }

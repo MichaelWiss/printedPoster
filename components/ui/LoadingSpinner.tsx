@@ -12,10 +12,10 @@
  */
 
 interface LoadingSpinnerProps {
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  color?: 'primary' | 'secondary' | 'accent' | 'white'
-  className?: string
-  'aria-label'?: string
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  color?: 'primary' | 'secondary' | 'accent' | 'white';
+  className?: string;
+  'aria-label'?: string;
 }
 
 const sizeClasses = {
@@ -23,29 +23,29 @@ const sizeClasses = {
   sm: 'w-4 h-4',
   md: 'w-6 h-6',
   lg: 'w-8 h-8',
-  xl: 'w-12 h-12'
-}
+  xl: 'w-12 h-12',
+};
 
 const colorClasses = {
   primary: 'border-terracotta',
   secondary: 'border-sage-green',
   accent: 'border-warm-taupe',
-  white: 'border-white'
-}
+  white: 'border-white',
+};
 
 export function LoadingSpinner({
   size = 'md',
   color = 'primary',
   className = '',
-  'aria-label': ariaLabel = 'Loading...'
+  'aria-label': ariaLabel = 'Loading...',
 }: LoadingSpinnerProps) {
   return (
     <div
       className={`inline-block animate-spin rounded-full border-2 border-current border-t-transparent ${sizeClasses[size]} ${colorClasses[color]} ${className}`}
-      role="status"
+      role='status'
       aria-label={ariaLabel}
     >
-      <span className="sr-only">{ariaLabel}</span>
+      <span className='sr-only'>{ariaLabel}</span>
     </div>
-  )
+  );
 }

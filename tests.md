@@ -29,7 +29,7 @@ The `jest.config.js` is set up with `next/jest`, `@swc/jest` transforms, and a `
 
 ## Common patterns in this repo
 
-1) Mocking `graphql-request` (Shopify client)
+1. Mocking `graphql-request` (Shopify client)
 
 - Many tests avoid network calls by mocking `graphql-request` with Jest.
 - Important: `jest.mock()` calls are hoisted by Jest. Do not reference variables that are declared after `jest.mock()` inside the factory — that can cause ReferenceError/TDZ.
@@ -42,20 +42,22 @@ Example pattern (simplified):
 ```ts
 // At top of test file
 jest.mock('graphql-request', () => {
-  const rm = jest.fn()
+  const rm = jest.fn();
   return {
     GraphQLClient: jest.fn().mockImplementation(() => ({ request: rm })),
     __requestMock: rm, // expose for the test to access
-  }
-})
+  };
+});
 
 // In tests
-const mod = jest.requireMock('graphql-request') as any
-const requestMock = mod.__requestMock as jest.Mock
-requestMock.mockResolvedValue({ /* ... */ })
+const mod = jest.requireMock('graphql-request') as any;
+const requestMock = mod.__requestMock as jest.Mock;
+requestMock.mockResolvedValue({
+  /* ... */
+});
 ```
 
-2) Verifying constructor calls
+2. Verifying constructor calls
 
 - If your module constructs a `GraphQLClient` at import-time (like the storefront client), that constructor call happens when the module is imported.
 - Avoid clearing the constructor mock before checking it. If you need to reset only the request mock, use `mockReset()` on the request function and avoid `jest.clearAllMocks()` which also clears constructor calls.
@@ -76,8 +78,8 @@ requestMock.mockResolvedValue({ /* ... */ })
   - If you see syntax errors from modern packages, add them to the allowlist in `transformIgnorePatterns` in `jest.config.js`.
 
 ## Further reading
+
 - Jest docs: https://jestjs.io
 - next/jest docs: https://nextjs.org/docs/testing
-
 
 Happy testing — if you want, I can add a starter test template or update `jest/setup.ts` with helpers for mocking the Shopify client.
