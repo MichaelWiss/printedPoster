@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Animation Mockup - Printed Poster</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #faf7f2;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(250, 247, 242, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(159, 184, 168, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 2px 8px rgba(42, 39, 36, 0.1);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: #9fb8a8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #9fb8a8;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #9fb8a8 0%, #e8f0ea 100%);
+        }
+
+        .hero h1 {
+            font-size: 3.75rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #1a1a1a;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #8b8680;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Scroll Animation Section */
+        .scroll-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.25rem;
+            font-weight: 600;
+            margin-bottom: 60px;
+            color: #1a1a1a;
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        /* Card Styles */
+        .card {
+            background: #ffffff;
+            border: 1px solid #e8e5e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateX(-100px);
+        }
+
+        .card.right {
+            transform: translateX(100px);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 25px rgba(42, 39, 36, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #9fb8a8 0%, #e8f0ea 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #ffffff;
+        }
+
+        .card-content {
+            padding: 24px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+
+        .card-description {
+            color: #8b8680;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .card-price {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+
+        .card-button {
+            background: linear-gradient(135deg, #8b7355 0%, #d4a574 100%);
+            color: #000000;
+            border: 2px solid #000000;
+            border-radius: 25px;
+            padding: 12px 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .card-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Staggered Animation */
+        .card:nth-child(1) { transition-delay: 0.1s; }
+        .card:nth-child(2) { transition-delay: 0.2s; }
+        .card:nth-child(3) { transition-delay: 0.3s; }
+        .card:nth-child(4) { transition-delay: 0.4s; }
+        .card:nth-child(5) { transition-delay: 0.5s; }
+        .card:nth-child(6) { transition-delay: 0.6s; }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #d4a574;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section a {
+            color: #8b8680;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #d4a574;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #8b8680;
+            padding-top: 20px;
+            color: #8b8680;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .card {
+                transform: translateY(50px);
+            }
+            
+            .card.right {
+                transform: translateY(50px);
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="#" class="logo">Printed Poster</a>
+                <div class="nav-links">
+                    <a href="#" class="nav-link">Products</a>
+                    <a href="#" class="nav-link">Collections</a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Discover Beautiful Posters</h1>
+            <p>Curated collection of artistic prints and posters, carefully selected to bring beauty and inspiration to your space.</p>
+        </div>
+    </section>
+
+    <!-- Scroll Animation Section -->
+    <section class="scroll-section">
+        <div class="container">
+            <h2 class="section-title">Featured Products</h2>
+            
+            <div class="card-grid">
+                <!-- Left side cards -->
+                <div class="card">
+                    <div class="card-image">🎨</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Abstract Art</h3>
+                        <p class="card-description">Beautiful abstract artwork that brings color and energy to any room.</p>
+                        <div class="card-price">$29.99</div>
+                        <button class="card-button">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">🌅</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Sunset Landscape</h3>
+                        <p class="card-description">Stunning sunset landscape that captures the beauty of nature.</p>
+                        <div class="card-price">$34.99</div>
+                        <button class="card-button">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image">🏙️</div>
+                    <div class="card-content">
+                        <h3 class="card-title">City Skyline</h3>
+                        <p class="card-description">Modern city skyline perfect for contemporary spaces.</p>
+                        <div class="card-price">$39.99</div>
+                        <button class="card-button">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Right side cards -->
+                <div class="card right">
+                    <div class="card-image">🌸</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Floral Design</h3>
+                        <p class="card-description">Elegant floral patterns that add a touch of nature to your home.</p>
+                        <div class="card-price">$24.99</div>
+                        <button class="card-button">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="card right">
+                    <div class="card-image">🌊</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Ocean Waves</h3>
+                        <p class="card-description">Calming ocean waves that bring peace and tranquility.</p>
+                        <div class="card-price">$32.99</div>
+                        <button class="card-button">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="card right">
+                    <div class="card-image">🌌</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Galaxy</h3>
+                        <p class="card-description">Mysterious galaxy design that sparks imagination and wonder.</p>
+                        <div class="card-price">$44.99</div>
+                        <button class="card-button">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Printed Poster</h3>
+                    <p>Curated collection of artistic prints and posters, carefully selected to bring beauty and inspiration to your space.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Shop</h3>
+                    <ul>
+                        <li><a href="#">All Products</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Best Sellers</a></li>
+                        <li><a href="#">Sale</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Printed Poster. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add some additional scroll effects
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero');
+            const speed = scrolled * 0.5;
+            parallax.style.transform = `translateY(${speed}px)`;
+        });
+    </script>
+</body>
+</html>

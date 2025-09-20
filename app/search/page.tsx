@@ -32,7 +32,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           No results. Try a different term or visit the products page.
         </div>
       ) : (
-        <ProductGrid products={products} />
+            <ProductGrid
+              products={products}
+              enableScrollAnimations={true}
+            />
       )}
     </section>
   );

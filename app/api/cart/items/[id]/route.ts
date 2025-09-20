@@ -31,8 +31,8 @@ export async function PATCH(
     }
 
     return NextResponse.json({ cartItem });
-  } catch (error) {
-    console.error('Error updating cart item:', error);
+  } catch {
+    // Error updating cart item
     return NextResponse.json(
       { error: 'Failed to update item' },
       { status: 500 }
@@ -65,8 +65,8 @@ export async function DELETE(
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Error removing cart item:', error);
+  } catch {
+    // Error removing cart item
     return NextResponse.json(
       { error: 'Failed to remove item' },
       { status: 500 }

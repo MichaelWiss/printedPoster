@@ -35,10 +35,19 @@
  * }
  */
 
-// import Link from 'next/link'
-// import { NewsletterSignup } from './NewsletterSignup'
+'use client';
+
+import { useState } from 'react';
 
 export function Footer() {
+  const [email, setEmail] = useState('');
+  const [interest, setInterest] = useState('products');
+
+  const _handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle newsletter signup
+    console.log('Newsletter signup:', { email, interest });
+  };
   return (
     <footer className='bg-deep-charcoal text-pure-white py-12 md:py-16'>
       <div className='container mx-auto px-4 md:px-6 lg:px-8'>
@@ -79,27 +88,50 @@ export function Footer() {
             <h4 className='text-hierarchy-h3 mb-6'>Newsletter</h4>
             <p className='text-body-small mb-4 text-pure-white'>Stay updated with our latest news</p>
             <form className='space-y-4'>
-                     <div>
-                       <label className='block text-sm font-medium text-pure-white mb-2'>Email</label>
-                       <input 
-                         type='email' 
-                         className='w-full px-4 py-3 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sage-green focus:border-transparent min-h-[44px]'
-                         placeholder='Enter your email'
-                       />
-                     </div>
+                      <div>
+                        <label className='block text-sm font-medium text-pure-white mb-2'>Email</label>
+                        <input
+                          type='email'
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className='w-full px-4 py-3 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sage-green focus:border-transparent min-h-[44px]'
+                          placeholder='Enter your email'
+                        />
+                      </div>
               <div>
                 <label className='block text-sm font-medium text-pure-white mb-2'>Interests</label>
                 <div className='space-y-2 flex flex-col items-center md:items-start'>
                   <label className='flex items-center space-x-3'>
-                    <input type='radio' name='interest' value='products' className='w-4 h-4 text-sage-green' />
+                    <input
+                      type='radio'
+                      name='interest'
+                      value='products'
+                      checked={interest === 'products'}
+                      onChange={(e) => setInterest(e.target.value)}
+                      className='w-4 h-4 text-sage-green'
+                    />
                     <span className='text-sm text-pure-white'>New Products</span>
                   </label>
                   <label className='flex items-center space-x-3'>
-                    <input type='radio' name='interest' value='offers' className='w-4 h-4 text-sage-green' />
+                    <input
+                      type='radio'
+                      name='interest'
+                      value='offers'
+                      checked={interest === 'offers'}
+                      onChange={(e) => setInterest(e.target.value)}
+                      className='w-4 h-4 text-sage-green'
+                    />
                     <span className='text-sm text-pure-white'>Special Offers</span>
                   </label>
                   <label className='flex items-center space-x-3'>
-                    <input type='radio' name='interest' value='news' className='w-4 h-4 text-sage-green' />
+                    <input
+                      type='radio'
+                      name='interest'
+                      value='news'
+                      checked={interest === 'news'}
+                      onChange={(e) => setInterest(e.target.value)}
+                      className='w-4 h-4 text-sage-green'
+                    />
                     <span className='text-sm text-pure-white'>Company News</span>
                   </label>
                 </div>

@@ -47,16 +47,16 @@ export default function RootLayout({
       <body
         className={`${inter.className} antialiased bg-cream-base text-deep-charcoal`}
       >
-        <AuthProvider>
-          <CartSyncProvider>
-            <PerformanceMonitor />
-            <Suspense fallback={<div className='h-16' aria-hidden />}>
-              <Header />
-            </Suspense>
-            <main>{children}</main>
-            <Footer />
-          </CartSyncProvider>
-        </AuthProvider>
+               <AuthProvider>
+                 <CartSyncProvider>
+                   <PerformanceMonitor />
+                   <Suspense fallback={<div className='h-16' aria-hidden />}>
+                     <Header />
+                   </Suspense>
+                   <main>{children}</main>
+                   <Footer />
+                 </CartSyncProvider>
+               </AuthProvider>
       </body>
     </html>
   );

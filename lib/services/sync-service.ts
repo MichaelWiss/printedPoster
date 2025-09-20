@@ -51,9 +51,9 @@ export class SyncService {
     if (cartStore.isAuthenticated && cartStore.userId) {
       try {
         await cartStore.syncWithServer();
-        console.log('Immediate sync completed');
-      } catch (error) {
-        console.error('Immediate sync failed:', error);
+        // Immediate sync completed
+      } catch {
+        // Immediate sync failed
       }
     }
   }
@@ -72,10 +72,10 @@ export class SyncService {
 
       if (hasPendingChanges) {
         await cartStore.syncWithServer();
-        console.log('Background sync completed');
+        // Background sync completed
       }
-    } catch (error) {
-      console.error('Background sync failed:', error);
+    } catch {
+      // Background sync failed
       // Don't show error for background sync
     }
   }
@@ -91,8 +91,8 @@ export class SyncService {
     try {
       await cartStore.syncWithServer();
       return true;
-    } catch (error) {
-      console.error('Force sync failed:', error);
+    } catch {
+      // Force sync failed
       return false;
     }
   }

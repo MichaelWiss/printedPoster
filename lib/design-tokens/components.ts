@@ -5,8 +5,6 @@
  * Provides consistent component styling across the application.
  */
 
-import { colors } from './colors';
-import { spacing } from './spacing';
 
 export const componentStyles = {
   // Button Styles

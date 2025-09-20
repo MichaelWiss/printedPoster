@@ -23,8 +23,8 @@ export function ProductDetails({ product }: Props) {
   const handleAddToCart = async () => {
     try {
       await addItem(product, qty);
-    } catch (error) {
-      console.error('Failed to add item to cart:', error);
+    } catch {
+      // Failed to add item to cart
     }
   };
 
@@ -74,15 +74,15 @@ export function ProductDetails({ product }: Props) {
 
           {/* Advanced Add to Cart Button */}
           <div className='pt-4'>
-            <div className='relative'>
-              <button
-                className='add-to-cart-btn w-full'
-                onClick={e => {
-                  e.preventDefault();
-                  handleAddToCart();
-                }}
-                disabled={isLoading}
-              >
+            <div className='relative flex justify-start'>
+                     <button
+                       className='add-to-cart-btn scale-75 origin-left'
+                       onClick={e => {
+                         e.preventDefault();
+                         handleAddToCart();
+                       }}
+                       disabled={isLoading}
+                     >
                 <div className='quantity-section'>
                   <span
                     className='quantity-btn'

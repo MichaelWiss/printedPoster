@@ -3,7 +3,7 @@
 import { memo, useMemo } from 'react';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { inputUtils, textUtils } from '@/lib/design-tokens/component-utils';
+import { inputUtils } from '@/lib/design-tokens/component-utils';
 
 export interface CollectionFiltersProps {
   availableTags: string[];

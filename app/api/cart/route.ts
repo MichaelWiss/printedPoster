@@ -15,8 +15,8 @@ export async function GET() {
     const cart = await cartService.getUserCart(session.user.email);
 
     return NextResponse.json({ cart });
-  } catch (error) {
-    console.error('Error fetching cart:', error);
+  } catch {
+    // Error fetching cart
     return NextResponse.json(
       { error: 'Failed to fetch cart' },
       { status: 500 }
@@ -45,8 +45,8 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ cart });
-  } catch (error) {
-    console.error('Error creating cart:', error);
+  } catch {
+    // Error creating cart
     return NextResponse.json(
       { error: 'Failed to create cart' },
       { status: 500 }

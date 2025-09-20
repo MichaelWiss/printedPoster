@@ -19,12 +19,12 @@ export class MigrationService {
     try {
       // Check if already migrated
       if (await this.hasMigratedCart(userId)) {
-        console.log('Cart already migrated for user:', userId);
+        // Cart already migrated
         return;
       }
 
       if (localItems.length === 0) {
-        console.log('No local items to migrate for user:', userId);
+        // No local items to migrate
         return;
       }
 
@@ -44,12 +44,9 @@ export class MigrationService {
       // Create server cart
       await cartService.createUserCart(userId, serverItems);
 
-      console.log(
-        `Successfully migrated ${localItems.length} items for user:`,
-        userId
-      );
-    } catch (error) {
-      console.error('Failed to migrate localStorage cart:', error);
+      // Successfully migrated items
+    } catch {
+      // Failed to migrate localStorage cart
       throw new Error('Cart migration failed');
     }
   }
@@ -86,8 +83,8 @@ export class MigrationService {
         return backupKey;
       }
       return null;
-    } catch (error) {
-      console.error('Failed to backup localStorage:', error);
+    } catch {
+      // Failed to backup localStorage
       return null;
     }
   }
@@ -102,8 +99,8 @@ export class MigrationService {
         return true;
       }
       return false;
-    } catch (error) {
-      console.error('Failed to restore from backup:', error);
+    } catch {
+      // Failed to restore from backup
       return false;
     }
   }

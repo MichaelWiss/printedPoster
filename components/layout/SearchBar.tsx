@@ -8,7 +8,7 @@ export function SearchBar() {
   const params = useSearchParams();
   const initial = params.get('q') || '';
   const [q, setQ] = useState(initial);
-  const [open, setOpen] = useState(false);
+  const [open, _setOpen] = useState(false);
 
   // Simple debounce
   const debouncedQ = useDebounced(q, 350);

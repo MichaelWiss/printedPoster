@@ -160,7 +160,12 @@ export default async function CollectionPage({
 
       {/* Grid only (keeping sidebar out for visual pass) */}
       <div className='flex-1'>
-        <ProductGrid products={products} columns={4} spacing='normal' />
+        <ProductGrid 
+          products={products} 
+          columns={4} 
+          spacing='normal' 
+          enableScrollAnimations={true}
+        />
       </div>
 
       {/* Empty State */}

@@ -157,7 +157,7 @@ export async function getProductByHandle(
     return data.productByHandle;
   } catch (error) {
     // Log any errors that occur during the request
-    console.error('Error fetching product by handle:', error);
+    // Error fetching product by handle
     throw error;
   }
 }
@@ -218,7 +218,7 @@ export async function getCollectionByHandle(
     return data.collectionByHandle;
   } catch (error) {
     // Log any errors that occur during the request
-    console.error('Error fetching collection by handle:', error);
+    // Error fetching collection by handle
     throw error;
   }
 }

@@ -9,7 +9,6 @@ import {
 
 import { LoadingButton } from '@/components/ui/LoadingButton';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
-import { buttonUtils, textUtils } from '@/lib/design-tokens/component-utils';
 
 import { SyncStatus } from './SyncStatus';
 import { CartItem as CartItemRow } from './CartItem';
@@ -23,9 +22,9 @@ export const CartDrawer = memo(function CartDrawer() {
   const handleClearCart = async () => {
     try {
       await clear();
-    } catch (error) {
+    } catch {
       // Error is handled by the store
-      console.error('Failed to clear cart:', error);
+      // Failed to clear cart
     }
   };
 

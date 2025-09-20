@@ -5,8 +5,6 @@
  * Handles cart operations for the store page.
  */
 
-'use client';
-
 import type { ShopifyProduct } from '@/types/shopify';
 import { ProductGrid } from '@/components/product/ProductGrid';
 
@@ -15,5 +13,10 @@ interface StoreProductsGridProps {
 }
 
 export function StoreProductsGrid({ products }: StoreProductsGridProps) {
-  return <ProductGrid products={products} />;
+  return (
+    <ProductGrid
+      products={products}
+      enableScrollAnimations={true}
+    />
+  );
 }

@@ -36,7 +36,7 @@ export default async function StorePage() {
       </main>
     );
   } catch (error) {
-    console.error('Error in StorePage:', error);
+    // Error loading products
     return (
       <main className='container mx-auto px-4 py-8'>
         <h1 className='text-3xl font-bold mb-8'>Our Products</h1>

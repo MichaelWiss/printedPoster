@@ -25,24 +25,24 @@ export default function CartPage() {
     if (newQuantity < 0) return;
     try {
       await updateQuantity(id, newQuantity);
-    } catch (error) {
-      console.error('Failed to update quantity:', error);
+    } catch {
+      // Failed to update quantity
     }
   };
 
   const handleRemoveItem = async (id: string) => {
     try {
       await removeItem(id);
-    } catch (error) {
-      console.error('Failed to remove item:', error);
+    } catch {
+      // Failed to remove item
     }
   };
 
   const handleClearCart = async () => {
     try {
       await clear();
-    } catch (error) {
-      console.error('Failed to clear cart:', error);
+    } catch {
+      // Failed to clear cart
     }
   };
 

@@ -32,8 +32,8 @@ export async function generateMetadata({
           : [],
       },
     };
-  } catch (error) {
-    console.error('Error generating metadata:', error);
+  } catch {
+    // Error generating metadata
     return {
       title: 'Product | Printed Poster',
     };
@@ -61,8 +61,8 @@ export default async function ProductPage({
         </div>
       </div>
     );
-  } catch (error) {
-    console.error('Error loading product:', error);
+  } catch {
+    // Error loading product
     notFound();
   }
 }

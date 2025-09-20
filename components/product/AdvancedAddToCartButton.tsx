@@ -5,7 +5,6 @@ import React, { useMemo, useState } from 'react';
 import type { ShopifyProduct } from '@/types/shopify';
 
 import { useCartActions, useCartLoading } from '@/stores/cart-store';
-import { buttonUtils } from '@/lib/design-tokens/component-utils';
 
 export interface AdvancedAddToCartButtonProps {
   product: ShopifyProduct;

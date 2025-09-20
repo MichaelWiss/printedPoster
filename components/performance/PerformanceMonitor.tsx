@@ -30,7 +30,7 @@ export function PerformanceMonitor() {
       const entries = list.getEntries();
       const lastEntry = entries[entries.length - 1];
       metrics.lcp = lastEntry.startTime;
-      console.log('LCP:', metrics.lcp, 'ms');
+      // LCP measured
     });
     lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
 
@@ -38,8 +38,8 @@ export function PerformanceMonitor() {
     const fidObserver = new PerformanceObserver((list) => {
       const entries = list.getEntries();
       entries.forEach((entry) => {
-        metrics.fid = (entry as any).processingStart - entry.startTime;
-        console.log('FID:', metrics.fid, 'ms');
+        metrics.fid = (entry as PerformanceEventTiming).processingStart - entry.startTime;
+        // FID measured
       });
     });
     fidObserver.observe({ entryTypes: ['first-input'] });
@@ -54,7 +54,7 @@ export function PerformanceMonitor() {
         }
       });
       metrics.cls = clsValue;
-      console.log('CLS:', metrics.cls);
+      // CLS measured
     });
     clsObserver.observe({ entryTypes: ['layout-shift'] });
 
@@ -64,7 +64,7 @@ export function PerformanceMonitor() {
       entries.forEach((entry) => {
         if (entry.name === 'first-contentful-paint') {
           metrics.fcp = entry.startTime;
-          console.log('FCP:', metrics.fcp, 'ms');
+          // FCP measured
         }
       });
     });
@@ -74,18 +74,20 @@ export function PerformanceMonitor() {
     const navigationEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
     if (navigationEntry) {
       metrics.ttfb = navigationEntry.responseStart - navigationEntry.fetchStart;
-      console.log('TTFB:', metrics.ttfb, 'ms');
+      // TTFB measured
     }
 
-    // Log all metrics after page load
+    // Log all metrics after page load (development only)
     const logMetrics = () => {
-      console.group('🚀 Performance Metrics');
-      console.log('LCP (Largest Contentful Paint):', metrics.lcp, 'ms');
-      console.log('FID (First Input Delay):', metrics.fid, 'ms');
-      console.log('CLS (Cumulative Layout Shift):', metrics.cls);
-      console.log('FCP (First Contentful Paint):', metrics.fcp, 'ms');
-      console.log('TTFB (Time to First Byte):', metrics.ttfb, 'ms');
-      console.groupEnd();
+      if (process.env.NODE_ENV === 'development') {
+        console.group('🚀 Performance Metrics');
+        console.log('LCP (Largest Contentful Paint):', metrics.lcp, 'ms');
+        console.log('FID (First Input Delay):', metrics.fid, 'ms');
+        console.log('CLS (Cumulative Layout Shift):', metrics.cls);
+        console.log('FCP (First Contentful Paint):', metrics.fcp, 'ms');
+        console.log('TTFB (Time to First Byte):', metrics.ttfb, 'ms');
+        console.groupEnd();
+      }
 
       // Performance recommendations
       if (metrics.lcp && metrics.lcp > 2500) {
@@ -131,8 +133,10 @@ export function ProductionPerformanceLogger() {
         const domContentLoaded = navigationEntry.domContentLoadedEventEnd - navigationEntry.fetchStart;
         
         // Send to analytics service (replace with your analytics)
-        console.log('Page Load Time:', loadTime, 'ms');
-        console.log('DOM Content Loaded:', domContentLoaded, 'ms');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Page Load Time:', loadTime, 'ms');
+          console.log('DOM Content Loaded:', domContentLoaded, 'ms');
+        }
       }
     };
 
