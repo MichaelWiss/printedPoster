@@ -1,6 +1,22 @@
 import NextAuth from 'next-auth';
 import { getAuthOptions } from '@/lib/auth';
 
-const handler = NextAuth(getAuthOptions());
+// Lazy-load NextAuth handler to avoid build-time environment variable issues
+let _handler: ReturnType<typeof NextAuth> | null = null;
 
-export { handler as GET, handler as POST };
+function getHandler() {
+  if (_handler) {
+    return _handler;
+  }
+  
+  _handler = NextAuth(getAuthOptions());
+  return _handler;
+}
+
+export const GET = async (req: Request) => {
+  return getHandler()(req);
+};
+
+export const POST = async (req: Request) => {
+  return getHandler()(req);
+};
