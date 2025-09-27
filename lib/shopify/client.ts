@@ -1,5 +1,6 @@
 // Import the GraphQL client library that we'll use to make requests to Shopify's Storefront API
 import { GraphQLClient } from 'graphql-request';
+import { config } from '@/lib/config';
 
 // Environment variable validation
 // These checks ensure our app has the required Shopify credentials before trying to make any API calls
@@ -11,9 +12,8 @@ if (!process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
   throw new Error('NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN is not defined');
 }
 
-// Construct the Shopify Storefront API endpoint URL
-// Format: https://your-store.myshopify.com/api/2024-01/graphql.json
-const SHOPIFY_STOREFRONT_API_ENDPOINT = `https://${process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN}/api/2024-01/graphql.json`;
+// Construct the Shopify Storefront API endpoint URL via centralized config
+const SHOPIFY_STOREFRONT_API_ENDPOINT = config.shopify.storefrontUrl;
 
 // Initialize the GraphQL client with our Shopify configuration
 // This client will be used for all Storefront API requests
@@ -22,8 +22,7 @@ export const storefrontClient = new GraphQLClient(
   {
     headers: {
       // The Storefront Access Token authenticates our app with Shopify
-      'X-Shopify-Storefront-Access-Token':
-        process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN || '',
+      'X-Shopify-Storefront-Access-Token': config.shopify.storefrontAccessToken,
       // These headers tell Shopify we're sending and expecting JSON data
       'Content-Type': 'application/json',
       Accept: 'application/json',

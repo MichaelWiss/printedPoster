@@ -2,9 +2,12 @@ import { NextAuthOptions } from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from './db/prisma';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { config } from './config';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
+  secret: config.nextAuth.secret,
+  ...(config.nextAuth.url && { url: config.nextAuth.url }),
   providers: [
     CredentialsProvider({
       name: 'credentials',
