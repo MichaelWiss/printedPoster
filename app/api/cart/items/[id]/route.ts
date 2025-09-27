@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { getAuthOptions } from '@/lib/auth';
 import { cartService } from '@/lib/services/cart-service';
-import { prisma } from '@/lib/db/prisma';
+import { getPrismaClient } from '@/lib/db/prisma';
 
 export async function PATCH(
   request: NextRequest,
@@ -10,7 +10,7 @@ export async function PATCH(
 ) {
   const { id } = await params;
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(getAuthOptions());
 
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -20,6 +20,7 @@ export async function PATCH(
     const { quantity } = body;
 
     // Update cart item and fetch cart in parallel
+    const prisma = getPrismaClient();
     const [cartItem, cart] = await Promise.all([
       cartService.updateCartItem(id, parseInt(quantity)),
       prisma.cart.findFirst({ where: { items: { some: { id } } } }),
@@ -46,13 +47,14 @@ export async function DELETE(
 ) {
   const { id } = await params;
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(getAuthOptions());
 
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Find the cart before deleting the item
+    const prisma = getPrismaClient();
     const cart = await prisma.cart.findFirst({
       where: { items: { some: { id } } },
     });

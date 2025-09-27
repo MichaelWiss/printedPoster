@@ -1,34 +1,36 @@
 // Import the GraphQL client library that we'll use to make requests to Shopify's Storefront API
 import { GraphQLClient } from 'graphql-request';
-import { config } from '@/lib/config';
+import { getConfig } from '@/lib/config';
 
-// Environment variable validation
-// These checks ensure our app has the required Shopify credentials before trying to make any API calls
-if (!process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN) {
-  throw new Error('NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN is not defined');
-}
+// Environment variables are now validated through the centralized config
 
-if (!process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
-  throw new Error('NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN is not defined');
-}
+// Lazy-load GraphQL client to avoid build-time environment variable issues
+let _storefrontClient: GraphQLClient | null = null;
 
-// Construct the Shopify Storefront API endpoint URL via centralized config
-const SHOPIFY_STOREFRONT_API_ENDPOINT = config.shopify.storefrontUrl;
-
-// Initialize the GraphQL client with our Shopify configuration
-// This client will be used for all Storefront API requests
-export const storefrontClient = new GraphQLClient(
-  SHOPIFY_STOREFRONT_API_ENDPOINT,
-  {
-    headers: {
-      // The Storefront Access Token authenticates our app with Shopify
-      'X-Shopify-Storefront-Access-Token': config.shopify.storefrontAccessToken,
-      // These headers tell Shopify we're sending and expecting JSON data
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
+export function getStorefrontClient(): GraphQLClient {
+  if (_storefrontClient) {
+    return _storefrontClient;
   }
-);
+  
+  const config = getConfig();
+  _storefrontClient = new GraphQLClient(
+    config.shopify.storefrontUrl,
+    {
+      headers: {
+        // The Storefront Access Token authenticates our app with Shopify
+        'X-Shopify-Storefront-Access-Token': config.shopify.storefrontAccessToken,
+        // These headers tell Shopify we're sending and expecting JSON data
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    }
+  );
+  
+  return _storefrontClient;
+}
+
+// Note: Do not export storefrontClient at module level to avoid build-time issues
+// Use getStorefrontClient() in API routes instead
 
 // Import GraphQL queries from centralized location
 import {
@@ -80,7 +82,7 @@ export async function getProducts(
 ): Promise<ShopifyProduct[]> {
   return withRetry(async () => {
     // Use Next.js fetch cache if available
-    const data = await storefrontClient.request<ProductsResponse>(
+    const data = await getStorefrontClient().request<ProductsResponse>(
       GET_PRODUCTS_QUERY,
       { first }
     );
@@ -98,7 +100,7 @@ export async function searchProducts(
   const q = (query || '').trim();
   if (!q) return [];
   return withRetry(async () => {
-    const data = await storefrontClient.request<ProductsResponse>(
+    const data = await getStorefrontClient().request<ProductsResponse>(
       SEARCH_PRODUCTS_QUERY,
       { query: q, first }
     );
@@ -133,7 +135,7 @@ export async function fetchProductsFiltered(params: {
     reverse: params.reverse,
   };
   return withRetry(async () => {
-    const data = await storefrontClient.request<{
+    const data = await getStorefrontClient().request<{
       products: ProductConnection;
     }>(GET_PRODUCTS_FILTERED, variables);
     return data.products;
@@ -149,7 +151,7 @@ export async function getProductByHandle(
 ): Promise<ShopifyProduct | null> {
   try {
     // Make the API request to Shopify
-    const data = await storefrontClient.request<{
+    const data = await getStorefrontClient().request<{
       productByHandle: ShopifyProduct | null;
     }>(GET_PRODUCT_BY_HANDLE_QUERY, { handle });
 
@@ -170,7 +172,7 @@ export async function getCollections(
   first: number = 10
 ): Promise<ShopifyCollection[]> {
   return withRetry(async () => {
-    const data = await storefrontClient.request<CollectionsResponse>(
+    const data = await getStorefrontClient().request<CollectionsResponse>(
       GET_COLLECTIONS_QUERY,
       { first }
     );
@@ -210,7 +212,7 @@ export async function getCollectionByHandle(
     if (typeof opts?.reverse === 'boolean') variables.reverse = opts.reverse;
     if (opts?.after) variables.after = opts.after;
 
-    const data = await storefrontClient.request<{
+    const data = await getStorefrontClient().request<{
       collectionByHandle: ShopifyCollection | null;
     }>(GET_COLLECTION_BY_HANDLE_QUERY, variables);
 

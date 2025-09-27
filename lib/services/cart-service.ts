@@ -1,4 +1,4 @@
-import { prisma } from '../db/prisma';
+import { getPrismaClient } from '../db/prisma';
 
 export interface CartItemData {
   productId: string;
@@ -13,6 +13,7 @@ export interface CartItemData {
 export class CartService {
   // Create cart for authenticated user
   async createUserCart(userId: string, items: CartItemData[] = []) {
+    const prisma = getPrismaClient();
     return prisma.cart.create({
       data: {
         userId,
@@ -26,6 +27,7 @@ export class CartService {
 
   // Get active cart for user
   async getUserCart(userId: string) {
+    const prisma = getPrismaClient();
     return prisma.cart.findFirst({
       where: {
         userId,
@@ -38,6 +40,7 @@ export class CartService {
 
   // Create guest cart with session tracking
   async createGuestCart(sessionId: string, items: CartItemData[] = []) {
+    const prisma = getPrismaClient();
     return prisma.cart.create({
       data: {
         userId: sessionId, // Temporary userId for guests
@@ -53,6 +56,7 @@ export class CartService {
 
   // Migrate guest cart to authenticated user
   async migrateGuestCart(sessionId: string, userId: string) {
+    const prisma = getPrismaClient();
     const guestCart = await prisma.cart.findFirst({
       where: { sessionId, isActive: true },
       include: { items: true },
@@ -85,6 +89,7 @@ export class CartService {
 
   // Add item to cart
   async addItemToCart(cartId: string, item: CartItemData) {
+    const prisma = getPrismaClient();
     const existingItem = await prisma.cartItem.findFirst({
       where: {
         cartId,
@@ -110,6 +115,7 @@ export class CartService {
 
   // Update cart item quantity
   async updateCartItem(cartItemId: string, quantity: number) {
+    const prisma = getPrismaClient();
     if (quantity <= 0) {
       return prisma.cartItem.delete({
         where: { id: cartItemId },
@@ -124,6 +130,7 @@ export class CartService {
 
   // Remove item from cart
   async removeCartItem(cartItemId: string) {
+    const prisma = getPrismaClient();
     return prisma.cartItem.delete({
       where: { id: cartItemId },
     });
@@ -131,6 +138,7 @@ export class CartService {
 
   // Clear cart
   async clearCart(cartId: string) {
+    const prisma = getPrismaClient();
     return prisma.cartItem.deleteMany({
       where: { cartId },
     });
@@ -138,6 +146,7 @@ export class CartService {
 
   // Sync cart items (for cross-device sync)
   async syncCart(cartId: string, items: CartItemData[]) {
+    const prisma = getPrismaClient();
     // Delete existing items
     await prisma.cartItem.deleteMany({ where: { cartId } });
 
@@ -154,6 +163,7 @@ export class CartService {
 
   // Get cart by session ID (for guest carts)
   async getGuestCart(sessionId: string) {
+    const prisma = getPrismaClient();
     return prisma.cart.findFirst({
       where: {
         sessionId,
@@ -165,6 +175,7 @@ export class CartService {
 
   // Update cart's last activity
   async updateCartActivity(cartId: string) {
+    const prisma = getPrismaClient();
     return prisma.cart.update({
       where: { id: cartId },
       data: { updatedAt: new Date() },

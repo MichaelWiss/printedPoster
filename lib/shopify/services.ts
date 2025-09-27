@@ -1,10 +1,11 @@
-import { prisma } from '../db/prisma';
-import { storefrontClient } from './client';
+import { getPrismaClient } from '../db/prisma';
+import { getStorefrontClient } from './client';
 
 // You must provide a userId to create a cart
 export async function createCart(userId: string) {
   // Create cart in Shopify via GraphQL mutation
   // Store cart reference in Prisma
+  const prisma = getPrismaClient();
   const cart = await prisma.cart.create({
     data: {
       userId,
@@ -81,8 +82,8 @@ interface CartResponse {
 export async function getCart(cartId: string) {
   // Get cart details from both Shopify and our database
   const [shopifyCart, localCart] = await Promise.all([
-    storefrontClient.request<CartResponse>(GetCartQuery, { cartId }),
-    prisma.cart.findUnique({
+    getStorefrontClient().request<CartResponse>(GetCartQuery, { cartId }),
+    getPrismaClient().cart.findUnique({
       where: { id: cartId },
       include: { items: true },
     }),

@@ -1,10 +1,11 @@
-import { prisma } from '../db/prisma';
+import { getPrismaClient } from '../db/prisma';
 import { cartService } from './cart-service';
 import type { CartLineItem } from '@/stores/cart-store';
 
 export class MigrationService {
   // Check if user already has a migrated cart
   async hasMigratedCart(userId: string): Promise<boolean> {
+    const prisma = getPrismaClient();
     const cart = await prisma.cart.findFirst({
       where: { userId, isActive: true },
     });
