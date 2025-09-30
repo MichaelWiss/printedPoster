@@ -29,6 +29,11 @@ export default function DemoFiltersSidebar() {
     [open]
   );
 
+  const placeholderTokens = useMemo(
+    () => Array.from({ length: 12 }, (_, idx) => `skeleton-${idx}`),
+    []
+  );
+
   return (
     <main className='max-w-7xl mx-auto px-4 py-10'>
       <header className='flex items-center justify-between border-b border-sage-green/20 pb-4 mb-8'>
@@ -205,8 +210,8 @@ export default function DemoFiltersSidebar() {
 
       {/* Grid placeholder */}
       <div className='p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-        {Array.from({ length: 12 }).map((_, i) => (
-          <div key={i} className='h-40 bg-sage-green/10 rounded' />
+        {placeholderTokens.map(token => (
+          <div key={token} className='h-40 bg-sage-green/10 rounded' />
         ))}
       </div>
 

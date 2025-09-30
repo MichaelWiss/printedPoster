@@ -99,11 +99,11 @@ export function HeroSlider() {
       {/* Slide Indicators - Only render when hydrated to prevent Firefox issues */}
       {isClient && (
         <div className='absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2'>
-          {heroSlides.map((_, index) => {
+          {heroSlides.map((slide, index) => {
             const isActive = index === currentSlide;
             return (
               <button
-                key={index}
+                key={slide.id}
                 onClick={() => goToSlide(index)}
                 className={`w-3 h-3 rounded-full transition-colors duration-200 ${
                   isActive ? 'bg-white' : 'bg-white/50'

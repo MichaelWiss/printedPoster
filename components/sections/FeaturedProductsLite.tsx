@@ -1,10 +1,8 @@
-'use client';
-
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { getProducts } from '@/lib/shopify/client';
-import { ProductGrid } from '@/components/product/ProductGrid';
 import type { ShopifyProduct } from '@/types/shopify';
+import { ProductGrid } from '@/components/product/ProductGrid';
+import { getCachedProductsWithRevalidation } from '@/lib/cache/data-cache';
+import { logError } from '@/lib/utils/error-handling';
 
 interface FeaturedProductsLiteProps {
   title?: string;
@@ -12,43 +10,17 @@ interface FeaturedProductsLiteProps {
   limit?: number;
 }
 
-export function FeaturedProductsLite({
+export async function FeaturedProductsLite({
   title = 'Featured Products',
   subtitle = 'Discover our most popular prints and posters',
   limit = 8,
 }: FeaturedProductsLiteProps) {
-  const [products, setProducts] = useState<ShopifyProduct[]>([]);
-  const [loading, setLoading] = useState(true);
+  let products: ShopifyProduct[] = [];
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await getProducts(limit);
-        setProducts(data);
-      } catch {
-        // Error fetching products
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, [limit]);
-
-  if (loading) {
-    return (
-      <section className='py-16 bg-cream-base'>
-        <div className='container mx-auto px-4'>
-          <div className='text-center mb-12'>
-            <h2 className='font-display text-3xl lg:text-4xl font-normal text-deep-charcoal mb-4'>
-              {title}
-            </h2>
-            <p className='text-warm-gray max-w-2xl mx-auto'>{subtitle}</p>
-          </div>
-          <div className='text-center py-8'>Loading products...</div>
-        </div>
-      </section>
-    );
+  try {
+    products = await getCachedProductsWithRevalidation(limit);
+  } catch (error) {
+    logError('FeaturedProductsLite:getProducts', error, { limit });
   }
 
   return (
@@ -61,10 +33,10 @@ export function FeaturedProductsLite({
           <p className='text-warm-gray max-w-2xl mx-auto'>{subtitle}</p>
         </div>
 
-              <ProductGrid
-                products={products}
-                enableScrollAnimations={true}
-              />
+        <ProductGrid
+          products={products}
+          enableScrollAnimations={true}
+        />
 
         <div className='text-center mt-12'>
           <Link

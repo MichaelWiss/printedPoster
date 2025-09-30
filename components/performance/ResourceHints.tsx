@@ -31,9 +31,9 @@ export function ResourceHints({
       <link rel="preconnect" href="https://cdn.shopify.com" crossOrigin="anonymous" />
       
       {/* Preload critical images */}
-      {criticalImages.map((image, index) => (
+      {criticalImages.map(image => (
         <link
-          key={index}
+          key={image}
           rel="preload"
           as="image"
           href={image}

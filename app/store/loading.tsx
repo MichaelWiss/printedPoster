@@ -6,6 +6,8 @@
  * Matches the layout of the actual store page for a smooth transition.
  */
 
+const PLACEHOLDER_KEYS = Array.from({ length: 6 }, (_, idx) => `store-skeleton-${idx}`);
+
 export default function StoreLoading() {
   return (
     <main className='container mx-auto px-4 py-8'>
@@ -15,8 +17,8 @@ export default function StoreLoading() {
       {/* Grid container matching the product grid layout */}
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
         {/* Generate 6 placeholder cards */}
-        {[...Array(6)].map((_, i) => (
-          <div key={i} className='border rounded-lg overflow-hidden shadow-sm'>
+        {PLACEHOLDER_KEYS.map(token => (
+          <div key={token} className='border rounded-lg overflow-hidden shadow-sm'>
             {/* Placeholder for product image */}
             <div className='h-64 bg-light-gray animate-pulse' />
 

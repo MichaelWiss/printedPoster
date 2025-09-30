@@ -38,6 +38,7 @@
 'use client';
 
 import { useState } from 'react';
+import { logger } from '@/lib/utils/logger';
 
 export function Footer() {
   const [email, setEmail] = useState('');
@@ -46,7 +47,7 @@ export function Footer() {
   const _handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle newsletter signup
-    console.log('Newsletter signup:', { email, interest });
+    logger.info('Newsletter signup:', { email, interest });
   };
   return (
     <footer className='bg-deep-charcoal text-pure-white py-12 md:py-16'>
@@ -87,7 +88,7 @@ export function Footer() {
           <div className='text-center md:text-left'>
             <h4 className='text-hierarchy-h3 mb-6'>Newsletter</h4>
             <p className='text-body-small mb-4 text-pure-white'>Stay updated with our latest news</p>
-            <form className='space-y-4'>
+            <form className='space-y-4' onSubmit={_handleSubmit}>
                       <div>
                         <label className='block text-sm font-medium text-pure-white mb-2'>Email</label>
                         <input

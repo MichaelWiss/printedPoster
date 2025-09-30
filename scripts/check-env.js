@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports */
 
 // Load environment variables from .env.local
 require('dotenv').config({ path: '.env.local' });

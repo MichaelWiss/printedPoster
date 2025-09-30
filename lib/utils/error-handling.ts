@@ -1,3 +1,5 @@
+import { logger } from './logger';
+
 /**
  * Unified Error Handling Utilities
  *
@@ -61,7 +63,7 @@ export function logError(
 ): void {
   const errorMessage = handleApiError(error);
 
-  console.error(`[${context}] Error:`, {
+  logger.error(`[${context}] Error:`, {
     message: errorMessage,
     originalError: error,
     timestamp: new Date().toISOString(),

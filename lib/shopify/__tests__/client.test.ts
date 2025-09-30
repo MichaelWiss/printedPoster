@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * Tests for the Shopify Storefront API client
  *

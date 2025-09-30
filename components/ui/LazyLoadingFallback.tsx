@@ -62,6 +62,7 @@ export const ProductCardSkeleton = memo(function ProductCardSkeleton() {
  * Skeleton loader for cart drawer
  */
 export const CartDrawerSkeleton = memo(function CartDrawerSkeleton() {
+  const skeletonTokens = Array.from({ length: 3 }, (_, idx) => `cart-skeleton-${idx}`);
   return (
     <div className="fixed right-0 top-0 h-full w-80 bg-cream-base shadow-medium p-4">
       <div className="flex items-center justify-between mb-4">
@@ -70,8 +71,8 @@ export const CartDrawerSkeleton = memo(function CartDrawerSkeleton() {
       </div>
       
       <div className="space-y-4">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <div key={index} className="flex gap-3 p-3 border border-sage-green/20 rounded">
+        {skeletonTokens.map(token => (
+          <div key={token} className="flex gap-3 p-3 border border-sage-green/20 rounded">
             <div className="w-16 h-16 bg-sage-green/20 rounded" />
             <div className="flex-1">
               <div className="h-4 bg-sage-green/20 rounded mb-2" />

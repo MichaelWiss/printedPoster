@@ -5,7 +5,7 @@
 
 'use client';
 
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState, useEffect, useMemo } from 'react';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { getCachedProductsWithRevalidation } from '@/lib/cache/data-cache';
 import type { ShopifyProduct } from '@/types/shopify';
@@ -13,6 +13,10 @@ import type { ShopifyProduct } from '@/types/shopify';
 export default function ScrollDemoPage() {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const skeletonIds = useMemo(
+    () => Array.from({ length: 8 }, (_, idx) => `scroll-skeleton-${idx}`),
+    []
+  );
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -61,8 +65,8 @@ export default function ScrollDemoPage() {
           
           <Suspense fallback={
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="card h-80 animate-pulse">
+              {skeletonIds.map(token => (
+                <div key={token} className="card h-80 animate-pulse">
                   <div className="bg-warm-gray/20 h-48 rounded-t-sm" />
                   <div className="p-4 space-y-3">
                     <div className="h-4 bg-warm-gray/20 rounded" />
@@ -92,8 +96,8 @@ export default function ScrollDemoPage() {
           
           <Suspense fallback={
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="card h-80 animate-pulse">
+              {skeletonIds.map(token => (
+                <div key={token} className="card h-80 animate-pulse">
                   <div className="bg-warm-gray/20 h-48 rounded-t-sm" />
                   <div className="p-4 space-y-3">
                     <div className="h-4 bg-warm-gray/20 rounded" />

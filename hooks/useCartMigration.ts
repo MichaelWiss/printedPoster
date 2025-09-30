@@ -4,18 +4,22 @@ import { useCartStore } from '@/stores/cart-store';
 
 export function useCartMigration() {
   const { data: session } = useSession();
-  const cartStore = useCartStore();
+  const isAuthenticated = useCartStore(state => state.isAuthenticated);
+  const validateAndMigrate = useCartStore(state => state.validateAndMigrate);
+  const isLoading = useCartStore(state => state.isLoading);
+  const error = useCartStore(state => state.error);
+  const clearError = useCartStore(state => state.clearError);
 
   useEffect(() => {
-    if (session?.user?.email && !cartStore.isAuthenticated) {
+    if (session?.user?.email && !isAuthenticated) {
       // User just logged in, trigger migration
-      cartStore.validateAndMigrate(session.user.email);
+      validateAndMigrate(session.user.email);
     }
-  }, [session?.user?.email, cartStore.isAuthenticated]);
+  }, [session?.user?.email, isAuthenticated, validateAndMigrate]);
 
   return {
-    isMigrating: cartStore.isLoading,
-    migrationError: cartStore.error,
-    clearError: cartStore.clearError,
+    isMigrating: isLoading,
+    migrationError: error,
+    clearError,
   };
 }

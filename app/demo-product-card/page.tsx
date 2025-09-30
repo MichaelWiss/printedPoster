@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react';
 import { getProducts } from '@/lib/shopify/client';
 import { ProductCardDemo } from '@/components/product/ProductCardDemo';
 import type { ShopifyProduct } from '@/types/shopify';
+import { logError } from '@/lib/utils/error-handling';
 
 export default function ProductCardDemoPage() {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const [lastAdded, setLastAdded] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadProducts() {
@@ -15,7 +17,7 @@ export default function ProductCardDemoPage() {
         const data = await getProducts(4);
         setProducts(data);
       } catch (error) {
-        console.error('Failed to load products:', error);
+        logError('ProductCardDemoPage:loadProducts', error);
       } finally {
         setLoading(false);
       }
@@ -27,7 +29,7 @@ export default function ProductCardDemoPage() {
   const handleAddToCart = async (product: ShopifyProduct, quantity: number) => {
     // Simulate adding to cart with delay
     await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log(`Added ${quantity} x "${product.title}" to cart`);
+    setLastAdded(`${quantity} × ${product.title}`);
   };
 
   if (loading) {
@@ -65,6 +67,11 @@ export default function ProductCardDemoPage() {
         <h2 className='text-xl font-medium text-deep-charcoal mb-4'>
           Features Demonstrated:
         </h2>
+        {lastAdded && (
+          <div className='mb-4 text-sm text-sage-green/80'>
+            Added to cart (demo): {lastAdded}
+          </div>
+        )}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
           <div className='flex items-center gap-3'>
             <div className='w-2 h-2 bg-sage-green rounded-full' />

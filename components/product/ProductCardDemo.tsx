@@ -11,6 +11,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import type { ShopifyProduct } from '@/types/shopify';
+import { logError } from '@/lib/utils/error-handling';
 
 interface ProductCardDemoProps {
   product: ShopifyProduct;
@@ -35,7 +36,9 @@ export function ProductCardDemo({
         // Reset quantity after successful add
         setQuantity(1);
       } catch (error) {
-        console.error('Failed to add to cart:', error);
+        logError('ProductCardDemo:handleAddToCart', error, {
+          productId: product.id,
+        });
       } finally {
         setIsAdding(false);
       }

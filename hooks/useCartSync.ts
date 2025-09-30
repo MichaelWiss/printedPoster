@@ -5,15 +5,16 @@ import { syncService } from '@/lib/services/sync-service';
 
 export function useCartSync() {
   const { data: session } = useSession();
-  const cartStore = useCartStore();
+  const loadFromServer = useCartStore(state => state.loadFromServer);
+  const userId = session?.user?.id ?? null;
 
   useEffect(() => {
     // Start sync service when user logs in
-    if (session?.user?.id) {
-      syncService.startPeriodicSync(session.user.id);
+    if (userId) {
+      syncService.startPeriodicSync(userId);
 
       // Initial sync
-      cartStore.loadFromServer();
+      loadFromServer();
     } else {
       // Stop sync when user logs out
       syncService.stopPeriodicSync();
@@ -23,14 +24,14 @@ export function useCartSync() {
     return () => {
       syncService.stopPeriodicSync();
     };
-  }, [session?.user?.id]);
+  }, [userId, loadFromServer]);
 
   // Handle online/offline status
   useEffect(() => {
     const handleOnline = () => {
-      if (session?.user?.id) {
-        syncService.startPeriodicSync(session.user.id);
-        cartStore.loadFromServer(); // Immediate sync when coming online
+      if (userId) {
+        syncService.startPeriodicSync(userId);
+        loadFromServer(); // Immediate sync when coming online
       }
     };
 
@@ -45,7 +46,7 @@ export function useCartSync() {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
-  }, [session?.user?.id]);
+  }, [userId, loadFromServer]);
 
   return {
     syncStatus: syncService.getSyncStatus(),

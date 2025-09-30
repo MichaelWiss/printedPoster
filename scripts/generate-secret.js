@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports */
 
 // Generate a secure random string for NEXTAUTH_SECRET
 const crypto = require('crypto');

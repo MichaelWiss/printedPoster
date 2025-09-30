@@ -8,6 +8,12 @@
 'use client';
 
 import { useEffect } from 'react';
+import { logger } from '@/lib/utils/logger';
+
+type LayoutShiftEntry = PerformanceEntry & {
+  value: number;
+  hadRecentInput: boolean;
+};
 
 interface PerformanceMetrics {
   lcp?: number; // Largest Contentful Paint
@@ -49,8 +55,9 @@ export function PerformanceMonitor() {
     const clsObserver = new PerformanceObserver((list) => {
       const entries = list.getEntries();
       entries.forEach((entry) => {
-        if (!(entry as any).hadRecentInput) {
-          clsValue += (entry as any).value;
+        const layoutShift = entry as LayoutShiftEntry;
+        if (!layoutShift.hadRecentInput) {
+          clsValue += layoutShift.value;
         }
       });
       metrics.cls = clsValue;
@@ -80,24 +87,24 @@ export function PerformanceMonitor() {
     // Log all metrics after page load (development only)
     const logMetrics = () => {
       if (process.env.NODE_ENV === 'development') {
-        console.group('🚀 Performance Metrics');
-        console.log('LCP (Largest Contentful Paint):', metrics.lcp, 'ms');
-        console.log('FID (First Input Delay):', metrics.fid, 'ms');
-        console.log('CLS (Cumulative Layout Shift):', metrics.cls);
-        console.log('FCP (First Contentful Paint):', metrics.fcp, 'ms');
-        console.log('TTFB (Time to First Byte):', metrics.ttfb, 'ms');
-        console.groupEnd();
+        logger.group('🚀 Performance Metrics');
+        logger.info('LCP (Largest Contentful Paint):', metrics.lcp, 'ms');
+        logger.info('FID (First Input Delay):', metrics.fid, 'ms');
+        logger.info('CLS (Cumulative Layout Shift):', metrics.cls);
+        logger.info('FCP (First Contentful Paint):', metrics.fcp, 'ms');
+        logger.info('TTFB (Time to First Byte):', metrics.ttfb, 'ms');
+        logger.groupEnd();
       }
 
       // Performance recommendations
       if (metrics.lcp && metrics.lcp > 2500) {
-        console.warn('⚠️ LCP is above 2.5s - consider optimizing images and critical resources');
+        logger.warn('⚠️ LCP is above 2.5s - consider optimizing images and critical resources');
       }
       if (metrics.fid && metrics.fid > 100) {
-        console.warn('⚠️ FID is above 100ms - consider reducing JavaScript execution time');
+        logger.warn('⚠️ FID is above 100ms - consider reducing JavaScript execution time');
       }
       if (metrics.cls && metrics.cls > 0.1) {
-        console.warn('⚠️ CLS is above 0.1 - consider adding size attributes to images');
+        logger.warn('⚠️ CLS is above 0.1 - consider adding size attributes to images');
       }
     };
 
@@ -134,8 +141,8 @@ export function ProductionPerformanceLogger() {
         
         // Send to analytics service (replace with your analytics)
         if (process.env.NODE_ENV === 'development') {
-          console.log('Page Load Time:', loadTime, 'ms');
-          console.log('DOM Content Loaded:', domContentLoaded, 'ms');
+          logger.info('Page Load Time:', loadTime, 'ms');
+          logger.info('DOM Content Loaded:', domContentLoaded, 'ms');
         }
       }
     };

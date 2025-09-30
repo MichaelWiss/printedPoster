@@ -36,6 +36,7 @@ import { persist, createJSONStorage, devtools } from 'zustand/middleware';
 import type { ShopifyProduct } from '@/types/shopify';
 import { cartService, type CartItemData } from '@/lib/services/cart-service';
 import { migrationService } from '@/lib/services/migration-service';
+import { logger } from '@/lib/utils/logger';
 
 // Enhanced interfaces for authentication and server sync
 export interface CartLineItem {
@@ -218,16 +219,16 @@ export const useCartStore = create<CartStore>()(
 
         // Enhanced cart actions with server sync
         addItem: async (product: ShopifyProduct, quantity = 1) => {
-          console.log('Cart store addItem called with:', { product, quantity });
+          logger.info('Cart store addItem called with:', { product, quantity });
           try {
             set({ isLoading: true, error: null });
-            console.log('Setting loading state to true');
+            logger.info('Setting loading state to true');
 
             // Immediate local update for instant UX
             const existingIndex = get().items.findIndex(
               item => item.product.id === product.id
             );
-            console.log('Existing item index:', existingIndex);
+            logger.info('Existing item index:', existingIndex);
 
             let newItems: CartLineItem[];
             if (existingIndex >= 0) {
@@ -256,20 +257,16 @@ export const useCartStore = create<CartStore>()(
               newItems = [...get().items, newItem];
             }
 
-            console.log(
-              'Updating cart state with new items:',
-              newItems.length,
-              'items'
-            );
+            logger.info('Updating cart state with new items:', newItems.length, 'items');
             set({ items: newItems, isLoading: false });
-            console.log('Cart state updated successfully');
+            logger.info('Cart state updated successfully');
 
             // Server sync for authenticated users
             if (get().isAuthenticated && get().userId) {
-              console.log('User is authenticated, syncing with server');
+              logger.info('User is authenticated, syncing with server');
               await get().syncWithServer();
             } else {
-              console.log('User not authenticated, skipping server sync');
+              logger.info('User not authenticated, skipping server sync');
             }
           } catch (error) {
             set({
@@ -403,7 +400,7 @@ export const useCartStore = create<CartStore>()(
               });
             }
           } catch (error) {
-            console.error('Failed to sync with server:', error);
+            logger.error('Failed to sync with server:', error);
             // Don't throw - allow local cart to continue working
           }
         },
@@ -424,7 +421,7 @@ export const useCartStore = create<CartStore>()(
               });
             }
           } catch (error) {
-            console.error('Failed to load from server:', error);
+            logger.error('Failed to load from server:', error);
           }
         },
 
@@ -465,9 +462,9 @@ export const useCartStore = create<CartStore>()(
                 localStorage.removeItem('cart-storage');
               }
 
-              console.log('Successfully migrated guest cart for user:', userId);
+              logger.info('Successfully migrated guest cart for user:', userId);
             } catch (migrationError) {
-              console.error('Migration failed:', migrationError);
+              logger.error('Migration failed:', migrationError);
 
               // Restore from backup if available
               if (backupKey) {
@@ -480,7 +477,7 @@ export const useCartStore = create<CartStore>()(
               });
             }
           } catch (error) {
-            console.error('Failed to migrate guest cart:', error);
+            logger.error('Failed to migrate guest cart:', error);
             set({
               error: 'Failed to migrate your cart. Please try again.',
             });
