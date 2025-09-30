@@ -2,6 +2,8 @@ import Link from 'next/link';
 import type { ShopifyProduct } from '@/types/shopify';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { getCachedProductsWithRevalidation } from '@/lib/cache/data-cache';
+import { getCollectionByHandle } from '@/lib/shopify/client';
+import { getConfig } from '@/lib/config';
 import { logError } from '@/lib/utils/error-handling';
 
 interface FeaturedProductsLiteProps {
@@ -16,11 +18,33 @@ export async function FeaturedProductsLite({
   limit = 8,
 }: FeaturedProductsLiteProps) {
   let products: ShopifyProduct[] = [];
+  const config = getConfig();
+  const featuredCollectionHandle =
+    config.shopify.featuredCollectionHandle?.trim() || 'featured-products';
 
   try {
-    products = await getCachedProductsWithRevalidation(limit);
+    const collection = await getCollectionByHandle(featuredCollectionHandle, {
+      first: limit,
+    });
+
+    if (collection?.products?.edges?.length) {
+      products = collection.products.edges.map(edge => edge.node);
+    }
   } catch (error) {
-    logError('FeaturedProductsLite:getProducts', error, { limit });
+    logError('FeaturedProductsLite:getCollection', error, {
+      featuredCollectionHandle,
+      limit,
+    });
+  }
+
+  if (!products.length) {
+    try {
+      products = await getCachedProductsWithRevalidation(limit);
+    } catch (fallbackError) {
+      logError('FeaturedProductsLite:fallbackProducts', fallbackError, {
+        limit,
+      });
+    }
   }
 
   return (
