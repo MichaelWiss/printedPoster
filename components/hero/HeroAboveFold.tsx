@@ -8,7 +8,7 @@ export function HeroAboveFold() {
     title: 'Curated Art Prints',
     subtitle:
       'Discover our collection of premium printed posters and artistic prints',
-    imageUrl: '/hero/hero-1.svg',
+    imageSrc: '/hero/hero-1.jpg',
     ctaText: 'Shop Collection',
     ctaLink: '/products',
   };
@@ -17,7 +17,7 @@ export function HeroAboveFold() {
     <section className='relative h-96 md:h-[500px] lg:h-[600px] overflow-hidden bg-light-gray'>
       <div className='absolute inset-0'>
         <Image
-          src={slide.imageUrl}
+          src={slide.imageSrc}
           alt={slide.title}
           fill
           className='object-cover'

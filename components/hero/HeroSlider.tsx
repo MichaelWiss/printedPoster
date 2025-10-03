@@ -7,7 +7,7 @@ interface HeroSlide {
   id: string;
   title: string;
   subtitle: string;
-  imageUrl: string;
+  src: string;
   ctaText: string;
   ctaLink: string;
 }
@@ -18,8 +18,7 @@ const heroSlides: HeroSlide[] = [
     title: 'Curated Art Prints',
     subtitle:
       'Discover our collection of premium printed posters and artistic prints',
-    imageUrl:
-      'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=600&fit=crop',
+    src: '/hero/slide-1.jpg',
     ctaText: 'Shop Collection',
     ctaLink: '/products',
   },
@@ -27,17 +26,15 @@ const heroSlides: HeroSlide[] = [
     id: '2',
     title: 'Gallery Quality',
     subtitle: 'Museum-grade printing on premium paper for lasting beauty',
-    imageUrl:
-      'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=1200&h=600&fit=crop',
-    ctaText: 'Learn More',
+    src: '/hero/slide-2.jpg',
+    ctaText: 'Shop Collection',
     ctaLink: '/about',
   },
   {
     id: '3',
     title: 'Limited Editions',
     subtitle: 'Exclusive prints from emerging and established artists',
-    imageUrl:
-      'https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=1200&h=600&fit=crop',
+    src: '/hero/slide-3.jpg',
     ctaText: 'View Limited',
     ctaLink: '/limited',
   },
@@ -67,7 +64,7 @@ export function HeroSlider() {
       {/* Background Image */}
       <div className='absolute inset-0'>
         <Image
-          src={currentSlideData.imageUrl}
+          src={currentSlideData.src}
           alt={currentSlideData.title}
           fill
           className='object-cover transition-opacity duration-1000'
