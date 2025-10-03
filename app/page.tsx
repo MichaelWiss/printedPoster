@@ -1,13 +1,13 @@
 // Incremental Static Regeneration for home page
 export const revalidate = 300; // 5 minutes - longer cache for better performance
-import { HeroAboveFold } from '@/components/hero/HeroAboveFold';
+import { ClientHeroSlider } from '@/components/hero/ClientHeroSlider';
 import { FeaturedProductsLite } from '@/components/sections/FeaturedProductsLite';
 
 export default function Home() {
   return (
     <div className='min-h-screen bg-cream-base text-deep-charcoal'>
       {/* Hero Section: server-rendered for fast LCP */}
-      <HeroAboveFold />
+      <ClientHeroSlider />
 
       {/* Featured Products (server-only lightweight cards) */}
       <FeaturedProductsLite />

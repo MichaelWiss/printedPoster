@@ -18,7 +18,7 @@ const heroSlides: HeroSlide[] = [
     title: 'Curated Art Prints',
     subtitle:
       'Discover our collection of premium printed posters and artistic prints',
-    src: '/hero/slide-1.jpg',
+    src: '/hero/hero-1.jpg',
     ctaText: 'Shop Collection',
     ctaLink: '/products',
   },
@@ -26,7 +26,7 @@ const heroSlides: HeroSlide[] = [
     id: '2',
     title: 'Gallery Quality',
     subtitle: 'Museum-grade printing on premium paper for lasting beauty',
-    src: '/hero/slide-2.jpg',
+    src: '/hero/hero-2.jpg',
     ctaText: 'Shop Collection',
     ctaLink: '/about',
   },
@@ -34,7 +34,7 @@ const heroSlides: HeroSlide[] = [
     id: '3',
     title: 'Limited Editions',
     subtitle: 'Exclusive prints from emerging and established artists',
-    src: '/hero/slide-3.jpg',
+    src: '/hero/hero-3.jpg',
     ctaText: 'View Limited',
     ctaLink: '/limited',
   },
@@ -61,18 +61,27 @@ export function HeroSlider() {
 
   return (
     <section className='relative h-96 md:h-[500px] lg:h-[600px] overflow-hidden bg-light-gray'>
-      {/* Background Image */}
+      {/* Background Images - layered for smooth crossfade */}
       <div className='absolute inset-0'>
-        <Image
-          src={currentSlideData.src}
-          alt={currentSlideData.title}
-          fill
-          className='object-cover transition-opacity duration-1000'
-          priority
-          fetchPriority='high'
-          sizes='100vw'
-        />
-        <div className='absolute inset-0 bg-black/30' />
+        {heroSlides.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={`absolute inset-0 transition-opacity duration-[3000ms] ease-in-out ${
+              index === currentSlide ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <Image
+              src={slide.src}
+              alt={slide.title}
+              fill
+              className='object-cover'
+              priority={index === 0}
+              fetchPriority={index === 0 ? 'high' : 'auto'}
+              sizes='100vw'
+            />
+            <div className='absolute inset-0 bg-black/30' />
+          </div>
+        ))}
       </div>
 
       {/* Content */}

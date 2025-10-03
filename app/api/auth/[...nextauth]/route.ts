@@ -13,10 +13,10 @@ function getHandler() {
   return _handler;
 }
 
-export const GET = async (req: Request) => {
-  return getHandler()(req);
+export const GET = async (req: Request, context: { params: { nextauth: string[] } }) => {
+  return getHandler()(req, context);
 };
 
-export const POST = async (req: Request) => {
-  return getHandler()(req);
+export const POST = async (req: Request, context: { params: { nextauth: string[] } }) => {
+  return getHandler()(req, context);
 };
