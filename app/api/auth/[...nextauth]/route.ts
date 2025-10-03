@@ -1,7 +1,9 @@
 import NextAuth from 'next-auth';
 import { getAuthOptions } from '@/lib/auth';
 
-// Export the NextAuth handler directly so the App Router provides context correctly
+// Create the handler with proper App Router support
 const handler = NextAuth(getAuthOptions());
 
-export { handler as GET, handler as POST };
+// Export GET and POST handlers for App Router
+export const GET = handler;
+export const POST = handler;

@@ -129,6 +129,15 @@ module.exports = {
       transitionTimingFunction: {
         smooth: 'cubic-bezier(0.4, 0, 0.2, 1)',
       },
+      keyframes: {
+        fadeInSlide: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        'fade-in-slide': 'fadeInSlide 3000ms ease-in-out',
+      },
     },
   },
   plugins: [
@@ -273,6 +282,9 @@ module.exports = {
         },
         '.animate-fade-in': {
           '@apply animate-pulse': {},
+        },
+        '.animate-fade-in-slide': {
+          animation: 'fadeInSlide 3000ms ease-in-out',
         },
       };
       addUtilities(newUtilities);

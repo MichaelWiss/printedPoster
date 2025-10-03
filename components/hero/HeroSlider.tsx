@@ -86,8 +86,11 @@ export function HeroSlider() {
 
       {/* Content */}
       <div className='relative h-full flex items-center justify-center text-center text-white'>
-        <div className='max-w-4xl px-4'>
-          <h1 className='text-hero text-white mb-4 animate-fade-in'>
+        <div 
+          key={currentSlide} 
+          className='max-w-4xl px-4 animate-fade-in-slide'
+        >
+          <h1 className='text-hero text-white mb-4'>
             {currentSlideData.title}
           </h1>
           <p className='text-white/90 mb-8 max-w-2xl mx-auto'>
