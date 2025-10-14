@@ -58,7 +58,7 @@ export function ProductDetails({ product }: Props) {
             </p>
           </div>
 
-          {/* Price */}
+          {/* Price variant*/}
           {product.priceRange?.minVariantPrice && (
             <div>
               <p className='text-3xl font-bold text-terracotta'>
