@@ -63,12 +63,12 @@ export function Header() {
             {/* Desktop navigation - hidden on mobile, visible on large screens */}
             {/* Uses text-body-sm with proper hierarchy and spacing */}
             <div className='hidden lg:flex items-center gap-8'>
-              {/* Products navigation - primary category */}
+              {/* New Arrivals navigation - primary category */}
               <Link
-                href='/products'
+                href='/collections/new-arrivals'
                 className='text-body font-medium text-deep-charcoal/80 hover:text-sage-green transition-all duration-300 hover:-translate-y-1'
               >
-                Products
+                New Arrivals
               </Link>
 
               {/* Collections navigation - curated content */}

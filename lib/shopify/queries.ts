@@ -95,6 +95,16 @@ export const GET_PRODUCT_BY_HANDLE_QUERY = `
           }
         }
       }
+      collections(first: 10) {
+        edges {
+          node {
+            id
+            handle
+            title
+          }
+        }
+      }
+      tags
     }
   }
 `;

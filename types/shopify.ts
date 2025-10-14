@@ -39,6 +39,16 @@ export interface ShopifyProduct {
   };
   // Optional array of product tags for filtering
   tags?: string[];
+  // Optional collections for type detection
+  collections?: {
+    edges: Array<{
+      node: {
+        id: string;
+        handle: string;
+        title: string;
+      };
+    }>;
+  };
 }
 
 export interface ProductsResponse {

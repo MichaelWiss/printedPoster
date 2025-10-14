@@ -38,6 +38,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { logger } from '@/lib/utils/logger';
 
 export function Footer() {
@@ -59,30 +60,30 @@ export function Footer() {
               Curated collection of artistic prints and posters, carefully selected to bring beauty and inspiration to your space.
             </p>
                    <div className='flex gap-3 md:gap-4 justify-center md:justify-start'>
-                     <a href='#' className='w-12 h-12 md:w-10 md:h-10 bg-sage-green rounded-full flex items-center justify-center hover:bg-terracotta transition-colors duration-300 min-h-[44px] min-w-[44px]'>📧</a>
-                     <a href='#' className='w-12 h-12 md:w-10 md:h-10 bg-sage-green rounded-full flex items-center justify-center hover:bg-terracotta transition-colors duration-300 min-h-[44px] min-w-[44px]'>📱</a>
-                     <a href='#' className='w-12 h-12 md:w-10 md:h-10 bg-sage-green rounded-full flex items-center justify-center hover:bg-terracotta transition-colors duration-300 min-h-[44px] min-w-[44px]'>🐦</a>
-                     <a href='#' className='w-12 h-12 md:w-10 md:h-10 bg-sage-green rounded-full flex items-center justify-center hover:bg-terracotta transition-colors duration-300 min-h-[44px] min-w-[44px]'>📷</a>
+                     <a href='mailto:hello@printedpostergallery.com' className='w-12 h-12 md:w-10 md:h-10 bg-sage-green rounded-full flex items-center justify-center hover:bg-terracotta transition-colors duration-300 min-h-[44px] min-w-[44px]' aria-label='Email'>📧</a>
+                     <a href='https://instagram.com/printedpostergallery' target='_blank' rel='noopener noreferrer' className='w-12 h-12 md:w-10 md:h-10 bg-sage-green rounded-full flex items-center justify-center hover:bg-terracotta transition-colors duration-300 min-h-[44px] min-w-[44px]' aria-label='Instagram'>📱</a>
+                     <a href='https://twitter.com/printedposter' target='_blank' rel='noopener noreferrer' className='w-12 h-12 md:w-10 md:h-10 bg-sage-green rounded-full flex items-center justify-center hover:bg-terracotta transition-colors duration-300 min-h-[44px] min-w-[44px]' aria-label='Twitter'>🐦</a>
+                     <a href='https://pinterest.com/printedpostergallery' target='_blank' rel='noopener noreferrer' className='w-12 h-12 md:w-10 md:h-10 bg-sage-green rounded-full flex items-center justify-center hover:bg-terracotta transition-colors duration-300 min-h-[44px] min-w-[44px]' aria-label='Pinterest'>📷</a>
                    </div>
           </div>
           <div className='text-center md:text-left'>
             <h4 className='text-hierarchy-h3 mb-6'>Shop</h4>
             <ul className='space-y-3'>
-              <li><a href='#' className='text-body-small hover:text-terracotta transition-colors duration-300'>All Products</a></li>
-              <li><a href='#' className='text-body-small hover:text-terracotta transition-colors duration-300'>New Arrivals</a></li>
-              <li><a href='#' className='text-body-small hover:text-terracotta transition-colors duration-300'>Best Sellers</a></li>
-              <li><a href='#' className='text-body-small hover:text-terracotta transition-colors duration-300'>Sale</a></li>
-              <li><a href='#' className='text-body-small hover:text-terracotta transition-colors duration-300'>Collections</a></li>
+              <li><Link href='/store' className='text-body-small hover:text-terracotta transition-colors duration-300'>All Products</Link></li>
+              <li><Link href='/new-arrivals' className='text-body-small hover:text-terracotta transition-colors duration-300'>New Arrivals</Link></li>
+              <li><Link href='/best-sellers' className='text-body-small hover:text-terracotta transition-colors duration-300'>Best Sellers</Link></li>
+              <li><Link href='/sale' className='text-body-small hover:text-terracotta transition-colors duration-300'>Sale</Link></li>
+              <li><Link href='/collections' className='text-body-small hover:text-terracotta transition-colors duration-300'>Collections</Link></li>
             </ul>
           </div>
           <div className='text-center md:text-left'>
             <h4 className='text-hierarchy-h3 mb-6'>Support</h4>
             <ul className='space-y-3'>
-              <li><a href='#' className='text-body-small hover:text-terracotta transition-colors duration-300'>Help Center</a></li>
-              <li><a href='#' className='text-body-small hover:text-terracotta transition-colors duration-300'>Shipping Info</a></li>
-              <li><a href='#' className='text-body-small hover:text-terracotta transition-colors duration-300'>Returns</a></li>
-              <li><a href='#' className='text-body-small hover:text-terracotta transition-colors duration-300'>Size Guide</a></li>
-              <li><a href='#' className='text-body-small hover:text-terracotta transition-colors duration-300'>Contact Us</a></li>
+              <li><Link href='/help-center' className='text-body-small hover:text-terracotta transition-colors duration-300'>Help Center</Link></li>
+              <li><Link href='/shipping-info' className='text-body-small hover:text-terracotta transition-colors duration-300'>Shipping Info</Link></li>
+              <li><Link href='/returns' className='text-body-small hover:text-terracotta transition-colors duration-300'>Returns</Link></li>
+              <li><Link href='/size-guide' className='text-body-small hover:text-terracotta transition-colors duration-300'>Size Guide</Link></li>
+              <li><Link href='/contact-us' className='text-body-small hover:text-terracotta transition-colors duration-300'>Contact Us</Link></li>
             </ul>
           </div>
           <div className='text-center md:text-left'>
@@ -149,9 +150,9 @@ export function Footer() {
               © 2024 Printed Poster. All rights reserved.
             </p>
             <div className='flex gap-6 justify-center md:justify-end'>
-              <a href='#' className='text-body-small text-warm-gray hover:text-terracotta transition-colors duration-300'>Terms of Service</a>
-              <a href='#' className='text-body-small text-warm-gray hover:text-terracotta transition-colors duration-300'>Privacy Policy</a>
-              <a href='#' className='text-body-small text-warm-gray hover:text-terracotta transition-colors duration-300'>Cookie Policy</a>
+              <Link href='/terms' className='text-body-small text-warm-gray hover:text-terracotta transition-colors duration-300'>Terms of Service</Link>
+              <Link href='/privacy' className='text-body-small text-warm-gray hover:text-terracotta transition-colors duration-300'>Privacy Policy</Link>
+              <Link href='/cookies' className='text-body-small text-warm-gray hover:text-terracotta transition-colors duration-300'>Cookie Policy</Link>
             </div>
           </div>
         </div>

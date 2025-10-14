@@ -11,6 +11,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { SearchBar } from './SearchBar';
 
 export function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -78,11 +79,11 @@ export function MobileMenu() {
           <div className='container mx-auto px-4 py-4'>
             <nav className='space-y-3' aria-label='Mobile navigation'>
               <Link
-                href='/products'
+                href='/collections/new-arrivals'
                 className='block py-3 text-body-base text-deep-charcoal hover:text-sage-green transition-colors duration-200'
                 onClick={closeMenu}
               >
-                Products
+                New Arrivals
               </Link>
 
               <Link
@@ -101,16 +102,18 @@ export function MobileMenu() {
                 About
               </Link>
 
+              {/* Mobile search */}
+              <div className='pt-4 border-t border-sage-green/10'>
+                <div className='mb-4'>
+                  <label className='block text-sm font-medium text-deep-charcoal mb-2'>
+                    Search Products
+                  </label>
+                  <SearchBar />
+                </div>
+              </div>
+
               {/* Mobile-specific actions section */}
               <div className='pt-4 border-t border-sage-green/10 space-y-3'>
-                <Link
-                  href='/search'
-                  className='block py-3 text-body-base text-deep-charcoal hover:text-sage-green transition-colors duration-200 flex items-center gap-2'
-                  onClick={closeMenu}
-                >
-                  <span>🔍</span>
-                  Search Products
-                </Link>
                 <Link
                   href='/contact'
                   className='block py-3 text-body-base text-deep-charcoal hover:text-sage-green transition-colors duration-200'

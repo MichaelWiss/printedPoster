@@ -130,15 +130,6 @@ export default async function CollectionPage({
           {collection.description}
         </p>
 
-        {/* Collection Actions */}
-        <div className='flex flex-wrap justify-center gap-4 mt-8'>
-          <button className='btn btn-primary'>
-            Browse All {collection.title}
-          </button>
-          <button className='btn border border-sage-green/20 text-deep-charcoal hover:bg-sage-green/5'>
-            Filter by Style
-          </button>
-        </div>
       </div>
 
       {/* Top controls: Filter (left) + Sort (right) */}

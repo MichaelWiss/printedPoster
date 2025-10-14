@@ -12,6 +12,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import type { ShopifyProduct } from '@/types/shopify';
+import { AdvancedAddToCartButton } from './AdvancedAddToCartButton';
 
 // Define the props interface for type safety
 interface ProductCardProps {
@@ -45,36 +46,45 @@ export const ProductCard = memo(function ProductCard({
   const cardClasses = animationDirection === 'right' ? 'card right' : 'card';
 
   return (
-    // Card container with Next.js Link for fast navigation
-    <Link 
-      href={`/products/${product.handle}`}
-      prefetch={true}
-      className={`${cardClasses} group cursor-pointer block`}
-      aria-label={`View details for ${product.title}`}
-    >
-      {/* Product image section with gradient background */}
-      <div className='relative overflow-hidden'>
-        <div className={`${gradientClass} w-full h-64 flex items-center justify-center`}>
-          {firstImage ? (
-            <Image
-              src={firstImage.url}
-              alt={firstImage.altText || product.title}
-              width={200}
-              height={200}
-              className='object-cover transition-transform duration-300 group-hover:scale-105'
-              sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
-              loading="lazy"
-            />
-          ) : (
-            <span className='text-white font-display text-5xl'>1</span>
-          )}
+    // Card container with separate clickable areas to prevent navigation conflicts
+    <div className={`${cardClasses} group cursor-pointer`}>
+      {/* Product image section with gradient background - clickable for navigation */}
+      <Link 
+        href={`/products/${product.handle}`}
+        prefetch={true}
+        className='block'
+        aria-label={`View details for ${product.title}`}
+      >
+        <div className='relative overflow-hidden'>
+          <div className={`${gradientClass} w-full h-64 flex items-center justify-center`}>
+            {firstImage ? (
+              <Image
+                src={firstImage.url}
+                alt={firstImage.altText || product.title}
+                width={200}
+                height={200}
+                className='object-cover transition-transform duration-300 group-hover:scale-105'
+                sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
+                loading="lazy"
+              />
+            ) : (
+              <span className='text-white font-display text-5xl'>1</span>
+            )}
+          </div>
+          <div className='absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300' />
         </div>
-        <div className='absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300' />
-      </div>
+      </Link>
       {/* Product information section */}
       <div className='p-4 md:p-6'>
-        <h4 className='text-lg md:text-hierarchy-h3 mb-2 md:mb-3'>{product.title}</h4>
-        <p className='text-sm md:text-body-small mb-3 md:mb-4 line-clamp-2'>{product.description}</p>
+        {/* Title and description - clickable for navigation */}
+        <Link 
+          href={`/products/${product.handle}`}
+          prefetch={true}
+          className='block mb-3 md:mb-4'
+        >
+          <h4 className='text-lg md:text-hierarchy-h3 mb-2 md:mb-3 line-clamp-2 hover:text-terracotta transition-colors'>{product.title}</h4>
+          <p className='text-sm md:text-body-small line-clamp-2'>{product.description}</p>
+        </Link>
         <div className='flex items-center justify-between mb-3 md:mb-4'>
           <span className='text-base md:text-price font-semibold'>
             {price
@@ -86,16 +96,12 @@ export const ProductCard = memo(function ProductCard({
           </span>
           <span className='text-xs md:text-caption bg-light-sage px-2 py-1 rounded-full'>Free shipping</span>
         </div>
-        <div className='add-to-cart-btn min-h-[44px]'>
-          <div className='quantity-section'>
-            <span className='quantity-btn min-h-[32px] min-w-[32px]'>−</span>
-            <span className='quantity-display'>1</span>
-            <span className='quantity-btn min-h-[32px] min-w-[32px]'>+</span>
-          </div>
-          <div className='divider' />
-          <div className='add-to-cart-section min-h-[32px] flex items-center justify-center'>Add to Cart</div>
-        </div>
+        {/* Add to cart button - functional, non-navigating */}
+        <AdvancedAddToCartButton
+          product={product}
+          className='w-full'
+        />
       </div>
-    </Link>
+    </div>
   );
 });

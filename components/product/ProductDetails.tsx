@@ -34,13 +34,15 @@ export function ProductDetails({ product }: Props) {
     <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
       {firstImage && (
         <ViewportFadeIn>
-          <div className='relative h-96'>
+          <div className='relative w-full'>
             <Image
               src={firstImage.url}
               alt={firstImage.altText || product.title}
-              fill
-              className='object-cover rounded-lg'
+              width={600}
+              height={800}
+              className='object-contain w-full h-auto rounded-lg bg-pure-white'
               sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw'
+              priority
             />
           </div>
         </ViewportFadeIn>
@@ -48,7 +50,7 @@ export function ProductDetails({ product }: Props) {
       <ViewportFadeIn delayMs={80}>
         <div className='space-y-6'>
           <div>
-            <h1 className='text-3xl font-bold text-deep-charcoal mb-4'>
+            <h1 className='text-3xl font-bold text-deep-charcoal mb-4 line-clamp-2'>
               {product.title}
             </h1>
             <p className='text-warm-gray text-lg leading-relaxed'>
