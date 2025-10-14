@@ -8,7 +8,7 @@ import { MassProducedVariantSelector } from './MassProducedVariantSelector';
 import { OneOfAKindDisplay } from './OneOfAKindDisplay';
 import { QualitySpecs } from './QualitySpecs';
 import { detectProductTypeFromCollections } from '@/lib/utils/collection-based-types';
-import { ProductType, type ProductVariant } from '@/types/product-types';
+import { ProductType, type ProductVariant, type MassProducedProduct, type OneOfAKindProduct } from '@/types/product-types';
 import { FEATURE_FLAGS, debugProductType } from '@/lib/feature-flags';
 import ViewportFadeIn from '@/components/ui/ViewportFadeIn';
 
@@ -69,8 +69,8 @@ export function EnhancedProductDetails({ product, useEnhancedTypes = true }: Pro
             {/* Thumbnail Images */}
             {product.images?.edges && product.images.edges.length > 1 && (
               <div className='flex gap-2'>
-                {product.images.edges.slice(1, 4).map((edge, index) => (
-                  <div key={index} className='w-16 h-16 bg-sage-green/10 rounded border-2 border-transparent hover:border-sage-green transition-colors cursor-pointer overflow-hidden'>
+                {product.images.edges.slice(1, 4).map((edge) => (
+                  <div key={edge.node.url} className='w-16 h-16 bg-sage-green/10 rounded border-2 border-transparent hover:border-sage-green transition-colors cursor-pointer overflow-hidden'>
                     <Image
                       src={edge.node.url}
                       alt={edge.node.altText || ''}
@@ -189,7 +189,7 @@ function ProductTypeComponent({
 
     return (
       <MassProducedVariantSelector
-        product={massProducedProduct as any}
+        product={massProducedProduct as MassProducedProduct}
         onVariantChange={onVariantChange}
       />
     );
@@ -227,7 +227,7 @@ function ProductTypeComponent({
     },
   };
 
-  return <OneOfAKindDisplay product={oneOfAKindProduct as any} />;
+  return <OneOfAKindDisplay product={oneOfAKindProduct as OneOfAKindProduct} />;
 }
 
 // Helper functions for parsing product data

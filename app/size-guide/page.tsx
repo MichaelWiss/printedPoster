@@ -253,7 +253,7 @@ export default function SizeGuidePage() {
                 <div className='space-y-3 text-left'>
                   {room.suggestions.map((suggestion, suggestionIndex) => (
                     <div key={suggestionIndex} className='flex items-start space-x-2'>
-                      <div className='w-2 h-2 bg-sage-green rounded-full flex-shrink-0 mt-2'></div>
+                      <div className='w-2 h-2 bg-sage-green rounded-full flex-shrink-0 mt-2' />
                       <p className='text-warm-gray text-sm'>
                         {suggestion}
                       </p>
@@ -277,28 +277,28 @@ export default function SizeGuidePage() {
             <div className='text-center'>
               <div className='bg-sage-green/10 p-6 rounded-lg mb-4'>
                 <div className='text-2xl mb-2'>📱</div>
-                <div className='text-sm font-medium text-deep-charcoal'>8" × 10"</div>
+                <div className='text-sm font-medium text-deep-charcoal'>8&quot; × 10&quot;</div>
               </div>
               <p className='text-xs text-warm-gray'>About the size of a tablet</p>
             </div>
             <div className='text-center'>
               <div className='bg-sage-green/10 p-6 rounded-lg mb-4'>
                 <div className='text-2xl mb-2'>💻</div>
-                <div className='text-sm font-medium text-deep-charcoal'>16" × 20"</div>
+                <div className='text-sm font-medium text-deep-charcoal'>16&quot; × 20&quot;</div>
               </div>
               <p className='text-xs text-warm-gray'>Similar to a laptop screen</p>
             </div>
             <div className='text-center'>
               <div className='bg-sage-green/10 p-6 rounded-lg mb-4'>
                 <div className='text-2xl mb-2'>🖥️</div>
-                <div className='text-sm font-medium text-deep-charcoal'>24" × 36"</div>
+                <div className='text-sm font-medium text-deep-charcoal'>24&quot; × 36&quot;</div>
               </div>
               <p className='text-xs text-warm-gray'>Like a large monitor</p>
             </div>
             <div className='text-center'>
               <div className='bg-sage-green/10 p-6 rounded-lg mb-4'>
                 <div className='text-2xl mb-2'>📺</div>
-                <div className='text-sm font-medium text-deep-charcoal'>36" × 48"</div>
+                <div className='text-sm font-medium text-deep-charcoal'>36&quot; × 48&quot;</div>
               </div>
               <p className='text-xs text-warm-gray'>Similar to a large TV</p>
             </div>
@@ -311,8 +311,8 @@ export default function SizeGuidePage() {
             Need a Custom Size?
           </h2>
           <p className='text-warm-gray mb-8 max-w-2xl mx-auto'>
-            Don't see the perfect size for your space? We offer custom sizing for most of our prints. 
-            Contact us with your specific dimensions and we'll help bring your vision to life.
+            Don&apos;t see the perfect size for your space? We offer custom sizing for most of our prints. 
+            Contact us with your specific dimensions and we&apos;ll help bring your vision to life.
           </p>
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
             <a

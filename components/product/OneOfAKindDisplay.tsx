@@ -54,8 +54,9 @@ export function OneOfAKindDisplay({ product }: OneOfAKindDisplayProps) {
   const handleAddToCart = async () => {
     try {
       await addItem(convertToShopifyProduct(), 1);
-    } catch (error) {
-      console.error('Failed to add item to cart:', error);
+    } catch {
+      // Error is handled by the cart store
+      // Failed to add item to cart
     }
   };
 

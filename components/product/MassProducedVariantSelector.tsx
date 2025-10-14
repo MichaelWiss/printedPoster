@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { ProductVariant, MassProducedProduct } from '@/types/product-types';
-import { useCartActions, useCartLoading } from '@/stores/cart-store';
 import { AdvancedAddToCartButton } from './AdvancedAddToCartButton';
 import type { ShopifyProduct } from '@/types/shopify';
 
@@ -33,7 +32,7 @@ export function MassProducedVariantSelector({
       title: product.title,
       description: product.description,
       images: {
-        edges: product.images.map((img, index) => ({
+        edges: product.images.map((img) => ({
           node: {
             url: img.url,
             altText: img.altText || product.title,
