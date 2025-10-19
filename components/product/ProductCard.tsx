@@ -56,14 +56,14 @@ export const ProductCard = memo(function ProductCard({
         aria-label={`View details for ${product.title}`}
       >
         <div className='relative overflow-hidden'>
-          <div className={`${gradientClass} w-full h-64 flex items-center justify-center`}>
+          <div className={`${gradientClass} w-full aspect-[3/4] flex items-center justify-center p-6 sm:p-8`}>
             {firstImage ? (
               <Image
                 src={firstImage.url}
                 alt={firstImage.altText || product.title}
                 width={200}
                 height={200}
-                className='object-cover transition-transform duration-300 group-hover:scale-105'
+                className='object-contain transition-transform duration-300 group-hover:scale-105'
                 sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
                 loading="lazy"
               />
@@ -99,7 +99,7 @@ export const ProductCard = memo(function ProductCard({
         {/* Add to cart button - functional, non-navigating */}
         <AdvancedAddToCartButton
           product={product}
-          className='w-full'
+          className='w-full max-w-xs'
         />
       </div>
     </div>

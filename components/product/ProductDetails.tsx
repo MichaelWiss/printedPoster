@@ -1,32 +1,17 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
 import type { ShopifyProduct } from '@/types/shopify';
-import {
-  useCartActions,
-  useCartLoading,
-  useIsAuthenticated,
-} from '@/stores/cart-store';
+import { useIsAuthenticated } from '@/stores/cart-store';
 import ViewportFadeIn from '@/components/ui/ViewportFadeIn';
+import { AdvancedAddToCartButton } from './AdvancedAddToCartButton';
 
 interface Props {
   product: ShopifyProduct;
 }
 
 export function ProductDetails({ product }: Props) {
-  const [qty, setQty] = useState(1);
-  const { addItem } = useCartActions();
-  const isLoading = useCartLoading();
   const isAuthenticated = useIsAuthenticated();
-
-  const handleAddToCart = async () => {
-    try {
-      await addItem(product, qty);
-    } catch {
-      // Failed to add item to cart
-    }
-  };
 
   const firstImage = product.images?.edges[0]?.node;
 
@@ -76,42 +61,7 @@ export function ProductDetails({ product }: Props) {
 
           {/* Advanced Add to Cart Button */}
           <div className='pt-4'>
-            <div className='relative flex justify-start'>
-                     <button
-                       className='add-to-cart-btn scale-75 origin-left'
-                       onClick={e => {
-                         e.preventDefault();
-                         handleAddToCart();
-                       }}
-                       disabled={isLoading}
-                     >
-                <div className='quantity-section'>
-                  <span
-                    className='quantity-btn'
-                    onClick={e => {
-                      e.stopPropagation();
-                      setQty(Math.max(1, qty - 1));
-                    }}
-                  >
-                    −
-                  </span>
-                  <span className='quantity-display'>{qty}</span>
-                  <span
-                    className='quantity-btn'
-                    onClick={e => {
-                      e.stopPropagation();
-                      setQty(qty + 1);
-                    }}
-                  >
-                    +
-                  </span>
-                </div>
-                <div className='divider' />
-                <div className='add-to-cart-section'>
-                  {isLoading ? 'Adding...' : 'Add to Cart'}
-                </div>
-              </button>
-            </div>
+            <AdvancedAddToCartButton product={product} className='w-full sm:max-w-sm' />
 
             {isAuthenticated && (
               <p className='text-xs text-sage-green mt-2 text-center'>

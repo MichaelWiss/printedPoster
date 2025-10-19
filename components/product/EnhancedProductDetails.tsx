@@ -54,13 +54,13 @@ export function EnhancedProductDetails({ product, useEnhancedTypes = true }: Pro
       {firstImage && (
         <ViewportFadeIn>
           <div className='space-y-4'>
-            <div className='aspect-[3/4] bg-gradient-to-br from-sage-green/10 to-terracotta/10 rounded-lg overflow-hidden'>
+            <div className='aspect-[3/4] bg-gradient-to-br from-sage-green/10 to-terracotta/10 rounded-lg overflow-hidden flex items-center justify-center p-6'>
               <Image
                 src={firstImage.url}
                 alt={firstImage.altText || product.title}
                 width={600}
                 height={800}
-                className='object-cover w-full h-full'
+                className='object-contain w-full h-full'
                 sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw'
                 priority
               />
@@ -70,18 +70,18 @@ export function EnhancedProductDetails({ product, useEnhancedTypes = true }: Pro
             {product.images?.edges && product.images.edges.length > 1 && (
               <div className='flex gap-2'>
                 {product.images.edges.slice(1, 4).map((edge) => (
-                  <div key={edge.node.url} className='w-16 h-16 bg-sage-green/10 rounded border-2 border-transparent hover:border-sage-green transition-colors cursor-pointer overflow-hidden'>
-                    <Image
-                      src={edge.node.url}
-                      alt={edge.node.altText || ''}
-                      width={64}
-                      height={64}
-                      className='object-cover w-full h-full'
-                    />
+                      <div key={edge.node.url} className='w-16 h-16 bg-sage-green/10 rounded border-2 border-transparent hover:border-sage-green transition-colors cursor-pointer overflow-hidden'>
+                        <Image
+                          src={edge.node.url}
+                          alt={edge.node.altText || ''}
+                          width={64}
+                          height={64}
+                          className='object-contain w-full h-full'
+                        />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            )}
+                )}
           </div>
         </ViewportFadeIn>
       )}

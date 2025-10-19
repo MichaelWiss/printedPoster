@@ -64,6 +64,7 @@ export function AdvancedAddToCartButton({
   return (
     <div className={`relative ${className}`.trim()}>
       <button
+        type='button'
         className='add-to-cart-btn w-full'
         onClick={e => {
           e.preventDefault();
@@ -101,7 +102,6 @@ export function AdvancedAddToCartButton({
             +
           </span>
         </div>
-        <div className='divider' />
         <div className='add-to-cart-section' aria-live='polite' aria-atomic>
           {isLoading ? 'Adding...' : 'Add to Cart'}
         </div>
