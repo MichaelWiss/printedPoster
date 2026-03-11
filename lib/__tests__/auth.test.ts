@@ -1,12 +1,15 @@
-import { validatePassword, hashPassword } from '../auth';
-
-// Mock bcryptjs
+// Mock ESM dependencies before import to avoid SyntaxError
+jest.mock('@auth/prisma-adapter', () => ({
+  PrismaAdapter: jest.fn(() => ({})),
+}));
+jest.mock('next-auth/providers/credentials', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({ id: 'credentials', name: 'credentials' })),
+}));
 jest.mock('bcryptjs', () => ({
   hash: jest.fn().mockResolvedValue('$2a$12$hashedpassword'),
   compare: jest.fn(),
 }));
-
-// Mock dependencies that auth.ts imports
 jest.mock('../db/prisma', () => ({
   getPrismaClient: jest.fn(),
 }));
@@ -15,6 +18,8 @@ jest.mock('../config', () => ({
     nextAuth: { secret: 'test-secret', url: 'http://localhost:3000' },
   }),
 }));
+
+import { validatePassword, hashPassword } from '../auth';
 
 describe('validatePassword', () => {
   it('rejects passwords shorter than 8 characters', () => {
