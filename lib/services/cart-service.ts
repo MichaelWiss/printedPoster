@@ -43,7 +43,6 @@ export class CartService {
     const prisma = getPrismaClient();
     return prisma.cart.create({
       data: {
-        userId: sessionId, // Temporary userId for guests
         sessionId,
         isActive: true,
         items: {
@@ -58,33 +57,20 @@ export class CartService {
   async migrateGuestCart(sessionId: string, userId: string) {
     const prisma = getPrismaClient();
     const guestCart = await prisma.cart.findFirst({
-      where: { sessionId, isActive: true },
+      where: { sessionId, userId: null, isActive: true },
       include: { items: true },
     });
 
     if (!guestCart) return null;
 
-    // Create new cart for authenticated user
-    const userCart = await this.createUserCart(
-      userId,
-      guestCart.items.map(item => ({
-        productId: item.productId,
-        variantId: item.variantId,
-        title: item.title,
-        handle: item.handle,
-        price: item.price,
-        imageUrl: item.imageUrl || undefined,
-        quantity: item.quantity,
-      }))
-    );
-
-    // Deactivate guest cart
-    await prisma.cart.update({
+    // Assign the guest cart to the authenticated user
+    const migratedCart = await prisma.cart.update({
       where: { id: guestCart.id },
-      data: { isActive: false },
+      data: { userId },
+      include: { items: true },
     });
 
-    return userCart;
+    return migratedCart;
   }
 
   // Add item to cart

@@ -32,14 +32,16 @@ model Account {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  passwordHash  String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id                  String    @id @default(cuid())
+  name                String?
+  email               String    @unique
+  emailVerified       DateTime?
+  image               String?
+  passwordHash        String?
+  failedLoginAttempts Int       @default(0)
+  lockedUntil         DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
   accounts      Account[]
   sessions      Session[]
@@ -84,9 +86,9 @@ model ShopifySession {
 
 model Cart {
   id        String      @id @default(cuid())
-  userId    String      // Link to authenticated users
-  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sessionId String?     // For guest cart migration
+  userId    String?     // Null for guest carts, set on authentication
+  user      User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId String?     // For guest cart tracking and migration
   isActive  Boolean     @default(true)
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
