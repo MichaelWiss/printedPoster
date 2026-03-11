@@ -9,9 +9,9 @@ const AddItemSchema = z.object({
   variantId: z.string().min(1).max(500),
   title: z.string().min(1).max(500),
   handle: z.string().min(1).max(500),
-  price: z.union([z.number(), z.string()]).pipe(z.coerce.number().min(0).max(999999)),
+  price: z.coerce.number().min(0).max(999999),
   imageUrl: z.string().url().max(2000).optional().nullable(),
-  quantity: z.union([z.number(), z.string()]).pipe(z.coerce.number().int().min(1).max(1000)),
+  quantity: z.coerce.number().int().min(1).max(1000),
 });
 
 export async function POST(request: NextRequest) {

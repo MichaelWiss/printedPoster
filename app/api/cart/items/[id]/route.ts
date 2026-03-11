@@ -6,7 +6,7 @@ import { getPrismaClient } from '@/lib/db/prisma';
 import { z } from 'zod';
 
 const UpdateQuantitySchema = z.object({
-  quantity: z.union([z.number(), z.string()]).pipe(z.coerce.number().int().min(0).max(1000)),
+  quantity: z.coerce.number().int().min(0).max(1000),
 });
 
 async function verifyCartOwnership(cartItemId: string, userId: string) {
