@@ -18,30 +18,25 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
 import {
   useCartItemCount,
   useIsAuthenticated,
   useCartLoading,
 } from '@/stores/cart-store';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { useHydrated } from '@/hooks/useHydrated';
 
 export function CartCounter() {
-  const [mounted, setMounted] = useState(false);
+  const hydrated = useHydrated();
   const itemCount = useCartItemCount();
   const isAuthenticated = useIsAuthenticated();
   const isLoading = useCartLoading();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (itemCount === 0 && !isLoading && mounted) {
-    return null; // Don't show badge when cart is empty
+  if (!hydrated) {
+    return null;
   }
 
-  // Don't render anything until mounted to prevent hydration mismatch
-  if (!mounted) {
+  if (itemCount === 0 && !isLoading) {
     return null;
   }
 

@@ -33,7 +33,7 @@
  */
 
 import Link from 'next/link';
-import { ClientMobileMenu } from './ClientMobileMenu';
+import { MobileMenu } from './MobileMenu';
 import { CartCounter } from '@/components/cart/CartCounter';
 import { SearchBar } from '@/components/layout/SearchBar';
 
@@ -120,7 +120,7 @@ export function Header() {
             </div>
 
             {/* Mobile menu - loaded client-side to reduce initial bundle */}
-            <ClientMobileMenu />
+            <MobileMenu />
           </div>
         </nav>
       </div>

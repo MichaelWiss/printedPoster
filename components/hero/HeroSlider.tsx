@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useHydrated } from '@/hooks/useHydrated';
 
 interface HeroSlide {
   id: string;
@@ -42,10 +43,9 @@ const heroSlides: HeroSlide[] = [
 
 export function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isClient, setIsClient] = useState(false);
+  const isClient = useHydrated();
 
   useEffect(() => {
-    setIsClient(true);
     const timer = setInterval(() => {
       setCurrentSlide(prev => (prev + 1) % heroSlides.length);
     }, 5000);

@@ -9,14 +9,10 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useHydrated } from '@/hooks/useHydrated';
 
 export function NewsletterSignup() {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const isClient = useHydrated();
 
   if (!isClient) {
     // Return a static placeholder that matches the final render structure

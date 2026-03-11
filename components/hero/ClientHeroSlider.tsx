@@ -7,15 +7,11 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
 import { HeroSlider } from './HeroSlider';
+import { useHydrated } from '@/hooks/useHydrated';
 
 export function ClientHeroSlider() {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const isClient = useHydrated();
 
   if (!isClient) {
     // Return a placeholder with the same dimensions to prevent layout shift

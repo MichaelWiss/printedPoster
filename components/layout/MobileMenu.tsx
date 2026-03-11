@@ -9,17 +9,14 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { SearchBar } from './SearchBar';
+import { useHydrated } from '@/hooks/useHydrated';
 
 export function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const isClient = useHydrated();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
