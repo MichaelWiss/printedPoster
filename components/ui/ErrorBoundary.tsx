@@ -87,15 +87,28 @@ export function withErrorBoundary<P extends object>(
 }
 
 /**
- * Specialized error boundaries for different contexts
+ * Specialized error boundaries for different contexts.
+ * All share the same structure; only the fallback message differs.
  */
-export function ProductErrorBoundary({ children }: { children: ReactNode }) {
+const contextMessages: Record<string, string> = {
+  product: 'Unable to load product information. Please refresh the page.',
+  cart: 'There was a problem with your cart. Please try again.',
+  collection: 'Unable to load collection. Please try again later.',
+};
+
+export function ContextErrorBoundary({
+  context,
+  children,
+}: {
+  context: keyof typeof contextMessages;
+  children: ReactNode;
+}) {
   return (
     <ErrorBoundary
       fallback={
         <div className='p-4 text-center'>
           <ErrorMessage
-            message='Unable to load product information. Please refresh the page.'
+            message={contextMessages[context]}
             type='error'
           />
         </div>
@@ -104,38 +117,17 @@ export function ProductErrorBoundary({ children }: { children: ReactNode }) {
       {children}
     </ErrorBoundary>
   );
+}
+
+// Backwards-compatible aliases
+export function ProductErrorBoundary({ children }: { children: ReactNode }) {
+  return <ContextErrorBoundary context='product'>{children}</ContextErrorBoundary>;
 }
 
 export function CartErrorBoundary({ children }: { children: ReactNode }) {
-  return (
-    <ErrorBoundary
-      fallback={
-        <div className='p-4 text-center'>
-          <ErrorMessage
-            message='There was a problem with your cart. Please try again.'
-            type='error'
-          />
-        </div>
-      }
-    >
-      {children}
-    </ErrorBoundary>
-  );
+  return <ContextErrorBoundary context='cart'>{children}</ContextErrorBoundary>;
 }
 
 export function CollectionErrorBoundary({ children }: { children: ReactNode }) {
-  return (
-    <ErrorBoundary
-      fallback={
-        <div className='p-4 text-center'>
-          <ErrorMessage
-            message='Unable to load collection. Please try again later.'
-            type='error'
-          />
-        </div>
-      }
-    >
-      {children}
-    </ErrorBoundary>
-  );
+  return <ContextErrorBoundary context='collection'>{children}</ContextErrorBoundary>;
 }

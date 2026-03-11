@@ -1,11 +1,27 @@
-import { useCartStore } from '@/stores/cart-store';
+export interface CartStateAccessor {
+  isAuthenticated: boolean;
+  userId: string | null;
+  items: Array<{ id: string; pendingSync?: boolean; product: { id: string; title: string; handle: string }; quantity: number }>;
+  lastSynced: Date | null;
+  serverCartId: string | null;
+  syncWithServer: () => Promise<void>;
+}
 
 export class SyncService {
   private syncInterval: NodeJS.Timeout | null = null;
   private isOnline = true;
+  private getCartState: (() => CartStateAccessor) | null = null;
 
   constructor() {
     this.setupOnlineOfflineListeners();
+  }
+
+  /**
+   * Bind a cart state accessor so the service can read cart state
+   * without importing the store directly.
+   */
+  bindCartState(accessor: () => CartStateAccessor) {
+    this.getCartState = accessor;
   }
 
   // Setup online/offline event listeners
@@ -46,14 +62,14 @@ export class SyncService {
 
   // Immediate sync when coming online
   async performImmediateSync() {
-    const cartStore = useCartStore.getState();
+    const cartState = this.getCartState?.();
+    if (!cartState) return;
 
-    if (cartStore.isAuthenticated && cartStore.userId) {
+    if (cartState.isAuthenticated && cartState.userId) {
       try {
-        await cartStore.syncWithServer();
-        // Immediate sync completed
+        await cartState.syncWithServer();
       } catch {
-        // Immediate sync failed
+        // Immediate sync failed — silently continue
       }
     }
   }
@@ -61,38 +77,37 @@ export class SyncService {
   // Background sync (doesn't show loading states)
   async performBackgroundSync(_userId: string) {
     try {
-      const cartStore = useCartStore.getState();
+      const cartState = this.getCartState?.();
+      if (!cartState) return;
 
-      if (!cartStore.isAuthenticated || cartStore.items.length === 0) {
+      if (!cartState.isAuthenticated || cartState.items.length === 0) {
         return;
       }
 
       // Only sync if there are pending changes
-      const hasPendingChanges = cartStore.items.some(item => item.pendingSync);
+      const hasPendingChanges = cartState.items.some(item => item.pendingSync);
 
       if (hasPendingChanges) {
-        await cartStore.syncWithServer();
-        // Background sync completed
+        await cartState.syncWithServer();
       }
     } catch {
-      // Background sync failed
-      // Don't show error for background sync
+      // Background sync failed — don't surface error
     }
   }
 
   // Force sync (for manual sync button)
   async forceSync(): Promise<boolean> {
-    const cartStore = useCartStore.getState();
+    const cartState = this.getCartState?.();
+    if (!cartState) return false;
 
-    if (!cartStore.isAuthenticated || !cartStore.userId) {
+    if (!cartState.isAuthenticated || !cartState.userId) {
       return false;
     }
 
     try {
-      await cartStore.syncWithServer();
+      await cartState.syncWithServer();
       return true;
     } catch {
-      // Force sync failed
       return false;
     }
   }
@@ -117,7 +132,6 @@ export class SyncService {
     const resolvedItems = localItems.map(localItem => {
       const serverItem = serverItemMap.get(localItem.product.id);
       if (serverItem) {
-        // Merge quantities if both exist
         return {
           ...localItem,
           quantity: Math.max(localItem.quantity, serverItem.quantity),
@@ -177,14 +191,14 @@ export class SyncService {
 
   // Get sync status
   getSyncStatus() {
-    const cartStore = useCartStore.getState();
+    const cartState = this.getCartState?.();
 
     return {
       isOnline: this.isOnline,
-      isAuthenticated: cartStore.isAuthenticated,
-      lastSynced: cartStore.lastSynced,
-      hasPendingChanges: cartStore.items.some(item => item.pendingSync),
-      serverCartId: cartStore.serverCartId,
+      isAuthenticated: cartState?.isAuthenticated ?? false,
+      lastSynced: cartState?.lastSynced ?? null,
+      hasPendingChanges: cartState?.items.some(item => item.pendingSync) ?? false,
+      serverCartId: cartState?.serverCartId ?? null,
     };
   }
 }

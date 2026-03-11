@@ -8,6 +8,11 @@ export function useCartSync() {
   const loadFromServer = useCartStore(state => state.loadFromServer);
   const userId = session?.user?.id ?? null;
 
+  // Bind store state to sync service so it doesn't import the store directly
+  useEffect(() => {
+    syncService.bindCartState(() => useCartStore.getState());
+  }, []);
+
   useEffect(() => {
     // Start sync service when user logs in
     if (userId) {
