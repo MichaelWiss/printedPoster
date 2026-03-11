@@ -3,6 +3,19 @@ import { getServerSession } from 'next-auth';
 import { getAuthOptions } from '@/lib/auth';
 import { cartService } from '@/lib/services/cart-service';
 import { getPrismaClient } from '@/lib/db/prisma';
+import { z } from 'zod';
+
+const UpdateQuantitySchema = z.object({
+  quantity: z.union([z.number(), z.string()]).pipe(z.coerce.number().int().min(0).max(1000)),
+});
+
+async function verifyCartOwnership(cartItemId: string, userId: string) {
+  const prisma = getPrismaClient();
+  const cart = await prisma.cart.findFirst({
+    where: { items: { some: { id: cartItemId } }, userId },
+  });
+  return cart;
+}
 
 export async function PATCH(
   request: NextRequest,
@@ -12,28 +25,30 @@ export async function PATCH(
   try {
     const session = await getServerSession(getAuthOptions());
 
-    if (!session?.user?.email) {
+    if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    const { quantity } = body;
+    const parsed = UpdateQuantitySchema.safeParse(body);
 
-    // Update cart item and fetch cart in parallel
-    const prisma = getPrismaClient();
-    const [cartItem, cart] = await Promise.all([
-      cartService.updateCartItem(id, parseInt(quantity)),
-      prisma.cart.findFirst({ where: { items: { some: { id } } } }),
-    ]);
-
-    // Update cart activity if cart found
-    if (cart) {
-      await cartService.updateCartActivity(cart.id);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: 'Invalid input', details: parsed.error.flatten().fieldErrors },
+        { status: 400 }
+      );
     }
+
+    const cart = await verifyCartOwnership(id, session.user.id);
+    if (!cart) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    const cartItem = await cartService.updateCartItem(id, parsed.data.quantity);
+    await cartService.updateCartActivity(cart.id);
 
     return NextResponse.json({ cartItem });
   } catch {
-    // Error updating cart item
     return NextResponse.json(
       { error: 'Failed to update item' },
       { status: 500 }
@@ -49,26 +64,20 @@ export async function DELETE(
   try {
     const session = await getServerSession(getAuthOptions());
 
-    if (!session?.user?.email) {
+    if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Find the cart before deleting the item
-    const prisma = getPrismaClient();
-    const cart = await prisma.cart.findFirst({
-      where: { items: { some: { id } } },
-    });
+    const cart = await verifyCartOwnership(id, session.user.id);
+    if (!cart) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     await cartService.removeCartItem(id);
-
-    // Update cart activity if cart exists
-    if (cart) {
-      await cartService.updateCartActivity(cart.id);
-    }
+    await cartService.updateCartActivity(cart.id);
 
     return NextResponse.json({ success: true });
   } catch {
-    // Error removing cart item
     return NextResponse.json(
       { error: 'Failed to remove item' },
       { status: 500 }

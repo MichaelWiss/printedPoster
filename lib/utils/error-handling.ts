@@ -63,12 +63,19 @@ export function logError(
 ): void {
   const errorMessage = handleApiError(error);
 
-  logger.error(`[${context}] Error:`, {
-    message: errorMessage,
-    originalError: error,
-    timestamp: new Date().toISOString(),
-    ...additionalInfo,
-  });
+  if (process.env.NODE_ENV === 'production') {
+    logger.error(`[${context}] Error:`, {
+      message: errorMessage,
+      timestamp: new Date().toISOString(),
+    });
+  } else {
+    logger.error(`[${context}] Error:`, {
+      message: errorMessage,
+      originalError: error,
+      timestamp: new Date().toISOString(),
+      ...additionalInfo,
+    });
+  }
 }
 
 /**

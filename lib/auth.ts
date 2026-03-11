@@ -3,6 +3,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import { getPrismaClient } from './db/prisma';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { getConfig } from './config';
+import bcryptjs from 'bcryptjs';
 
 // Lazy-load auth options to avoid build-time database connection issues
 export function getAuthOptions(): NextAuthOptions {
@@ -22,41 +23,37 @@ export function getAuthOptions(): NextAuthOptions {
             return null;
           }
 
-          // For demo purposes, we'll create a simple user
-          // In production, you'd validate against your user database
           const prisma = getPrismaClient();
           const user = await prisma.user.findUnique({
             where: { email: credentials.email },
           });
 
-          if (user) {
-            return {
-              id: user.id,
-              email: user.email,
-              name: user.name,
-              image: user.image,
-            };
+          if (!user || !user.passwordHash) {
+            return null;
           }
 
-          // Create user if they don't exist (demo only)
-          const newUser = await prisma.user.create({
-            data: {
-              email: credentials.email,
-              name: credentials.email.split('@')[0],
-            },
-          });
+          const isPasswordValid = await bcryptjs.compare(
+            credentials.password,
+            user.passwordHash
+          );
+
+          if (!isPasswordValid) {
+            return null;
+          }
 
           return {
-            id: newUser.id,
-            email: newUser.email,
-            name: newUser.name,
-            image: newUser.image,
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            image: user.image,
           };
         },
       }),
     ],
     session: {
       strategy: 'jwt',
+      maxAge: 24 * 60 * 60, // 24 hours
+      updateAge: 60 * 60, // Refresh token every hour
     },
     callbacks: {
       async jwt({ token, user }) {
@@ -77,6 +74,11 @@ export function getAuthOptions(): NextAuthOptions {
       newUser: '/auth/signup',
     },
   };
+}
+
+// Hash a password for user registration
+export async function hashPassword(password: string): Promise<string> {
+  return bcryptjs.hash(password, 12);
 }
 
 // Note: Do not export authOptions at module level to avoid build-time issues
