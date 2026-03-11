@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Printed Poster — Headless Shopify Storefront
+
+A high-performance headless e-commerce storefront for art prints and posters, built with **Next.js 15**, **React 18**, and **Shopify Storefront API**.
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────┐
+│  Next.js App Router (Server & Client Components)│
+│  ┌───────────┐  ┌──────────┐  ┌──────────────┐  │
+│  │ Server    │  │ Client   │  │ API Routes   │  │
+│  │ Components│  │ Islands  │  │ /api/cart/*   │  │
+│  │ (SSR/ISR) │  │ (Zustand)│  │ /api/products│  │
+│  └─────┬─────┘  └────┬─────┘  └──────┬───────┘  │
+│        │              │               │          │
+│  ┌─────▼──────────────▼───────────────▼───────┐  │
+│  │         Middleware (Auth + Rate Limiting)   │  │
+│  └─────┬──────────────────────────────┬───────┘  │
+│        │                              │          │
+│  ┌─────▼──────────┐          ┌───────▼────────┐  │
+│  │ Shopify        │          │ Prisma + SQLite │  │
+│  │ Storefront API │          │ (Cart, Auth)    │  │
+│  └────────────────┘          └────────────────┘  │
+└─────────────────────────────────────────────────┘
+```
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 15 (App Router, Turbopack) |
+| UI | React 18, Tailwind CSS, custom design tokens |
+| State | Zustand (cart store with persistence) |
+| API | Shopify Storefront API (GraphQL) |
+| Auth | NextAuth v4 (JWT + Credentials) |
+| Database | Prisma ORM + SQLite (production-ready for PostgreSQL) |
+| Validation | Zod (API input schemas) |
+| Security | Rate limiting, CSRF protection, CSP, account lockout |
+
+## Key Features
+
+- **Server-first rendering** — Products, collections, and pages are server-rendered with ISR (5-min revalidation)
+- **Hybrid cart** — Guest carts in localStorage, authenticated carts in the database with cross-device sync
+- **Authentication** — bcrypt password hashing, JWT sessions, account lockout after 5 failed attempts
+- **Security hardened** — Rate limiting on all API routes, CSRF origin validation, Content-Security-Policy, secure cookie config
+- **Performance** — Code-split product details, lazy-loaded filters, optimized image loading (AVIF/WebP), Turbopack dev server
+- **Type-safe** — Full TypeScript coverage, Zod validation on all API inputs
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# 1. Clone and install
+git clone https://github.com/MichaelWiss/printedPoster.git
+cd printedPoster
+npm install
+
+# 2. Set up environment
+cp .env.example .env.local
+# Fill in your Shopify store domain, Storefront API token, and NextAuth secret
+
+# 3. Initialize database
+npx prisma db push
+
+# 4. Run dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See [.env.example](.env.example) for all required variables. Key ones:
 
-## Learn More
+| Variable | Description |
+|----------|------------|
+| `NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN` | Your `*.myshopify.com` domain |
+| `NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN` | Storefront API token (public, read-only) |
+| `NEXTAUTH_SECRET` | Random secret for JWT signing (`npm run generate-secret`) |
+| `DATABASE_URL` | Prisma connection string (`file:./dev.sqlite` for local) |
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run dev          # Start dev server (Turbopack)
+npm run build        # Production build
+npm run type-check   # TypeScript --noEmit
+npm run lint         # ESLint
+npm run test         # Jest
+npm run quality      # type-check + lint + format check
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/
+  page.tsx              # Homepage (hero + featured products)
+  (shop)/
+    products/[handle]/  # Product detail pages
+    collections/[handle]/ # Collection pages with filters
+    cart/               # Cart page
+  api/
+    cart/               # Cart CRUD (authenticated)
+    products/           # Product listing (cached)
+    auth/               # NextAuth endpoints
+components/
+  hero/                 # Hero slider (server + client)
+  product/              # Product cards, grids, details
+  collections/          # Filters, sort, controls
+  cart/                 # Cart drawer, counter, items
+  ui/                   # Error boundaries, shared UI
+lib/
+  shopify/              # GraphQL client + queries
+  services/             # Cart service, sync service
+  auth.ts               # NextAuth config + password utils
+  utils/                # Error handling, rate limiting
+stores/
+  cart-store.ts         # Zustand cart (localStorage + server sync)
+prisma/
+  schema.prisma         # User, Cart, CartItem, Session models
+```
