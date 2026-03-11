@@ -97,7 +97,8 @@ export async function searchProducts(
   query: string,
   first: number = 20
 ): Promise<ShopifyProduct[]> {
-  const q = (query || '').trim();
+  // Sanitize: trim, limit length, strip control characters
+  const q = (query || '').trim().slice(0, 200).replace(/[\x00-\x1f\x7f]/g, '');
   if (!q) return [];
   return withRetry(async () => {
     const data = await getStorefrontClient().request<ProductsResponse>(

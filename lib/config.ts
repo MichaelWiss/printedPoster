@@ -45,7 +45,7 @@ export function getConfig(): AppConfig {
       storeDomain: getRequiredEnv('NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN'),
       storefrontAccessToken: getRequiredEnv('NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN'),
       adminAccessToken: getOptionalEnv('SHOPIFY_ADMIN_API_ACCESS_TOKEN'),
-      storefrontUrl: `https://${getRequiredEnv('NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN')}/api/2023-07/graphql.json`,
+      storefrontUrl: `https://${getRequiredEnv('NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN')}/api/2025-01/graphql.json`,
       featuredCollectionHandle: getOptionalEnv(
         'NEXT_PUBLIC_SHOPIFY_FEATURED_COLLECTION_HANDLE',
         'featured-products'

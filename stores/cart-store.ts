@@ -212,7 +212,7 @@ export const useCartStore = create<CartStore>()(
         initializeClient: () => {
           // Only run on client side
           if (typeof window !== 'undefined') {
-            const sessionId = `guest-${Math.random().toString(36).substr(2, 9)}`;
+            const sessionId = `guest-${crypto.randomUUID()}`;
             set({ sessionId, isOnline: navigator.onLine });
           }
         },
@@ -245,7 +245,7 @@ export const useCartStore = create<CartStore>()(
                   return crypto.randomUUID();
                 }
                 // Fallback to timestamp-based ID that's more stable
-                return `${product.id}-${Math.random().toString(36).substr(2, 9)}`;
+                return `${product.id}-${Date.now().toString(36)}`;
               };
 
               const newItem: CartLineItem = {

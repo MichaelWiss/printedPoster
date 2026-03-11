@@ -133,7 +133,10 @@ export function handleErrorBoundaryError(
   errorInfo: { componentStack: string }
 ): void {
   logError('ErrorBoundary', error, {
-    componentStack: errorInfo.componentStack,
+    componentStack:
+      process.env.NODE_ENV === 'production'
+        ? '[redacted]'
+        : errorInfo.componentStack,
   });
 }
 
@@ -142,10 +145,10 @@ export function handleErrorBoundaryError(
  */
 export function handleValidationError(
   field: string,
-  value: unknown,
+  _value: unknown,
   rule: string
 ): string {
-  return `Invalid ${field}: ${rule}. Received: ${JSON.stringify(value)}`;
+  return `Invalid ${field}: ${rule}.`;
 }
 
 /**
